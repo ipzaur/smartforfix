@@ -1,0 +1,20 @@
+.head {
+    height: 100px;
+    background-color: #2A2F35;
+}
+.head .content {
+    height: 100%;
+    background: url('/pics/svg/logo.svg') 20px 33px no-repeat;
+}
+.head_search {
+    position: absolute;
+    top: 37px;
+    right: 0;
+    width: 220px;
+    height: 35px;
+    background: url('/pics/svg/search.svg') 190px center no-repeat #464A52;
+    color: #8d8f93;
+    border: 0 none;
+    border-radius: 4px;
+    padding: 0 36px 0 14px;    
+}
