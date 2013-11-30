@@ -1,0 +1,75 @@
+/*
+ * Список статей
+ */
+.articleList {
+    
+}
+.articleList_item {
+    border-bottom: 1px solid #eeeeef;
+    padding: 16px 10px 16px 20px;
+}
+.articleList_stat {
+    float: right;
+    margin-top: 24px;
+    width: 110px;
+}
+.articleList_author {
+    font-size: 13px;
+}
+.articleList_comments {
+    font-size: 13px;
+    color: #8B919F;
+    padding-left: 30px;
+    padding-bottom: 2px;
+    background: url('/pics/svg/comments.svg') 0 3px no-repeat;
+    margin-top: 5px;
+}
+.articleList_photo {
+    float: left;
+    width: 180px;
+    font-size: 0;
+}
+.articleList_photo + .articleList_info {margin-left: 208px;}
+.articleList_info {
+    margin-right: 140px;
+}
+.articleList_section {
+    font-size: 14px;
+    color: #8B919F;
+    margin-top: 5px;
+    display: inline-block;
+}
+.articleList_section:hover {color: #6BBBD5;}
+.articleList_name {
+    line-height: 34px;
+}
+
+/* избранное */
+.articleList_fav {
+    font-size: 13px;
+    cursor: pointer;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 2px;
+    vertical-align: middle;
+    padding: 1px 7px 2px;
+    margin-left: 2px;
+}
+.articleList_item[data-is_fav="0"]:not(:hover) .articleList_fav {display: none;}
+.articleList_item[data-is_fav="0"] .articleList_fav {
+    color: #2A2F35;
+    border-color: #585C65;
+}
+.articleList_item[data-is_fav="0"] .articleList_fav:before {content: attr(data-tofav);}
+.articleList_item[data-is_fav="1"] .articleList_fav {
+    background-color: #ACD373;
+    border-color: #acd373;
+    color: white;
+}
+.articleList_item .articleList_fav:hover {
+    color: #95BD5B;
+    border-color: #acd373;
+    background-color: white;
+}
+.articleList_item[data-is_fav="1"] .articleList_fav:before {content: attr(data-infav);}
+.articleList_item[data-is_fav="1"] .articleList_fav:hover:before {content: attr(data-tounfav);}

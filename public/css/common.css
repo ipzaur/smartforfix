@@ -1,4 +1,4 @@
-body, input, select, textarea, p {
+body, input, select, textarea, p, h2 {
     margin: 0;
     padding: 0;
     font: 16px Roboto;
@@ -9,6 +9,19 @@ div, a, p, input, select, textarea {
        -moz-box-sizing: border-box;
             box-sizing: border-box;
 }
-
-
+a {
+    text-decoration: none;
+    color: #00AEEF;
+}
+a:hover {color: #0096CE;}
+h2 {
+    font-size: 28px;
+    font-weight: normal;
+}
 .h {display: none;}
+.clearable-after:after, .clearable-before:before {
+    content: "";
+    display: block;
+    height: 1px;
+    clear: both;
+}
