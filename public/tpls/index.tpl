@@ -23,6 +23,7 @@
 
     <article class="content">
         {+articleList:}
+        {+paginator:}
     </article>
 <!-- 
     <div class="mainblock">

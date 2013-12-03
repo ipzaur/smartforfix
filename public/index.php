@@ -19,8 +19,15 @@ $engine->tpl->addVar('siteurl', $engine->config['siteurl']);
 $isMobile = $engine->ismobile->isMobile() ? 'true' : 'false';
 $engine->tpl->addVar('isMobile', $isMobile);
 
+if ( isset($engine->url[0]) && ($engine->url[0] == '_auth') ) {
+    if ($engine->auth->login(array('auth_type' => $engine->url[1])) !== false) {
+        header('Location: http://' . $engine->sitedomain);
+        die();
+    }
+    die();
+}
 
-if ( isset($engine->url[0]) && ($engine->url[0] == 'ajax') ) {
+if ( isset($engine->url[0]) && ($engine->url[0] == '_ajax') ) {
     include 'pages/page_ajax.php';
 }
 
@@ -29,10 +36,19 @@ if ( isset($engine->url[0]) && ($engine->url[0] == 'auth') ) {
 }
 $engine->tpl->loadTpl('index');
 
-$main_page = ($engine->auth->user['id'] > 0) ? 'profile' : 'intro';
+if ($engine->auth->user['id'] == 0) {
+    $auth_link = array(
+        'vk' => array(
+            'url'  => $engine->auth->getAuthLink('vk'),
+            'text' => 'через Вконтакте'
+        )
+    );
+    $engine->tpl->addvar('auth_link', $auth_link);
+}
+/*
 $engine->tpl->addvar('main_page', $main_page);
 if ($main_page == 'profile') {
     include 'pages/page_profile.php';
 }
-
+*/
 $engine->tpl->render();

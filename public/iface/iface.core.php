@@ -10,6 +10,7 @@ define('ERROR_NO_PARAM', '1');
 class iface_core
 {
     public $config;
+    public $url;
     public $last_error = false;
 
     /**
@@ -19,8 +20,8 @@ class iface_core
     {
         global $config;
 
+        $this->url = $this->parseUrl($_SERVER['REQUEST_URI']);
         $this->config = $config;
-        $this->config['url'] = $this->parseUrl($_SERVER['REQUEST_URI']);
         $this->config['siteurl'] = 'http://' . $this->config['sitedomain'] . '/';
 
         $this->loadIface('db');
@@ -88,6 +89,11 @@ class iface_core
         }
         $unparsed_url = trim($unparsed_url, '/');
         $result = explode('/', $unparsed_url);
+        $last = array_pop($result);
+        if (mb_strpos($last, '?') !== false) {
+            list($last, $get) = explode('?', $last);
+        }
+        array_push($result, $last);
         return $result;
     }
 }

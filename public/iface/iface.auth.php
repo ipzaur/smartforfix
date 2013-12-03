@@ -6,10 +6,8 @@
  * @author Alexey iP Subbota
  * @version 1.0
  */
-define('ERROR_AUTH_ALREADY', 2);
-define('ERROR_WRONG_LOGINNAME', 4);
-define('ERROR_WRONG_SHORTPASSWORD', 8);
-define('ERROR_USER_NOTFOUND', 16);
+define('ERROR_USER_NOTFOUND', 2);
+define('ERROR_AUTH_ALREADY', 4);
 
 
 class iface_auth
@@ -27,6 +25,21 @@ class iface_auth
         return true;
     }
 
+    public function getAuthLink($social = null)
+    {
+        if ($social == 'vk') {
+            $query = array(
+                'client_id'     => $this->engine->config['auth']['vk']['app_id'],
+                'redirect_uri'  => $this->engine->config['auth']['vk']['redirect'],
+                'response_type' => 'code'
+            );
+
+            return 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($query));
+        }
+
+        return $this->engine->sitedomain;
+    }
+
 
     public function login($param = false)
     {
@@ -36,42 +49,49 @@ class iface_auth
             $error |= ERROR_AUTH_ALREADY;
         }
 
-        if ($param['auth_type'] == 'self') {
-            if ( !isset($param['login']) || preg_match('~[<>\$\&\%\#\?\*\;\:\(\)]~su', $param['login']) ) {
-                $error = $error | ERROR_WRONG_LOGINNAME; // логин содержит не только лат.буквы и цифры
+        if ($param['auth_type'] == 'vk') {
+            if (!isset($_GET['code'])) {
+                return false;
             }
+            $query = array(
+                'client_id'     => $this->engine->config['auth']['vk']['app_id'],
+                'client_secret' => $this->engine->config['auth']['vk']['app_key'],
+                'code'          => $_GET['code'],
+                'redirect_uri'  => $this->engine->config['auth']['vk']['redirect']
+            );
+            $token = json_decode(file_get_contents('https://oauth.vk.com/access_token?' . urldecode(http_build_query($query))), true);
 
-            if ( !isset($param['password']) || (strlen($param['password']) < 5) ) {
-                $error = $error | ERROR_WRONG_SHORTPASSWORD; // пароль менее 5 символов
-            }
+            $query = 'SELECT user_id FROM user_auth WHERE auth_type="vk" AND auth_id="' . mysql_escape_string($token['user_id']) . '"';
+            $user_id = $this->engine->db->query($query, 'single');
+            if ($user_id === false) {
+                if (!isset($token['access_token'])) {
+                    return false;
+                }
+                $query = array(
+                    'uids'         => $token['user_id'],
+                    'fields'       => 'uid,first_name,last_name,photo_100',
+                    'access_token' => $token['access_token']
+                );
+                $info = json_decode(file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($query))), true);
+                $info = $info['response'][0];
 
-            if ($error > 0) {
-                return $error;
-            }
-
-            $query = 'SELECT id FROM selfauth WHERE login="' . mysql_escape_string($param['login']) . '" AND password="' . mysql_escape_string(md5($param['password'])) . '"';
-            $selfauth_id = $this->engine->db->query($query, 'single');
-
-            if ($selfauth_id == false) {
-                $username = mb_substr($param['login'], 0, mb_strpos($param['login'], '@'));
-                $username = preg_replace('~[^А-Яа-яA-Za-z0-9]~su', '', $username);
                 $userparam = array(
-                    'name'        => $username,
-                    'email'       => $param['login'],
-                    'login_date'  => date('Y-m-d'),
-                    'admin'       => 0
+                    'name'        => $info['first_name'] . ' ' . $info['last_name'],
+                    'login_date'  => date('Y-m-d H:i:s'),
+                    'grants'      => 1
                 );
 
                 $user_id = $this->engine->user->save($userparam);
 
-                $query = 'INSERT INTO selfauth SET login="' . mysql_escape_string($param['login']) . '", password="' . mysql_escape_string(md5($param['password'])) . '"';
-                $selfauth_id = $this->engine->db->query($query);
-                $query = 'INSERT INTO user_auth SET auth_type="self", auth_id=' . intval($selfauth_id) . ', user_id='. intval($user_id);
+                $avatar = file_get_contents($info['photo_100']);
+                $filetype = array_pop(explode('.', $info['photo_100']));
+                $filepath = $this->engine->config['avatar_dir'] . $user_id . '_' . mb_substr(md5(date('H:i:s')), 0, 6) . '.' . $filetype;
+                file_put_contents($this->engine->config['sitepath'] . $filepath, $avatar);
+
+                $query = 'INSERT INTO user_auth SET auth_type="vk", auth_id="' . $token['user_id'] . '", user_id='. intval($user_id);
                 $this->engine->db->query($query);
-            } else {
-                $query = 'SELECT user_id FROM user_auth WHERE auth_type="self" AND auth_id=' . intval($selfauth_id);
-                $user_id = $this->engine->db->query($query, 'single');
             }
+
         } else {
             $user_id = 0;
         }
@@ -102,11 +122,11 @@ class iface_auth
         if (isset($param['id'])) {
             $query = 'DELETE FROM session WHERE id = "' . mysql_escape_string($param['id']) . '"';
             $this->engine->db->query($query);
-            setcookie('session_id', '', time() + 30240000, '/', $this->engine->sitedomain);
+            setcookie('session_id', '', time() + 30240000, '/', $this->engine->config['sitedomain']);
         } else if (isset($param['user_id'])) {
             $query = 'DELETE FROM session WHERE user_id = ' . intval($param['user_id']);
             $this->engine->db->query($query);
-            setcookie('session_id', '', time() + 30240000, '/', $this->engine->sitedomain);
+            setcookie('session_id', '', time() + 30240000, '/', $this->engine->config['sitedomain']);
         }
     }
 
@@ -127,7 +147,7 @@ class iface_auth
                         'ipaddress = "' . mysql_escape_string($param['ipaddress']) . '"';
             $this->engine->db->query($query);
             $param['user_id'] = 0;
-            setcookie('session_id', $param['id'], time() + 30240000, '/', $this->engine->sitedomain);
+            setcookie('session_id', $param['id'], time() + 30240000, '/', $this->engine->config['sitedomain']);
         }
 
         return $param;
@@ -179,6 +199,17 @@ class iface_auth
 
     public function start()
     {
+        if (isset($this->engine->config['auth'])) {
+            foreach ($this->engine->config['auth'] as $social=>&$config) {
+                if (mb_strpos($config['redirect'], 'http') === false) {
+                    if (mb_strpos($config['redirect'], $this->engine->config['sitedomain']) === false) {
+                        $config['redirect'] = $this->engine->config['sitedomain'] . $config['redirect'];
+                    }
+                    $config['redirect'] = 'http://' . $config['redirect'];
+                }
+            }
+        }
+
         $this->engine->loadIface('user');
         $this->engine->loadIface('curl');
 

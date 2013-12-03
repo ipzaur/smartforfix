@@ -12,19 +12,17 @@ class iface_user extends iface_base_entity
 
     protected $order_fields = array('name', 'id', 'create_date', 'login_date');
     protected $get_fields = array(
-        'id' => array('type' => 'integer', 'many' => 1, 'check_single' => 1, 'notnull' => 1),
-        'send_time' => array('type' => 'integer')
+        'id' => array('type' => 'integer', 'many' => 1, 'check_single' => 1, 'notnull' => 1)
     );
     protected $save_fields = array (
-        'name' => array('type' => 'string', 'pattern' => '^[А-Яа-яA-Za-z0-9]+$', 'notnull' => 1),
+        'name' => array('type' => 'string', 'pattern' => '^[А-Яа-яA-Za-z0-9\s]+$', 'notnull' => 1),
         'email' => array('type' => 'string'),
-        'send_time' => array('type' => 'integer'),
-        'admin' => array('type' => 'integer'),
+        'grants' => array('type' => 'integer'),
         'avatar' => array('type' => 'string'),
         'login_date' => array('type' => 'datetime', 'notnull' => 1),
         'create_date' => array('type' => 'datetime', 'notnull' => 1)
     );
-    protected $table_name   = 'user';
+    protected $table_name = 'user';
 
     public function __construct()
     {
@@ -54,7 +52,7 @@ class iface_user extends iface_base_entity
         $this->engine->loadIface('file');
 
         $dest = 'include/avatar/' . md5($id . $source . date('H:i:s')) . '.png';
-        $errors = $this->engine->file->saveImage($source, $this->engine->sitepath . $dest, 60, 60, true);
+        $errors = $this->engine->file->saveImage($source, $this->engine->sitepath . $dest, 200, 200, true);
 
         if ($user['avatar'] != NULL) {
             unlink($this->engine->sitepath . $user['avatar']);
