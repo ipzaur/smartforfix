@@ -69,23 +69,26 @@ class iface_auth
                 }
                 $query = array(
                     'uids'         => $token['user_id'],
-                    'fields'       => 'uid,first_name,last_name,photo_100',
+                    'fields'       => 'uid,first_name,last_name,photo_max',
                     'access_token' => $token['access_token']
                 );
                 $info = json_decode(file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($query))), true);
                 $info = $info['response'][0];
 
-                $userparam = array(
+                $saveparam = array(
                     'name'        => $info['first_name'] . ' ' . $info['last_name'],
                     'login_date'  => date('Y-m-d H:i:s'),
                     'grants'      => 1
                 );
+                $user_id = $this->engine->user->save($saveparam);
 
-                $user_id = $this->engine->user->save($userparam);
-
-                $avatar = file_get_contents($info['photo_100']);
-                $filetype = array_pop(explode('.', $info['photo_100']));
+                $avatar = file_get_contents($info['photo_max']);
+                $filetype = array_pop(explode('.', $info['photo_max']));
                 $filepath = $this->engine->config['avatar_dir'] . $user_id . '_' . mb_substr(md5(date('H:i:s')), 0, 6) . '.' . $filetype;
+                $saveparam = array('avatar' => $filepath);
+                $whereparam = array('id' => $user_id);
+                $this->engine->user->save($saveparam, $whereparam);
+                
                 file_put_contents($this->engine->config['sitepath'] . $filepath, $avatar);
 
                 $query = 'INSERT INTO user_auth SET auth_type="vk", auth_id="' . $token['user_id'] . '", user_id='. intval($user_id);

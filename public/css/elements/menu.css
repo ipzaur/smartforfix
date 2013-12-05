@@ -101,6 +101,27 @@
 .menu_section:hover {color: #00AEEF;}
 
 /* выпадашка моделей*/
+.menu_current_model {
+    position: relative;
+    background-color: #296468;
+    border-radius: 2px;
+    font-size: 15px;
+    margin-left: 16px;
+    padding: 3px 26px 3px 11px;
+    color: white;
+}
+.menu_current_model + .menu_current_model {margin-left: 10px;}
+.menu_current_model:last-child {margin-right: 10px;}
+.menu_current_model:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 10px;
+    right: 10px;
+    background: url('/pics/svg/x-white.svg') 0 0 no-repeat;
+}
+
 .menu-models .menu_items {
     left: 20px;
     font-size: 0;

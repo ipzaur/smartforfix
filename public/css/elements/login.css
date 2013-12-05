@@ -8,14 +8,18 @@
     font-size: 15px;
     line-height: 24px;
     height: 24px;
-    color: white;
+    color: #8b919f;
     background: url('/pics/svg/login.svg') 0 center no-repeat;
 }
+.login:hover {color: #6BBBD5;}
+.login._active {color: white;}
 .login .bubble {
     width: 240px;
     margin-left: -102px;
     padding: 15px 20px;
+    display: none;
 }
+.login._active .bubble {display: block;}
 [class|="login_link"] {
     padding-left: 44px;
     margin-bottom: 6px;
@@ -33,10 +37,12 @@
     background-color: #597DA3;
     background-image: url('/pics/svg/social/vk.svg');
 }
+.login_link-vk:hover {background-color: #4F6E8F;}
 .login_link-fb {
     background-color: #3B5998;
     background-image: url('/pics/svg/social/fb.svg');
 }
+.login_link-fb:hover {background-color: #324A80;}
 .login_hint {
     text-align: center;
     margin-top: 15px;

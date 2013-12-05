@@ -1,7 +1,7 @@
 body, input, select, textarea, p, h2 {
     margin: 0;
     padding: 0;
-    font: 16px Roboto;
+    font: 300 16px Roboto;
 }
 body {color: #2A2F35;}
 div, a, p, input, select, textarea {
@@ -14,10 +14,7 @@ a {
     color: #00AEEF;
 }
 a:hover {color: #0096CE;}
-h2 {
-    font-size: 28px;
-    font-weight: normal;
-}
+h2 {font-size: 28px;}
 .h {display: none;}
 .clearable-after:after, .clearable-before:before {
     content: "";

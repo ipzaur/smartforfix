@@ -1,7 +1,9 @@
 var menuModel = {
+    'timer' : 0,
     'tag' : {
-        'main'   : $('#menuModel'),
-        'select' : false
+        'main'    : $('#menuModel'),
+        'select'  : false,
+        'current' : false
     },
     'state' : {
         'toggle' : function(show) {
@@ -13,8 +15,42 @@ var menuModel = {
         }
     },
     'save' : function(ev) {
+        clearTimeout(menuModel.timer);
+        menuModel.timer = setTimeout(function(){
+            var models = {};
+            var postData = [];
+            menuModel.tag.select.find('option:selected').each(function(i, option){
+                option = $(option);
+                postData[postData.length] = 'model[]=' + option.val();
+            });
+            menuModel.tag.current.find('.menu_current_model').remove();
+            $.ajax({
+                type     : 'POST',
+                url      : '/_ajax/menumodels/',
+                data     : postData.join('&'),
+                dataType : 'json',
+                success  : function(json){
+                    if (isMobile) {
+                        return true;
+                    }
+                    for (var model in json.result) if (json.result.hasOwnProperty(model)) {
+                        if (json.result[model].show) {
+                            $('<span />').addClass('menu_current_model').attr('data-model_remove', model).text(json.result[model].name).appendTo(menuModel.tag.current);
+                        }
+                    }
+                }
+            });
+        }, 500);
+    },
+    'modelStatus' : function(model, show) {
+        menuModel.tag.select.find('[value="' + model + '"]').prop('selected', show);
+        if (!isMobile) {
+            menuModel.tag.main.find('.menu_model_cb[data-model_show="' + model + '"]').prop('checked', show);
+        }
+        menuModel.tag.select.change();
     },
     'init' : function() {
+        menuModel.tag.current = menuModel.tag.main.find('.menu_current');
         menuModel.tag.select = menuModel.tag.main.find('.menu_select');
         menuModel.tag.select.on('change', menuModel.save);
 
@@ -22,15 +58,25 @@ var menuModel = {
             menuModel.tag.main.find('.menu_items').remove();
         } else {
             menuModel.tag.select.addClass('h');
-            menuModel.tag.main.on('click', function(ev){
-                var el = $(ev.target);
-                if ( (el.attr('id') == 'menuModel') || el.hasClass('menu_current') ) {
-                    menuModel.state.toggle();
+            menuModel.tag.main.on({
+                'click' : function(ev){
+                    var el = $(ev.target);
+                    if ( (el.attr('id') == 'menuModel') || el.hasClass('menu_current') ) {
+                        menuModel.state.toggle();
+                    } else if (el.is('[data-model_remove]')) {
+                        menuModel.modelStatus(el.attr('data-model_remove'), false);
+                    }
+                },
+                'change' : function(ev) {
+                    var el = $(ev.target);
+                    if (el.is('[data-model_show]')) {
+                        menuModel.modelStatus(el.attr('data-model_show'), el.prop('checked'));
+                    }
                 }
             });
             $(window).on('click', function(ev){
                 var el = $(ev.target)
-                if (el.closest('#menuModel').size() == 0) {
+                if ( (el.closest('#menuModel').size() == 0) && menuModel.tag.main.hasClass('_active') ) {
                     menuModel.state.toggle(false);
                 }
             });

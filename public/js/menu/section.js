@@ -29,7 +29,7 @@ var menuSection = {
             });
             $(window).on('click', function(ev){
                 var el = $(ev.target)
-                if (el.closest('#menuSection').size() == 0) {
+                if ( (el.closest('#menuSection').size() == 0) && menuSection.tag.main.hasClass('_active') ) {
                     menuSection.state.toggle(false);
                 }
             });

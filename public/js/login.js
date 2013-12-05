@@ -1,20 +1,17 @@
 var login = {
     'tag' : {
-        'main'   : $('#login'),
-        'bubble' : false
+        'main'   : $('#login')
     },
     'state' : {
         'toggle' : function(show) {
             if ( (show === true) || (show === false) ) {
-                login.tag.bubble.toggleClass('h', !show);
+                login.tag.main.toggleClass('_active', show);
             } else {
-                login.tag.bubble.toggleClass('h');
+                login.tag.main.toggleClass('_active');
             }
         }
     },
     'init' : function() {
-        login.tag.bubble = login.tag.main.find('.bubble');
-
         login.tag.main.on('click', function(ev){
             var el = $(ev.target);
             if (el.is('[data-login_action="toggle"]')) {
@@ -23,7 +20,7 @@ var login = {
         });
         $(window).on('click', function(ev){
             var el = $(ev.target)
-            if (el.closest('.login').size() == 0) {
+            if ( (el.closest('.login').size() == 0) && login.tag.main.hasClass('_active') ) {
                 login.state.toggle(false);
             }
         });

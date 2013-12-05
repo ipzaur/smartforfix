@@ -6,6 +6,15 @@ require_once 'iface/iface.core.php';
 $engine = new iface_core();
 $engine->loadIface('auth');
 
+if ( isset($engine->url[0]) && ($engine->url[0] == '_auth') ) {
+    include 'pages/page_auth.php';
+}
+
+$engine->tpl->loadTpl('index');
+$engine->tpl->addVar('siteurl', $engine->config['siteurl']);
+$isMobile = $engine->ismobile->isMobile() ? 'true' : 'false';
+$engine->tpl->addVar('isMobile', $isMobile);
+
 $current_date = ('Y-m-d H:i:s');
 $cur_date = array(
     'Y' => date('Y'),
@@ -15,26 +24,10 @@ $cur_date = array(
     'i' => date('i'),
     's' => date('s'),
 );
-$engine->tpl->addVar('siteurl', $engine->config['siteurl']);
-$isMobile = $engine->ismobile->isMobile() ? 'true' : 'false';
-$engine->tpl->addVar('isMobile', $isMobile);
-
-if ( isset($engine->url[0]) && ($engine->url[0] == '_auth') ) {
-    if ($engine->auth->login(array('auth_type' => $engine->url[1])) !== false) {
-        header('Location: http://' . $engine->sitedomain);
-        die();
-    }
-    die();
-}
 
 if ( isset($engine->url[0]) && ($engine->url[0] == '_ajax') ) {
     include 'pages/page_ajax.php';
 }
-
-if ( isset($engine->url[0]) && ($engine->url[0] == 'auth') ) {
-    include 'pages/page_auth.php';
-}
-$engine->tpl->loadTpl('index');
 
 if ($engine->auth->user['id'] == 0) {
     $auth_link = array(
@@ -45,6 +38,10 @@ if ($engine->auth->user['id'] == 0) {
     );
     $engine->tpl->addvar('auth_link', $auth_link);
 }
+
+$engine->loadIface('menu_model');
+$engine->tpl->addvar('menu_model', $engine->menu_model->getMenu());
+
 /*
 $engine->tpl->addvar('main_page', $main_page);
 if ($main_page == 'profile') {

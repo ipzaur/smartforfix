@@ -17,8 +17,12 @@ class iface_user extends iface_base_entity
     protected $save_fields = array (
         'name' => array('type' => 'string', 'pattern' => '^[А-Яа-яA-Za-z0-9\s]+$', 'notnull' => 1),
         'email' => array('type' => 'string'),
-        'grants' => array('type' => 'integer'),
         'avatar' => array('type' => 'string'),
+        'grants' => array('type' => 'integer'),
+        'info450' => array('type' => 'integer'),
+        'info451' => array('type' => 'integer'),
+        'info452' => array('type' => 'integer'),
+        'info454' => array('type' => 'integer'),
         'login_date' => array('type' => 'datetime', 'notnull' => 1),
         'create_date' => array('type' => 'datetime', 'notnull' => 1)
     );

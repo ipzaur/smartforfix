@@ -8,7 +8,6 @@
     <meta content="ссылки, ссылка, оставить, отложить, хранение, обмен, метки, тэги" name="keywords">
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italic&amp;subset=all">
     <link href="{siteurl:}css/s4fx.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript"></script>
     <script type="text/javascript">var isMobile = {isMobile:};</script>
 </head>
 <body>
