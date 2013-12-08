@@ -1,15 +1,14 @@
-.bubble {
+[class|="bubble"] {
     position: absolute;
     cursor: auto;
     top: 100%;
     left: 50%;
-    background-color: white;
     border-radius: 4px;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
     margin-top: 15px;
     z-index: 10;
 }
-.bubble:before {
+[class|="bubble"]:before {
     content: "";
     position: absolute;
     top: -13px;
@@ -24,3 +23,6 @@
         -ms-transform: scale(1, 0.5) rotate(45deg);
             transform: scale(1, 0.5) rotate(45deg);
 }
+
+.bubble-white {background-color: white;}
+.bubble-grey {background-color: #585c65;}

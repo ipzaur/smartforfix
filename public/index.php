@@ -14,6 +14,7 @@ $engine->tpl->loadTpl('index');
 $engine->tpl->addVar('siteurl', $engine->config['siteurl']);
 $isMobile = $engine->ismobile->isMobile() ? 'true' : 'false';
 $engine->tpl->addVar('isMobile', $isMobile);
+$engine->tpl->addVar('noava', $engine->config['noava']);
 
 $current_date = ('Y-m-d H:i:s');
 $cur_date = array(
@@ -41,6 +42,7 @@ if ($engine->auth->user['id'] == 0) {
 
 $engine->loadIface('menu_model');
 $engine->tpl->addvar('menu_model', $engine->menu_model->getMenu());
+$engine->tpl->addvar('user', $engine->auth->user);
 
 /*
 $engine->tpl->addvar('main_page', $main_page);

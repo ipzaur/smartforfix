@@ -21,16 +21,12 @@ var menuSection = {
         } else {
             menuSection.tag.main.find('.menu_select').remove();
 
-            menuSection.tag.main.on('click', function(ev){
-                var el = $(ev.target);
-                if ( (el.attr('id') == 'menuSection') || el.hasClass('menu_current') ) {
-                    menuSection.state.toggle();
-                }
-            });
             $(window).on('click', function(ev){
                 var el = $(ev.target)
                 if ( (el.closest('#menuSection').size() == 0) && menuSection.tag.main.hasClass('_active') ) {
                     menuSection.state.toggle(false);
+                } else if (el.is('[data-sections_action="toggle"]')) {
+                    menuSection.state.toggle();
                 }
             });
         }

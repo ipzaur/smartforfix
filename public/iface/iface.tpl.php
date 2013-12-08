@@ -47,6 +47,28 @@ class iface_tpl
         }
     }
 
+    /**
+     * генерация переменной
+     * @param string var_name - название переменной, для которой надо собрать полный путь
+     * @param string var_keyname - название ключа, если обрабатываем массив
+     * @param string var_container - название элемента массива, который обрабатываем
+     */
+    private function generateVar($var_name, $var_keyname = false, $var_container = false)
+    {
+        if ( ($var_name == '_key') && ($var_keyname !== false) ) {
+            $result = "\$" . $var_keyname;
+        } else if ($var_name == '_value') {
+            $result = "\$" . $var_container;
+        } else if (mb_substr($var_name, 0, 1) == '^') {
+            $result = "\$this->tplvar['" . str_replace('^', '', $var_name) . "']";
+        } else if (mb_strpos($var_name, '.') !== false) {
+            $result = "\$" . $var_container . "['" . implode("']['", explode('.', $var_name)) . "']";
+        } else {
+            $result = "\$" . $var_container . "['" . $var_name . "']";
+        }
+
+        return $result;
+    }
 
     /**
      * парсилка шаблона
@@ -59,7 +81,20 @@ class iface_tpl
         $result = '';
         $var_container = ($var_container !== false) ? $var_container : 'this->tplvar';
 
-        while (preg_match('~{([\^a-zA-Z_+\d\/]*)\:((\(([\^a-zA-Z_\d]*)(\:|)(=|>|<|\!)([\^a-zA-Z_\d]*)(\:|)\))|)}~us', $content, $action)) {
+        $reg =  '{' . // любая штука открывается фигурной скобкой
+                '([\^a-zA-Z_+\d\/\.]*)\:' . // ищем переменную или "if".
+                '(' .
+                    '(\(' .
+                        '([\!\^a-zA-Z_\d]*)' . // первая переменная if'а
+                        '(\:|)' . // если это переменная, то у неё двоеточие в конце, иначе это просто строка
+                        '(=|>|<|\!|)' . // тип операции или её отсутсвие
+                        '([\^a-zA-Z_\d]*)' . // вторая переменная, если есть
+                        '(\:|)' . // переменная или просто строка
+                    '\))' .
+                '|)' . // но переменной может и не быть, если это не if
+                '}';
+
+        while (preg_match('~' . $reg .'~us', $content, $action)) {
             $var_name = $action[1];
             $pos_end = mb_strpos($content, $action[0]);
             $result .= "echo '" . mb_substr($content, 0, $pos_end) . "';\n";
@@ -102,31 +137,36 @@ class iface_tpl
                 $pos_end = $pos_end + $this->fi_len;
                 $content = mb_substr($content, $pos_end);
 
-                // в операциях заменим равенства и неравенства на ПХПшные
-                $action[6] = str_replace(array('=', '!'), array('==', '!='), $action[6]);
-                $isset_action = array();
-                for ($i=0; $i<2; $i++) {
-                    $var_index = 4 + $i * 3;
-                    // узнаем, что за переменные в условиях
-                    if ($action[$var_index + 1] == ':') {
-                        if ( $action[$var_index] == '_key') {
-                            $action[$var_index] = "\$" . $var_keyname;
-                        } else if ($action[$var_index] == '_value') {
-                            $action[$var_index] = "\$" . $var_container;
-                        } else if (mb_substr($action[$var_index], 0, 1) == '^') {
-                            $action[$var_index] = "\$this->tplvar['" . str_replace('^', '', $action[$var_index]) . "']";
-                        } else {
-                            $action[$var_index] = "\$" . $var_container . "['" . $action[$var_index] . "']";
-                        }
-                        $isset_action[] = "isset(" . $action[$var_index] . ")";
+                // если просто проверка на существование переменной
+                if ($action[6] === '') {
+                    if (mb_substr($action[4], 0, 1) == '!') {
+                        $action[4] = $this->generateVar(mb_substr($action[4], 1), $var_keyname, $var_container);
+                        $result .= "if (!" . $action[4] . ") {";
                     } else {
-                        $action[$var_index] = "'" . $action[$var_index] . "'";
+                        $action[4] = $this->generateVar($action[4], $var_keyname, $var_container);
+                        $result .= "if (!empty(" . $action[4] . ")) {";
                     }
-                }
-                if (count($isset_action) > 0) {
-                    $result .= "if (" . implode(" && ", $isset_action) . " && (" . $action[4] . $action[6] . $action[7] .")) {";
+                // иначе обработаем сравнения и неравенства
                 } else {
-                    $result .= "if (" . $action[4] . $action[6] . $action[7] .") {";
+                    // в операциях заменим равенства и неравенства на ПХПшные
+                    $action[6] = str_replace(array('=', '!'), array('==', '!='), $action[6]);
+
+                    $isset_action = array();
+                    for ($i=0; $i<2; $i++) {
+                        $var_index = 4 + $i * 3;
+                        // узнаем, что за переменные в условиях
+                        if ($action[$var_index + 1] == ':') {
+                            $action[$var_index] = $this->generateVar($action[$var_index], $var_keyname, $var_container);
+                            $isset_action[] = "isset(" . $action[$var_index] . ")";
+                        } else {
+                            $action[$var_index] = "'" . $action[$var_index] . "'";
+                        }
+                    }
+                    if (count($isset_action) > 0) {
+                        $result .= "if (" . implode(" && ", $isset_action) . " && (" . $action[4] . $action[6] . $action[7] .")) {";
+                    } else {
+                        $result .= "if (" . $action[4] . $action[6] . $action[7] .") {";
+                    }
                 }
                 $result .= $this->parseContent($if_content, $var_keyname, $var_container);
                 $result .= "}";
@@ -152,16 +192,10 @@ class iface_tpl
 
                 // если не массив, то просто выведем значение переменной
                 } else {
-                    if (mb_substr($var_name, 0, 1) == '^') {
-                        $var_name = str_replace('^', '', $var_name);
-                        $result .= "if ( isset(\$this->tplvar['" . $var_name . "'])) {\n";
-                        $result .= "echo \$this->tplvar['" . $var_name . "'];\n";
-                        $result .= "}\n";
-                    } else {
-                        $result .= "if ( isset(\$" . $var_container . "['" . $var_name . "']) ) {\n";
-                        $result .= "echo \$" . $var_container . "['" . $var_name . "'];\n";
-                        $result .= "}\n";
-                    }
+                    $var_name = $this->generateVar($var_name, false, $var_container);
+                    $result .= "if (isset(" . $var_name . ")) {\n";
+                    $result .= "echo " . $var_name . ";\n";
+                    $result .= "}\n";
                 }
 
             }

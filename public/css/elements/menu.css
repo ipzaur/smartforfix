@@ -49,10 +49,11 @@
     content: "";
     display: block;
     position: relative;
-    height: 4px;
+    height: 6px;
     margin: 0 -20px;
     background-color: #373B45;
     z-index: 3;
+    top: -2px;
 }
 
 /* селектор */

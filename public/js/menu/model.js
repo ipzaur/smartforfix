@@ -35,7 +35,11 @@ var menuModel = {
                     }
                     for (var model in json.result) if (json.result.hasOwnProperty(model)) {
                         if (json.result[model].show) {
-                            $('<span />').addClass('menu_current_model').attr('data-model_remove', model).text(json.result[model].name).appendTo(menuModel.tag.current);
+                            $('<span />')
+                                .addClass('menu_current_model')
+                                .attr({'data-model_id':model, 'data-models_action':'remove'})
+                                .text(json.result[model].name)
+                                .appendTo(menuModel.tag.current);
                         }
                     }
                 }
@@ -45,39 +49,38 @@ var menuModel = {
     'modelStatus' : function(model, show) {
         menuModel.tag.select.find('[value="' + model + '"]').prop('selected', show);
         if (!isMobile) {
-            menuModel.tag.main.find('.menu_model_cb[data-model_show="' + model + '"]').prop('checked', show);
+            menuModel.tag.main.find('.menu_model_cb[data-model_id="' + model + '"]').prop('checked', show);
         }
         menuModel.tag.select.change();
     },
     'init' : function() {
         menuModel.tag.current = menuModel.tag.main.find('.menu_current');
         menuModel.tag.select = menuModel.tag.main.find('.menu_select');
-        menuModel.tag.select.on('change', menuModel.save);
 
         if (isMobile) {
             menuModel.tag.main.find('.menu_items').remove();
         } else {
             menuModel.tag.select.addClass('h');
-            menuModel.tag.main.on({
+
+            $(window).on({
                 'click' : function(ev){
                     var el = $(ev.target);
-                    if ( (el.attr('id') == 'menuModel') || el.hasClass('menu_current') ) {
-                        menuModel.state.toggle();
-                    } else if (el.is('[data-model_remove]')) {
-                        menuModel.modelStatus(el.attr('data-model_remove'), false);
+                    if ( (el.closest('#menuModel').size() == 0) && menuModel.tag.main.hasClass('_active') ) {
+                        menuModel.state.toggle(false);
+                    } else if (el.attr('data-models_action')) {
+                        switch (el.attr('data-models_action')) {
+                            case 'remove' : menuModel.modelStatus(el.attr('data-model_id'), false); break;
+                            case 'toggle' : menuModel.state.toggle(); break;
+                        }
                     }
                 },
                 'change' : function(ev) {
                     var el = $(ev.target);
-                    if (el.is('[data-model_show]')) {
-                        menuModel.modelStatus(el.attr('data-model_show'), el.prop('checked'));
+                    if (el.is('[data-models_action="show"]')) {
+                        menuModel.modelStatus(el.attr('data-model_id'), el.prop('checked'));
+                    } else if (el.is('[data-models="select"]')) {
+                        menuModel.save();
                     }
-                }
-            });
-            $(window).on('click', function(ev){
-                var el = $(ev.target)
-                if ( (el.closest('#menuModel').size() == 0) && menuModel.tag.main.hasClass('_active') ) {
-                    menuModel.state.toggle(false);
                 }
             });
         }

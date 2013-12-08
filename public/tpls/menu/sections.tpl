@@ -1,5 +1,5 @@
-<div id="menuSection" class="menu-sections">
-    <span class="menu_current">Разделы</span>
+<div id="menuSection" class="menu-sections" data-sections_action="toggle">
+    <span class="menu_current" data-sections_action="toggle">Разделы</span>
     <select class="menu_select">
         <option value="">Все разделы</option>
         <option value="1/">Техобслуживание</option>

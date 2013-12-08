@@ -1,0 +1,15 @@
+[class|="authProfile_link"] {
+    display: block;
+    height: 36px;
+    line-height: 35px;
+    border-top: 1px solid #373B45;
+    font-size: 15px;
+    text-align: center;
+}
+[class|="authProfile_link"]:first-child {
+    border-top: 0 none;
+    border-radius: 4px 4px 0 0;
+}
+[class|="authProfile_link"]:last-child {border-radius: 0 0 4px 4px;}
+[class|="authProfile_link"]:hover {background-color: #464a52}
+.authProfile_link-logout {color: #6BBBD5;}

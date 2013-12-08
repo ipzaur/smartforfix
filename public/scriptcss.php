@@ -42,8 +42,8 @@ if ( ($debug == true) || !file_exists('css/s4fx.css') ) {
 
     $result = fopen('css/s4fx.css', 'w');
     foreach ($before as $file) {
-        if (file_exists($file)) {
-            fwrite($result, file_get_contents($file));
+        if (file_exists('css/' . $file)) {
+            fwrite($result, file_get_contents('css/' . $file));
         }
     }
     fwrite($result,  grabDir('css') . "\n");
