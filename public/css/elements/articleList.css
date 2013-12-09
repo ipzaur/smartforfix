@@ -44,32 +44,4 @@
     line-height: 34px;
 }
 
-/* избранное */
-.articleList_fav {
-    font-size: 13px;
-    cursor: pointer;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 2px;
-    vertical-align: middle;
-    padding: 1px 7px 2px;
-    margin-left: 2px;
-}
-.articleList_item[data-is_fav="0"]:not(:hover) .articleList_fav {display: none;}
-.articleList_item[data-is_fav="0"] .articleList_fav {
-    color: #2A2F35;
-    border-color: #585C65;
-}
-.articleList_item[data-is_fav="0"] .articleList_fav:before {content: attr(data-tofav);}
-.articleList_item[data-is_fav="1"] .articleList_fav {
-    background-color: #ACD373;
-    border-color: #acd373;
-    color: white;
-}
-.articleList_item .articleList_fav:hover {
-    color: #95BD5B;
-    border-color: #acd373;
-    background-color: white;
-}
-.articleList_item[data-is_fav="1"] .articleList_fav:before {content: attr(data-infav);}
-.articleList_item[data-is_fav="1"] .articleList_fav:hover:before {content: attr(data-tounfav);}
+.articleList_item[data-is_fav="0"]:not(:hover) .fav {display: none;}

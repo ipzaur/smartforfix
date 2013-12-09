@@ -1,0 +1,15 @@
+.foot {
+    height: 80px;
+    color: #8B919F;
+    font-size: 13px;
+    background-color: #2A2F35;
+    padding-top: 32px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+.foot_copy {
+    float: right;
+    margin-right: 20px;
+}
+.foot_links {margin-left: 20px;}

@@ -1,0 +1,1 @@
+<button class="fav" data-infav="В избранном" data-tofav="В избранное" data-tounfav="Убрать из избранного"></button>

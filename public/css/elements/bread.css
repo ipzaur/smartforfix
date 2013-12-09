@@ -1,0 +1,25 @@
+.breads {
+    
+}
+.bread {
+    position: relative;
+    font-size: 13px;
+    color: #8B919F;
+    padding-right: 13px;
+    margin-right: 12px;
+}
+.bread:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 7px;
+    right: 0;
+    border-width: 1px 1px 0 0;
+    border-color: #8B919F;
+    border-style: solid;
+    height: 4px;
+    width: 4px;
+    -webkit-transform: scale(1.4,1) rotate(45deg);
+        -ms-transform: scale(1.4,1) rotate(45deg);
+            transform: scale(1.4,1) rotate(45deg);
+}

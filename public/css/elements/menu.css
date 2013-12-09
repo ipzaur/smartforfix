@@ -164,6 +164,14 @@
 }
 .menu_model_cb:checked + [class|="menu_model"]:not(:hover):after {color: white;}
 [class|="menu_model"]:hover:after {color: #6BBBD5;}
+/* 450 */
+.menu_model-450:before {
+    background-position: 0 -88px;
+    width: 65px;
+    height: 44px;
+}
+.menu_model_cb:checked + .menu_model-450:not(:hover):before {background-position: 0 0;}
+.menu_model-450:hover:before {background-position: 0 -44px;}
 /* 451 */
 .menu_model-451:before {
     background-position: 0 -88px;

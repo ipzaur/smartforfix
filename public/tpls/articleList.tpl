@@ -7,7 +7,7 @@
         <a class="articleList_photo" href=""><img src="/include/articles/01/01.jpg"></a>
         <div class="articleList_info">
             <a class="articleList_section" href="">Внение панели</a>
-            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> <span class="articleList_fav" data-tofav="В избранное" data-tounfav="Убрать из избранного"></span></h2>
+            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> {+fav:}</h2>
         </div>
     </div>
 
@@ -19,7 +19,7 @@
         <a class="articleList_photo" href=""><img src="/include/articles/01/01.jpg"></a>
         <div class="articleList_info">
             <a class="articleList_section" href="">Внение панели</a>
-            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> <span class="articleList_fav" data-tofav="В избранное" data-tounfav="Убрать из избранного"></span></h2>
+            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> {+fav:}</h2>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
         <a class="articleList_photo" href=""><img src="/include/articles/01/01.jpg"></a>
         <div class="articleList_info">
             <a class="articleList_section" href="">Внение панели</a>
-            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> <span class="articleList_fav" data-infav="В избранном" data-tofav="В избранное" data-tounfav="Убрать из избранного"></span></h2>
+            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> {+fav:}</h2>
         </div>
     </div>
 
@@ -43,7 +43,8 @@
         <a class="articleList_photo" href=""><img src="/include/articles/01/01.jpg"></a>
         <div class="articleList_info">
             <a class="articleList_section" href="">Внение панели</a>
-            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> <span class="articleList_fav" data-tofav="В избранное" data-tounfav="Убрать из избранного"></span></h2>
+            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> {+fav:}</h2>
         </div>
     </div>
 </div>
+{+paginator:}

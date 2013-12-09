@@ -1,9 +1,13 @@
 body, input, select, textarea, p, h2 {
     margin: 0;
     padding: 0;
-    font: 300 16px Roboto;
+    font-family: Roboto;
 }
-body {color: #2A2F35;}
+body, input, textarea {
+    color: #2A2F35;
+    font-size: 16px;
+    font-weight: 300;
+}
 div, a, p, input, select, textarea {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
@@ -13,7 +17,23 @@ a {
     text-decoration: none;
     color: #00AEEF;
 }
+button {
+    background-color: white;
+    font-size: 13px;
+    cursor: pointer;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 2px;
+    vertical-align: middle;
+    padding: 1px 7px 2px;
+}
 a:hover {color: #0096CE;}
+h1 {
+    font-weight: 500;
+    font-size: 45px;
+    line-height: 54px;
+    margin: 9px 0 0;
+}
 h2 {font-size: 28px;}
 .h {display: none;}
 .clearable-after:after, .clearable-before:before {

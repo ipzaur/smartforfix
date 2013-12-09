@@ -1,0 +1,19 @@
+/* избранное */
+.fav {margin-left: 2px;}
+[data-is_fav="0"] .fav {
+    color: #2A2F35;
+    border-color: #585C65;
+}
+[data-is_fav="0"] .fav:before {content: attr(data-tofav);}
+[data-is_fav="1"] .fav {
+    background-color: #ACD373;
+    border-color: #acd373;
+    color: white;
+}
+.fav:hover {
+    color: #95BD5B;
+    border-color: #acd373;
+    background-color: white;
+}
+[data-is_fav="1"] .fav:before {content: attr(data-infav);}
+[data-is_fav="1"] .fav:hover:before {content: attr(data-tounfav);}

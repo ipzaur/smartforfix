@@ -13,7 +13,7 @@
 <body>
     <header class="head">
         <div class="content">
-            {+auth:}
+            {if:(user:)}{+auth/profile:}{else:}{+auth/login:}{:fi}
             <input class="head_search" type="text" value="" name="search" placeholder="Поиск">
         </div>
     </header>
@@ -21,28 +21,14 @@
     {+menu:}
 
     <article class="content">
-        {+articleList:}
-        {+paginator:}
+        {if:(article)}{+article:}{else:}{+articleList:}{:fi}
     </article>
-<!-- 
-    <div class="mainblock">
-        <header>
-            {if:(main_page:=profile)}
-                <form class="auth_form-out" method="post" action="{siteurl:}auth/">
-                    <input type="hidden" name="auth_type" value="out" />
-                    <button title="Выход" type="submit">Выход</button>
-                </form>
-            {:fi}
-            <div class="h_logo"></div>
-            <h1 class="h_h1">
-                <span class="h_title">оставьте ссылку</span>
-                <a class="h_link" href="{siteurl:}" ref="nofollow">НАПОТОМ</a>
-            </h1>
-        </header>
-        {if:(main_page:=intro)}{+intro:}{:fi}
-        {if:(main_page:=profile)}{+profile:}{:fi}
-        <footer>
-        </footer>
-    </div> -->
+
+    <footer class="foot">
+        <div class="content">
+            <p class="foot_copy">SmartForFix, 2013</p>
+            <p class="foot_links"><a href="">О проекте</a></p>
+        </div>
+    </footer>
     <script type="text/javascript" src="{siteurl:}js/s4fx.js" defer="defer"></script>
 </body>

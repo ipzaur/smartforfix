@@ -43,6 +43,7 @@ if ($engine->auth->user['id'] == 0) {
 $engine->loadIface('menu_model');
 $engine->tpl->addvar('menu_model', $engine->menu_model->getMenu());
 $engine->tpl->addvar('user', $engine->auth->user);
+$engine->tpl->addvar('article', 1);
 
 /*
 $engine->tpl->addvar('main_page', $main_page);

@@ -82,7 +82,7 @@ class iface_tpl
         $var_container = ($var_container !== false) ? $var_container : 'this->tplvar';
 
         $reg =  '{' . // любая штука открывается фигурной скобкой
-                '([\^a-zA-Z_+\d\/\.]*)\:' . // ищем переменную или "if".
+                '([\^a-zA-Z_+\d\/\.]*)\:' . // ищем переменную, "if" или "else".
                 '(' .
                     '(\(' .
                         '([\!\^a-zA-Z_\d]*)' . // первая переменная if'а
@@ -170,6 +170,8 @@ class iface_tpl
                 }
                 $result .= $this->parseContent($if_content, $var_keyname, $var_container);
                 $result .= "}";
+            } else if ($var_name == 'else') {
+                $result .= "} else {\n";
 
             // обработаем включение шаблона
             } else if (mb_substr($var_name, 0, 1) == '+') {
