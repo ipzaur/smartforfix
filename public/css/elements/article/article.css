@@ -4,6 +4,30 @@
     margin-top: 34px;
     padding-bottom: 100px;
 }
+
+.article_author {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    width: 80px;
+    text-align: right;
+}
+.article_author_ava {
+    max-width: 60px;
+    max-height: 60px;
+    border-radius: 32px;
+}
+.article_author_name {
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 17px;
+}
+.artictle_type {
+    margin-top: 1px;
+    font-size: 11px;
+    color: #818181;
+}
+
 .article_content {
     margin-top: 20px;
     padding-left: 2px;

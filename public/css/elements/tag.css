@@ -1,8 +1,9 @@
 .tag, .tag:hover {
-    background-color: #296468;
     color: white;
     border-radius: 3px;
     padding: 0 9px 2px;
     margin-left: 1px;
     font-weight: 300;
 }
+.tag {background-color: #296468;}
+.tag:hover {background-color: #008995;}

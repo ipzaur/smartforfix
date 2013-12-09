@@ -43,12 +43,9 @@ if ($engine->auth->user['id'] == 0) {
 $engine->loadIface('menu_model');
 $engine->tpl->addvar('menu_model', $engine->menu_model->getMenu());
 $engine->tpl->addvar('user', $engine->auth->user);
-$engine->tpl->addvar('article', 1);
 
-/*
-$engine->tpl->addvar('main_page', $main_page);
-if ($main_page == 'profile') {
-    include 'pages/page_profile.php';
+if ( isset($engine->url[0]) && ($engine->url[0] == 'article') ) {
+    include 'pages/page_article.php';
 }
-*/
+
 $engine->tpl->render();

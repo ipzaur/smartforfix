@@ -21,7 +21,15 @@
     {+menu:}
 
     <article class="content">
-        {if:(article)}{+article:}{else:}{+articleList:}{:fi}
+        {if:(articleList)}
+            {+article/list:}
+        {else:}
+            {if:(article)}
+                {+article/show:}
+            {else:}
+                {+article/edit:}
+            {:fi}
+        {:fi}
     </article>
 
     <footer class="foot">
