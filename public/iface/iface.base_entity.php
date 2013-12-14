@@ -37,6 +37,11 @@ class iface_base_entity
             return $result;
         }
 
+        if ( method_exists($this, 'beforeSave') && !$this->beforeSave($param, $where) ) {
+            $error[] = 'before_not_done';
+            return $result;
+        }
+
         $save_list = array();
 
         foreach ($this->save_fields AS $field_name=>$field) {
@@ -50,7 +55,7 @@ class iface_base_entity
                         $param[$field_name] = intval($param[$field_name]);
                         if ( isset($field['notnull']) && ($param[$field_name] == 0) ) {
                             if ($field['notnull'] == 1) {
-                                $error[] = 'is_null';
+                                $error[] = $field_name . ' is_null';
                             } else {
                                 $save_list[] = $field_name . '=NULL';
                             }
@@ -64,12 +69,13 @@ class iface_base_entity
                             $error[] = 'not_match_pattern';
                             continue;
                         }
-                        if (mb_strlen($param[$field_name]) == 0) {
-                            if (isset($field['notnull'])) {
-                                $error[] = 'is_null';
+                        if ( (mb_strlen($param[$field_name]) == 0) && isset($field['notnull']) ) {
+                            if ($field['notnull'] == 1) {
+                                $error[] = $field_name . ' is_null';
                                 continue;
+                            } else {
+                                $save_list[] = $field_name . '=NULL';
                             }
-                            $save_list[] = $field_name . '=NULL';
                         } else {
                             $save_list[] = $field_name . '="' . mysql_escape_string($param[$field_name]) . '"';
                         }
@@ -93,7 +99,6 @@ class iface_base_entity
                 }
             }
         }
-
         if (count($save_list) == 0) {
             $error[] = 'empty_save_list';
         }
@@ -207,8 +212,10 @@ class iface_base_entity
                             $query_value = '"' . mysql_escape_string($find_value) . '"';
                         }
 
-                        if ( (mb_strpos($find_value, '%') === 0) || (mb_strpos($find_value, '%') === mb_strlen($find_value) - 1) ) {
+                        if (preg_match('~(^\%|\%$)~su', $find_value, $match) != false) {
                             $query_operator = ($query_operator == '!=') ? 'NOT LIKE' : 'LIKE';
+                        } else if (isset($field['check_single'])) {
+                            $result_type = 'row';
                         }
                         break;
 

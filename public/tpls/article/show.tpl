@@ -1,26 +1,16 @@
 <div class="article" data-is_fav="0">
     <p class="breads"><a class="bread" href="">Главная</a><a class="bread" href="">Подключение и разводка</a></p>
 
-    <h1>Парк Струковский сад (ПКиО им.Горького)</h1>
+    <h1>{article.name:}</h1>
 
     <div class="article_author">
-        <img class="article_author_ava" src="{user.avatar:}">
-        <p class="article_author_name"><a href="">Анатолий Меренгин</a></p>
+        <img class="article_author_ava" src="{siteurl:}{article.user.avatar:}">
+        <p class="article_author_name"><a href="">{article.user.name:}</a></p>
         <p class="artictle_type">перевод</p>
     </div>
 
-    <div class="article_content">
-        <p class="article_p">Это старейший парк города. И пусть сегодня здесь не дефилируют дамы в роскошных шляпках и кавалеры в эполетах не обсуждают их спутников в курительных павильонах, атмосфера сего места располагает к уединению и романтизму.</p>
-        <p class="article_p">Парк максимально (по отечественным критериям) благоустроен: просторные центральные аллеи, радующие глаз цветники, журчащие фонтаны, беседки...</p>
-        <p class="article_img">
-            <img src="/include/articles/01/pict.jpg">
-            <span class="article_imgDesc">В наследство от действительного статского советника Г.Н. Струкова, который в свое время весьма успешно управлял соляными промыслами, самарчане получили роскошный сад площадью около 11 гектаров.</span>
-        </p>
-        <p class="article_p">В Струковском саду вы не найдете большого количества шумных аттракционов, зато здесь имеется крытая киноконцертная площадка и плавательный бассейн для детей. И пока ваши детишки укрепляют мускулатуру на тренировках, вы прекрасно расслабитесь, отключившись от гама и суеты города.</p>
-        <p class="article_p">Как и большинство подобных объектов, в середине 50-х сад был переименован в Парк Культуры и Отдыха им. Максима Горького, став центром для проведения массовых фестивалей.</p>
-
-        <p class="article_source">Источник: <a class="article_source_link" href="">http://kudago.com/smr/place/park-strukovskij-sad-pkio-imgorkogo/</a></p>
-
+    <div class="article_content">{article.content:}
+        {if:(article.type:>0)}<p class="article_source">Источник: <a class="article_source_link" href="{article.ext_link:}">{article.ext_link:}</a></p>{:fi}
     </div>
 
     <div class="article_actions">{+fav:}<button class="toprint">Распечатать</button></div>

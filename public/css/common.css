@@ -8,7 +8,7 @@ body, input, textarea, select {
     font-size: 16px;
     font-weight: 300;
 }
-div, a, p, input, select, textarea {
+body, div, a, p, input, select, textarea {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;

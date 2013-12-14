@@ -27,7 +27,9 @@
             {if:(article)}
                 {+article/show:}
             {else:}
-                {+article/edit:}
+                {if:(articleEdit)}
+                    {+article/edit:}
+                {:fi}
             {:fi}
         {:fi}
     </article>
