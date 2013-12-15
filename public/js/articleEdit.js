@@ -3,10 +3,11 @@ var articleEdit = {
     'tag' : {
         'main'   : $('#articleEdit'),
         'elem' : {
-            'name' : false,
-            'type' : false,
+            'name'     : false,
+            'section'  : false,
+            'type'     : false,
             'ext_link' : false,
-            'content_source' : false
+            'content'  : false
         },
         'submit' : false
     },
@@ -27,8 +28,9 @@ var articleEdit = {
 
         var postData = 'id=' + articleEdit.tag.main.attr('data-article_id') +
                        '&name=' + articleEdit.tag.elem.name.val() +
+                       '&section_id=' + articleEdit.tag.elem.section.val() +
                        '&type=' + articleEdit.tag.elem.type.val() +
-                       '&content_source=' + articleEdit.tag.elem.content_source.val();
+                       '&content_source=' + articleEdit.tag.elem.content.val();
         if (articleEdit.tag.elem.type.val() > 0) {
             postData += '&ext_link=' + articleEdit.tag.elem.ext_link.val();
         }

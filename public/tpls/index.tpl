@@ -13,6 +13,7 @@
 <body>
     <header class="head">
         <div class="content">
+            <a class="head_logo" href="{siteurl:}"><img src="{siteurl:}/pics/svg/logo.svg"></a>
             {if:(user:)}{+auth/profile:}{else:}{+auth/login:}{:fi}
             <input class="head_search" type="text" value="" name="search" placeholder="Поиск">
         </div>
@@ -21,13 +22,13 @@
     {+menu:}
 
     <article class="content">
-        {if:(articleList)}
+        {if:(article_list)}
             {+article/list:}
         {else:}
             {if:(article)}
                 {+article/show:}
             {else:}
-                {if:(articleEdit)}
+                {if:(article_edit)}
                     {+article/edit:}
                 {:fi}
             {:fi}

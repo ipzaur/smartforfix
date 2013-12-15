@@ -2,9 +2,12 @@
     height: 100px;
     background-color: #2A2F35;
 }
-.head .content {
-    height: 100%;
-    background: url('/pics/svg/logo.svg') 20px 33px no-repeat;
+.head_logo {
+    position: absolute;
+    top: 33px;
+    left: 20px;
+    display: block;
+    font-size: 0;
 }
 .head_search {
     position: absolute;

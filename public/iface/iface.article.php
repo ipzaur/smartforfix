@@ -8,6 +8,8 @@
 class iface_article extends iface_base_entity
 {
     public $engine = NULL;
+    private $sectionCache = array();
+    private $userCache = array();
 
     protected $order_fields = array('id', 'create_date');
     protected $group_fields = array('id');
@@ -16,30 +18,27 @@ class iface_article extends iface_base_entity
         'url'     => array('type' => 'string', 'check_single' => 1, 'notnull' => 1),
         'user_id' => array('type' => 'integer', 'notnull' => 1),
         'section_id' => array('type' => 'integer', 'notnull' => 0),
-        'info450' => array('type' => 'integer'),
-        'info451' => array('type' => 'integer'),
-        'info452' => array('type' => 'integer'),
-        'info454' => array('type' => 'integer')
-/*,
-        'tag'     => array('type' => 'string',  'join' => array(
-            'table'    => 'tag',
-            'key_main' => 'id',
-            'key_join' => 'link_id',
-            'field'    => 'name'
-        ))*/
+        'info' => array('type' => 'or_group', 'fields' => array(
+            'info450' => array('type' => 'integer'),
+            'info451' => array('type' => 'integer'),
+            'info452' => array('type' => 'integer'),
+            'info454' => array('type' => 'integer')
+        )),
+        'hidden' => array('type' => 'integer')
     );
     protected $save_fields = array(
         'name' => array('type' => 'string', 'notnull' => 1),
-        'url' => array('type' => 'string', 'nutnull' => 1),
+        'url' => array('type' => 'string', 'notnull' => 1),
         'type' => array('type' => 'integer',),
-        'content_source' => array('type' => 'string', 'nutnull' => 1),
-        'content' => array('type' => 'string', 'nutnull' => 1),
-        'ext_link' => array('type' => 'string', 'nutnull' => 0),
+        'content_source' => array('type' => 'string', 'notnull' => 1),
+        'content' => array('type' => 'string', 'notnull' => 1),
+        'ext_link' => array('type' => 'string', 'notnull' => 0),
         'user_id' => array('type' => 'integer', 'notnull' => 1),
         'info450' => array('type' => 'integer'),
         'info451' => array('type' => 'integer'),
         'info452' => array('type' => 'integer'),
         'info454' => array('type' => 'integer'),
+        'hidden' => array('type' => 'integer'),
         'create_date' => array('type' => 'datetime')
     );
     protected $table_name = 'article';
@@ -74,19 +73,34 @@ class iface_article extends iface_base_entity
     protected function getAfter(&$articles = array())
     {
         $this->engine->loadIface('user');
-        if (isset($articles['id'])) {
-            $getparam = array('id' => $articles['user_id']);
-            $articles['user'] = $this->engine->user->get($getparam);
-        } else {
-            foreach ($articles AS &$article) {
+        $single = isset($articles['id']);
+        if ($single) {
+            $articles = array($articles);
+        }
+        foreach ($articles as &$article) {
+            if (!isset($this->userCache[$article['user_id']])) {
                 $getparam = array('id' => $article['user_id']);
-                $article['user'] = $this->engine->user->get($getparam);
+                $this->userCache[$article['user_id']] = $this->engine->user->get($getparam);
             }
+            $article['user'] = $this->userCache[$article['user_id']];
+            $article['section'] = $article['section_id'] ? $this->sectionCache[$article['section_id']] : null;
+        }
+        if ($single) {
+            $articles = $articles[0];
         }
     }
 
 
     public function __construct()
     {
+    }
+
+    public function start()
+    {
+        $this->engine->loadIface('section');
+        $sections = $this->engine->section->get(array('hidden' => 0));
+        foreach ($sections as $section) {
+            $this->sectionCache[$section['id']] = $section;
+        }
     }
 }

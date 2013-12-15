@@ -41,11 +41,19 @@ if ($engine->auth->user['id'] == 0) {
 }
 
 $engine->loadIface('menu_model');
-$engine->tpl->addvar('menu_model', $engine->menu_model->getMenu());
+$menu_models = $engine->menu_model->getMenu();
+$engine->tpl->addvar('menu_model', $menu_models);
+
+$engine->loadIface('section');
+$sections = $engine->section->get(array('hidden' => 0));
+$engine->tpl->addvar('section', $sections);
+
 $engine->tpl->addvar('user', $engine->auth->user);
 
 if ( isset($engine->url[0]) && ($engine->url[0] == 'article') ) {
     include 'pages/page_article.php';
+} else {
+    include 'pages/page_articleList.php';
 }
 
 $engine->tpl->render();

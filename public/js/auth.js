@@ -16,7 +16,7 @@ var auth = {
             var el = $(ev.target)
             if ( (el.closest('#auth').size() == 0) && auth.tag.main.hasClass('_active') ) {
                 auth.state.toggle(false);
-            } else if (el.is('[data-auth_action="toggle"]')) {
+            } else if ( (el.closest('[data-auth_action="toggle"]').size() > 0) && (el.closest('[data-auth="menu"]').size() == 0) ) {
                 auth.state.toggle();
             }
         });

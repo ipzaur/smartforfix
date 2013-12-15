@@ -1,50 +1,16 @@
 <div class="articleList">
-    <div class="articleList_item clearable-after" data-article_id="1" data-is_fav="0">
+    {article_list:}
+    <div class="articleList_item clearable-after" data-article_id="{id:}" data-is_fav="0">
         <div class="articleList_stat">
-            <a class="articleList_author" href="">Лила Блок</a>
+            <a class="articleList_author" href="">{user.name:}</a>
             <p class="articleList_comments">36</p>
         </div>
-        <a class="articleList_photo" href=""><img src="/include/articles/01/01.jpg"></a>
+        <a class="articleList_photo" href="{^siteurl:}article/{url:}/"><img src="/include/articles/01/01.jpg"></a>
         <div class="articleList_info">
-            <a class="articleList_section" href="">Внение панели</a>
-            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> {+fav:}</h2>
+            {if:(section)}<a class="articleList_section" href="{^siteurl:}{section.url:}/">{section.name:}</a>{:fi}
+            <h2 class="articleList_name"><a href="{^siteurl:}article/{url:}/">{name:}</a> {+fav:}</h2>
         </div>
     </div>
-
-    <div class="articleList_item clearable-after" data-article_id="2" data-is_fav="0">
-        <div class="articleList_stat">
-            <a class="articleList_author" href="">Лила Блок</a>
-            <p class="articleList_comments">36</p>
-        </div>
-        <a class="articleList_photo" href=""><img src="/include/articles/01/01.jpg"></a>
-        <div class="articleList_info">
-            <a class="articleList_section" href="">Внение панели</a>
-            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> {+fav:}</h2>
-        </div>
-    </div>
-
-    <div class="articleList_item clearable-after" data-article_id="3" data-is_fav="1">
-        <div class="articleList_stat">
-            <a class="articleList_author" href="">Лила Блок</a>
-            <p class="articleList_comments">36</p>
-        </div>
-        <a class="articleList_photo" href=""><img src="/include/articles/01/01.jpg"></a>
-        <div class="articleList_info">
-            <a class="articleList_section" href="">Внение панели</a>
-            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> {+fav:}</h2>
-        </div>
-    </div>
-
-    <div class="articleList_item clearable-after" data-article_id="1" data-is_fav="0">
-        <div class="articleList_stat">
-            <a class="articleList_author" href="">Лила Блок</a>
-            <p class="articleList_comments">36</p>
-        </div>
-        <a class="articleList_photo" href=""><img src="/include/articles/01/01.jpg"></a>
-        <div class="articleList_info">
-            <a class="articleList_section" href="">Внение панели</a>
-            <h2 class="articleList_name"><a href="">Что пишут на стенах в Москве, Киеве и Петербурге</a> {+fav:}</h2>
-        </div>
-    </div>
+    {:article_list}
 </div>
-{+paginator:}
+{if:(pages)}{+paginator:}{:fi}
