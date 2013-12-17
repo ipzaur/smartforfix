@@ -3,13 +3,13 @@
     <p class="articleEdit_field">Раздел:
         <select class="articleEdit_element-select" name="section">
             <option value="0">не выбран</option>
-            {section:}<option value="{id:}"{if:(id:=^article_edit.section_id)} selected{:fi}>{name:}</option>{:section}
+            {section:}<option value="{id:}"{if:(id:=^article_edit.section_id:)} selected{:fi}>{name:}</option>{:section}
         </select>
         Тип статьи:
         <select class="articleEdit_element-select" name="type">
-            <option value="0">Оригинал</option>
-            <option value="1">Перевод</option>
-            <option value="2">Перепечатка</option>
+            <option value="0"{if:(article_edit.type:=0)} selected{:fi}>Оригинал</option>
+            <option value="1"{if:(article_edit.type:=1)} selected{:fi}>Перевод</option>
+            <option value="2"{if:(article_edit.type:=2)} selected{:fi}>Перепечатка</option>
         </select>
         <input class="articleEdit_element-input{if:(article_edit.type:=0)} h{:fi}" name="ext_link" type="text" placeholder="Ссылка на оригинал" value="{article_edit.ext_link:}"{if:(article_edit.type:=0)} disabled{:fi}>
     </p>

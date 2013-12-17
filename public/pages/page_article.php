@@ -11,7 +11,7 @@ if (isset($engine->url[1])) {
                 'type' => 0
             );
         }
-        $engine->tpl->addVar('articleEdit', $article);
+        $engine->tpl->addVar('article_edit', $article);
     } else {
         $getparam = array('url' => $engine->url[1]);
         $article = $engine->article->get($getparam);

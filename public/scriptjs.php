@@ -8,7 +8,7 @@ require_once 'iface/iface.core.php';
 $engine = new iface_core();
 
 if ( ($debug == true) || !file_exists('js/s4fx.js') ) {
-    $before = array('jquery203.js');
+    $before = array('jquery203.js', 'editor.js');
 
     function grabDir($path)
     {

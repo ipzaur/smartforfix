@@ -59,11 +59,14 @@ class iface_tpl
             $result = "\$" . $var_keyname;
         } else if ($var_name == '_value') {
             $result = "\$" . $var_container;
-        } else if (mb_substr($var_name, 0, 1) == '^') {
-            $result = "\$this->tplvar['" . str_replace('^', '', $var_name) . "']";
-        } else if (mb_strpos($var_name, '.') !== false) {
-            $result = "\$" . $var_container . "['" . implode("']['", explode('.', $var_name)) . "']";
         } else {
+            if (mb_substr($var_name, 0, 1) == '^') {
+                $var_container = 'this->tplvar';
+                $var_name = str_replace('^', '', $var_name);
+            }
+            if (mb_strpos($var_name, '.') !== false) {
+                $var_name = implode("']['", explode('.', $var_name));
+            }
             $result = "\$" . $var_container . "['" . $var_name . "']";
         }
 

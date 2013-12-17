@@ -26,7 +26,9 @@ var articleEdit = {
         }
         articleEdit.saving = true;
 
-        var postData = 'id=' + articleEdit.tag.main.attr('data-article_id') +
+        var articleId = articleEdit.tag.main.attr('data-article_id');
+
+        var postData = 'id=' + articleId +
                        '&name=' + articleEdit.tag.elem.name.val() +
                        '&section_id=' + articleEdit.tag.elem.section.val() +
                        '&type=' + articleEdit.tag.elem.type.val() +
@@ -44,7 +46,15 @@ var articleEdit = {
             data     : postData,
             dataType : 'json',
             success  : function(json){
-                articleEdit.tag.main.attr('data-article_id', json.result);
+                if (articleId == 0) {
+                    articleEdit.tag.main.attr('data-article_id', json.result);
+                    var url = SITEURI + 'article/_edit/' + json.result + '/';
+                    if (canHtml5) {
+                        history.pushState(null, null, url);
+                    } else {
+                        window.location.href = url;
+                    }
+                }
                 articleEdit.saving = false;
             }
         });
@@ -70,6 +80,8 @@ var articleEdit = {
             elems[elemName] = articleEdit.tag.main.find('[name="' + elemName + '"]');
         }
         articleEdit.tag.submit = articleEdit.tag.main.find('[name="submit"]');
+
+        editor.init(articleEdit.tag.elem.content);
 
         articleEdit.tag.main.on({
             'change' : function(ev){
