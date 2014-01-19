@@ -84,6 +84,8 @@ class iface_tpl
         $result = '';
         $var_container = ($var_container !== false) ? $var_container : 'this->tplvar';
 
+        $content = preg_replace('~\<\!\-\-.*?\-\-\>~us', '', $content); // сначала вырежим всё, что закомменчено
+
         $reg =  '{' . // любая штука открывается фигурной скобкой
                 '([\^a-zA-Z_+\d\/\.]*)\:' . // ищем переменную, "if" или "else".
                 '(' .

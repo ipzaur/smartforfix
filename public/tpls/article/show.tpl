@@ -1,5 +1,5 @@
 <div class="article" data-is_fav="0">
-    <p class="breads"><a class="bread" href="{siteurl:}">Главная</a><a class="bread" href="">Подключение и разводка</a></p>
+    <p class="breads"><a class="bread" href="{siteurl:}">Главная</a><a class="bread" href="{siteurl:}{article.section.url:}/">{article.section.name:}</a></p>
 
     <h1>{article.name:}</h1>
 

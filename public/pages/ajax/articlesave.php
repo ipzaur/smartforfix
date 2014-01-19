@@ -3,6 +3,12 @@ $error = array();
 
 $engine->loadIface('article');
 
+if (!$engine->auth->user) {
+    $error[] = 'ERROR_ARTICLE_NOTREGISTERED';
+    echo json_encode(array('error' => $error, 'result' => $result));
+    die();
+}
+
 $saveparam = $_POST;
 if ($saveparam['id'] > 0) {
     $getparam = array('id' => $saveparam['id']);

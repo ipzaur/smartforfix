@@ -16,16 +16,20 @@ if ($allmodels == true) {
 
 $cur_section = false;
 if ( isset($engine->url[0]) && is_string($engine->url[0]) ) {
-    foreach ($sections as $section) {
-        if ($section['url'] == $engine->url[0]) {
-            $cur_section = $section;
-            break;
+    if ($engine->url[0] == 'fav') {
+        $getparam['favuser'] = $engine->auth->user['id'];
+    } else {
+        foreach ($sections as $section) {
+            if ($section['url'] == $engine->url[0]) {
+                $cur_section = $section;
+                break;
+            }
         }
+        if ($cur_section !== false) {
+            $getparam['section_id'] = $cur_section['id'];
+        }
+        $engine->tpl->addvar('cur_section', $cur_section);
     }
-    if ($cur_section !== false) {
-        $getparam['section_id'] = $cur_section['id'];
-    }
-    $engine->tpl->addvar('cur_section', $cur_section);
 }
 $getparam['hidden'] = 0;
 
@@ -58,4 +62,3 @@ $engine->tpl->addvar('cur_page', $cur_page);
 
 $article_list = $engine->article->get($getparam, array('create_date' => 'desc'), false, $articles_per_page, $cur_page);
 $engine->tpl->addvar('article_list', $article_list);
-

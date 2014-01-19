@@ -24,6 +24,12 @@ class iface_article extends iface_base_entity
             'info452' => array('type' => 'integer'),
             'info454' => array('type' => 'integer')
         )),
+        'favuser' => array('type' => 'integer', 'notnull' => 1, 'join' => array(
+            'table'    => 'fav',
+            'key_main' => 'id',
+            'key_join' => 'article_id',
+            'field'    => 'user_id'
+        )),
         'hidden' => array('type' => 'integer')
     );
     protected $save_fields = array(
@@ -68,7 +74,7 @@ class iface_article extends iface_base_entity
 
     /**
      * Дополнительная функция по выборке статей
-     * @param array articles - результат выборки. в процессе вернётся изменённый массив с авторами
+     * @param array articles - результат выборки. в процессе вернётся изменённый массив с авторами и избранным
      */
     protected function getAfter(&$articles = array())
     {
@@ -77,6 +83,12 @@ class iface_article extends iface_base_entity
         if ($single) {
             $articles = array($articles);
         }
+
+        if ($this->engine->auth->user) {
+            $this->engine->loadIface('fav');
+            $favparam = array('user_id' => $this->engine->auth->user['id']);
+        }
+
         foreach ($articles as &$article) {
             if (!isset($this->userCache[$article['user_id']])) {
                 $getparam = array('id' => $article['user_id']);
@@ -84,6 +96,11 @@ class iface_article extends iface_base_entity
             }
             $article['user'] = $this->userCache[$article['user_id']];
             $article['section'] = $article['section_id'] ? $this->sectionCache[$article['section_id']] : null;
+
+            if (isset($favparam)) {
+                $favparam['article_id'] = $article['id'];
+                $article['isfav'] = intval(!($this->engine->fav->get($favparam) === false));
+            }
         }
         if ($single) {
             $articles = $articles[0];
