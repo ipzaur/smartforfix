@@ -58,13 +58,13 @@
 
 .article_actions {
     float: right;
-    width: 240px;
+    width: 300px;
     text-align: right;
 }
 
 .article_tags {
     font-size: 13px;
     font-weight: 500;
-    margin: 4px 300px 0 3px;
+    margin: 4px 310px 0 3px;
 }
 .article_tags .tag:first-child {margin-left: 10px;}

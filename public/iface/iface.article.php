@@ -87,6 +87,13 @@ class iface_article extends iface_base_entity
         if ($this->engine->auth->user) {
             $this->engine->loadIface('fav');
             $favparam = array('user_id' => $this->engine->auth->user['id']);
+            $favs = $this->engine->fav->get($favparam);
+            if ($favs !== false) {
+                $favarticle = array();
+                foreach($favs as $fav) {
+                    $favarticle[] = $fav['article_id'];
+                }
+            }
         }
 
         foreach ($articles as &$article) {
@@ -97,11 +104,9 @@ class iface_article extends iface_base_entity
             $article['user'] = $this->userCache[$article['user_id']];
             $article['section'] = $article['section_id'] ? $this->sectionCache[$article['section_id']] : null;
 
-            if (isset($favparam)) {
-                $favparam['article_id'] = $article['id'];
-                $article['isfav'] = intval(!($this->engine->fav->get($favparam) === false));
-            }
+            $article['isfav'] = intval( isset($favarticle) && in_array($article['id'], $favarticle) );
         }
+
         if ($single) {
             $articles = $articles[0];
         }

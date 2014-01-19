@@ -2,9 +2,19 @@
 $engine->loadIface('article');
 if (isset($engine->url[1])) {
     if ($engine->url[1] == '_edit') {
+        if ( !$engine->auth->user || !($engine->auth->user['grants'] & 1) ) {
+            die();
+        }
+
         if ( isset($engine->url[2]) && ($engine->url[2] > 0) ) {
-            $getparam = array('id' => $engine->url[2]);
+            $getparam = array(
+                'id' => $engine->url[2],
+                'user_id' => $engine->auth->user['id']
+            );
             $article = $engine->article->get($getparam);
+            if ($article === false) {
+                die();
+            }
         } else {
             $article = array(
                 'id'   => 0,

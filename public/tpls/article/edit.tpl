@@ -22,3 +22,10 @@
     <p class="articleEdit_field"><textarea class="articleEdit_element-ta" name="content">{article_edit.content_source:}</textarea></p>
     <p class="articleEdit_field"><button name="submit" type="submit"{if:(article_edit.id:=0)} disabled{:fi}>Сохранить</button></p>
 </form>
+
+<form id="uploader" method="POST" action="{siteurl:}_ajax/upload/" target="_myframe" enctype="multipart/form-data">
+    <input name="upload[]" type="file" multiple>
+    <button>Отправить</button>
+</form>
+
+<iframe id="_myframe" name="_myframe"></iframe>
