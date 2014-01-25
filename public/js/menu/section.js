@@ -16,7 +16,7 @@ var menuSection = {
             menuSection.tag.main.find('.menu_items').remove();
             menuSection.tag.main.find('.menu_select').on('change', function(ev){
                 var el = $(ev.target);
-                document.location.href = SITEURI + el.val();
+                document.location.href = SITEURL + el.val();
             });
         } else {
             menuSection.tag.main.find('.menu_select').remove();

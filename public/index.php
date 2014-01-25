@@ -10,11 +10,6 @@ if ( isset($engine->url[0]) && ($engine->url[0] == '_auth') ) {
     include 'pages/page_auth.php';
 }
 
-$engine->tpl->loadTpl('index');
-$engine->tpl->addVar('siteurl', $engine->config['siteurl']);
-$isMobile = $engine->ismobile->isMobile() ? 'true' : 'false';
-$engine->tpl->addVar('isMobile', $isMobile);
-$engine->tpl->addVar('noava', $engine->config['noava']);
 
 $current_date = ('Y-m-d H:i:s');
 $cur_date = array(
@@ -29,6 +24,12 @@ $cur_date = array(
 if ( isset($engine->url[0]) && ($engine->url[0] == '_ajax') ) {
     include 'pages/page_ajax.php';
 }
+
+$engine->tpl->loadTpl('index');
+$engine->tpl->addVar('siteurl', $engine->config['siteurl']);
+$isMobile = $engine->ismobile->isMobile() ? 'true' : 'false';
+$engine->tpl->addVar('isMobile', $isMobile);
+$engine->tpl->addVar('noava', $engine->config['noava']);
 
 if ($engine->auth->user['id'] == 0) {
     $auth_link = array(

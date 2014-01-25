@@ -12,23 +12,25 @@ var editor = {
                 'button' : {
                     'b'   : false,
                     'i'   : false,
-                    'a'   : false,
-                    'img' : false
+                    'a'   : false
                 }
             },
-            'insertImg' : function(img) {
-                var posStart = instance.tag.area[0].selectionStart || 0,
-                    posEnd = instance.tag.area[0].selectionEnd || 0,
-                    link = null;
-                if (!img) {
-                    link = prompt('Ссылка на изображение');
+            'insertImg' : function(src, title) {
+                if (!src) {
+                    return false;
                 }
-                if (link == null) return false;
-                var title = prompt('Комментарий к изображению (не обязательно)');
+                var posStart = instance.tag.area[0].selectionStart || 0,
+                    posEnd = instance.tag.area[0].selectionEnd || 0;
+
+                var insertText = "\n" + '<img src="' + src + '"';
+                if ( (title != null) && (title != '') ){
+                    insertText += ' title="' + title + '"';
+                }
+                insertText += ">\n";
 
                 var selectedLength = posEnd - posStart;
                 var parsedText = instance.tag.area.val().split('');
-                parsedText.splice(posStart, selectedLength, '<img src="' + link + '" title="' + title + '">');
+                parsedText.splice(posStart, selectedLength, insertText);
                 parsedText = parsedText.join('');
                 instance.tag.area.val(parsedText);
             },
@@ -71,12 +73,15 @@ var editor = {
             },
             'init' : function(textarea) {
                 instance.tag.area = textarea;
+                var buttons = $('<div />').addClass('editor_buttons');
                 for (var butName in instance.tag.button) if (instance.tag.button.hasOwnProperty(butName)) {
                     instance.tag.button[butName] = $('<button />')
+                        .addClass('editor_button')
                         .attr({'editor-action':butName, 'type':'button'})
                         .text(butName)
-                        .appendTo(instance.tag.main);
+                        .appendTo(buttons);
                 }
+                buttons.appendTo(instance.tag.main);
 
                 instance.tag.main.appendTo(instance.tag.area.parent());
                 instance.tag.area.appendTo(instance.tag.main);
@@ -89,7 +94,6 @@ var editor = {
                             case 'b' :
                             case 'i' : instance.insertPair(el.attr('editor-action')); break;
                             case 'a' : instance.insertLink(); break;
-                            case 'img' : instance.insertImg(); break;
                         }
                     }
                 });

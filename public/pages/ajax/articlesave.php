@@ -30,5 +30,14 @@ if ($saveparam['id'] == 0) {
 }
 $article_id = $engine->article->save($saveparam, $getparam);
 
-echo json_encode(array('error' => $error, 'result' => $article_id));
+$json = array(
+    'error' => $error,
+    'result' => $article_id
+);
+if ($saveparam['id'] == 0) {
+    $engine->loadIface('media');
+    $getparam = array('article_id' => $article_id);
+    $json['photos'] = $engine->media->get($getparam);
+}
+echo json_encode($json);
 

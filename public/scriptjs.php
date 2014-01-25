@@ -41,7 +41,7 @@ if ( ($debug == true) || !file_exists('js/s4fx.js') ) {
 
     $result = fopen('js/s4fx.js', 'w');
     fwrite($result, "window.setTimeout(function(){");
-    fwrite($result, "var SITEURI = '" . $engine->config['siteurl'] . "';");
+    fwrite($result, "var SITEURL = '" . $engine->config['siteurl'] . "';");
     foreach ($before as $file) {
         if (file_exists('js/' . $file)) {
             fwrite($result, file_get_contents('js/' . $file));

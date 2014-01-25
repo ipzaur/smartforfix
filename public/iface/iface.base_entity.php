@@ -125,6 +125,11 @@ class iface_base_entity
             $result = $this->engine->db->query($query);
         }
 
+        if ( method_exists($this, 'afterSave') && !$this->afterSave($result, $param, $where) ) {
+            $error[] = 'after_not_done';
+            return $result;
+        }
+
         return $result;
     }
 

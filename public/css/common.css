@@ -47,3 +47,15 @@ button {
     border-color: #585C65;
 }
 textarea {width: 100%;}
+
+/* фейкоссылки */
+.fake_link {
+    color: #00AEEF;
+    border-bottom: 1px dashed #00AEEF;
+    cursor: pointer;
+}
+.fake_link-red{
+    color: #C60909;
+    border-bottom: 1px dashed #C60909;
+    cursor: pointer;
+}

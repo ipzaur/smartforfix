@@ -1,14 +1,11 @@
-.articleEdit {
-    margin-top: 30px;
-}
-.articleEdit_field {
-    margin: 10px 0;
-}
-[class|="articleEdit_element"] {
-    padding: 4px 8px;
-}
+.articleEdit {margin-top: 30px;}
+.articleEdit_field {margin: 10px 0;}
+[class|="articleEdit_element"] {padding: 4px 8px;}
 .articleEdit_element-select {}
-.articleEdit_element-ta {}
+.articleEdit_element-ta {
+    resize: vertical;
+    min-height: 300px;
+}
 .articleEdit_element-input {
     
 }
@@ -18,3 +15,45 @@
     width: 100%;
 }
 .articleEdit_element-input[name="ext_link"] {width: 400px;}
+
+/* загрузчик картинок */
+.articleEdit_upload {position: relative;}
+.articleEdit_uploader {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+.articleEdit_photos {
+    font-size: 0;
+}
+.articleEdit_photo {
+    position: relative;
+    display: inline-block;
+    padding: 6px;
+    margin-right: 10px;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+.articleEdit_photo:before {
+    content: attr(data-photo_num);
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    color: white;
+    padding: 2px 5px;
+    background-color: rgba(28, 125, 110, 0.7);
+}
+.articleEdit_photo:hover {
+    background-color: #B8CDCB;
+}
+.articleEdit_photo_img {
+    max-width: 100px;
+    max-height: 80px;
+    cursor: pointer;
+    display: block;
+}
