@@ -1,6 +1,7 @@
 .paginator {
     text-align: center;
     font-size: 17px;
+    margin: 10px 0;
 }
 .paginator_page {
     color: #8B919F;

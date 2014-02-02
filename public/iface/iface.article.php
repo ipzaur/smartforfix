@@ -182,6 +182,7 @@ class iface_article extends iface_base_entity
             }
         }
 
+        $this->engine->loadIface('media');
         foreach ($articles as &$article) {
             if (!isset($this->userCache[$article['user_id']])) {
                 $getparam = array('id' => $article['user_id']);
@@ -191,6 +192,15 @@ class iface_article extends iface_base_entity
             $article['section'] = $article['section_id'] ? $this->sectionCache[$article['section_id']] : null;
 
             $article['isfav'] = intval( isset($favarticle) && in_array($article['id'], $favarticle) );
+
+            $getparam = array(
+                'article_id' => $article['id'],
+                'hidden'     => 0
+            );
+            $media = $this->engine->media->get($getparam);
+            if ($media !== false) {
+                $article['thumb'] = $media[0];
+            }
         }
 
         if ($single) {

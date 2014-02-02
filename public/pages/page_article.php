@@ -24,7 +24,7 @@ if (isset($engine->url[1])) {
                 'hidden'     => 0
             );
             $files = $engine->media->get($getparam);
-            if (count($files) > 0) {
+            if ($files !== false) {
                 $photos = array();
                 $photo_num = 1;
                 foreach ($files as $file) {

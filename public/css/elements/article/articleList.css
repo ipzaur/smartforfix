@@ -2,7 +2,7 @@
  * Список статей
  */
 .articleList {
-    
+    padding: 10px 0;
 }
 .articleList_item {
     border-bottom: 1px solid #eeeeef;

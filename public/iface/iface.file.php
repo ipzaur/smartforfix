@@ -103,11 +103,11 @@ class iface_file
                 break;
             case 3: // png
                 $to .= '.png';
-                imagepng($image['img'], $to, 3);
+                imagepng($image['img'], $to, 2);
                 break;
             default: // jpg
                 $to .= '.jpg';
-                imagejpeg($image['img'], $to, 80);
+                imagejpeg($image['img'], $to, 100);
                 break;
         }
         $result = explode('/', $to);

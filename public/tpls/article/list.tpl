@@ -5,7 +5,7 @@
                 <a class="articleList_author">{user.name:}</a>
                 <!-- p class="articleList_comments">36</p -->
             </div>
-            <a class="articleList_photo" href="{^siteurl:}article/{url:}/"><img src="/include/articles/01/01.jpg"></a>
+            {if:(thumb)}<a class="articleList_photo" href="{^siteurl:}article/{url:}/"><img src="{^siteurl:}{thumb.path:}"></a>{:fi}
             <div class="articleList_info">
                 {if:(section)}<a class="articleList_section" href="{^siteurl:}{section.url:}/">{section.name:}</a>{:fi}
                 <h2 class="articleList_name"><a href="{^siteurl:}article/{url:}/">{name:}</a> {+fav:}</h2>
