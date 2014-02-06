@@ -61,13 +61,13 @@ class iface_file
                 if ($crop == true) {
                     $orig['height'] = $orig['width'] / $image['ratio'];
                 } else {
-                    $image['width'] = $image['height'] * $orig['ratio'];
+                    $image['width'] = $image['height'] / $orig['ratio'];
                 }
             } else if ($image['ratio'] < $orig['ratio']) {
                 if ($crop == true) {
                     $orig['width'] = $orig['height'] / $image['ratio'];
                 } else {
-                    $image['height'] = $image['width'] * $orig['ratio'];
+                    $image['height'] = $image['width'] / $orig['ratio'];
                 }
             }
         }

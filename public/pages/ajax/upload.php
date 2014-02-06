@@ -49,7 +49,6 @@ foreach ($_FILES as $file) {
     $last_num++;
     $file_name = str_pad($last_num , 3, '0', STR_PAD_LEFT) . '_' . md5(mb_substr($file['name'] . date('Y-m-d H:i:s'), 0, 12));
     $file_name = $engine->file->saveImage($file['tmp_name'], $upload_path . $file_name, 1024, 1024);
-    $files[] = $engine->config['siteurl'] . $file_path . $file_name;
 
     if ($upload_type == 'article') {
         $mediaparam = array(
@@ -57,8 +56,11 @@ foreach ($_FILES as $file) {
             'path' => $file_path . $file_name,
             'user_id' => $engine->auth->user['id']
         );
-        $engine->media->save($mediaparam);
+        $id = $engine->media->save($mediaparam);
+    } else {
+        $id = count($files);
     }
+    $files[$id] = $engine->config['siteurl'] . $file_path . $file_name;
 }
 
 echo json_encode(array('error' => $error, 'files' => $files));

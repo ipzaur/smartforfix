@@ -35,7 +35,7 @@ $getparam['hidden'] = 0;
 
 $articles_count = $engine->article->getCount($getparam);
 
-$articles_per_page = 5;
+$articles_per_page = 10;
 
 $cur_page = 1;
 if ($articles_count > $articles_per_page) {

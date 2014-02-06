@@ -100,6 +100,9 @@
                 for (var i in files) if (files.hasOwnProperty(i)){
                     last_num++;
                     var photo = $('<div />').addClass('articleEdit_photo').attr('data-photo_num', last_num);
+                    if (parseInt(articleEdit.content_id) > 0) {
+                        photo.attr('data-photo_id', i);
+                    }
                     $('<img />').addClass('articleEdit_photo_img')
                         .attr({
                             'src' : files[i],

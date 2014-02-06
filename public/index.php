@@ -4,6 +4,13 @@ mb_internal_encoding("UTF-8");
 require_once '../config.php';
 require_once 'iface/iface.core.php';
 $engine = new iface_core();
+
+if ( isset($engine->url[0]) && ($engine->url[0] == '_r') ) {
+    include 'resizer.php';
+    die();
+}
+
+
 $engine->loadIface('auth');
 
 if ( isset($engine->url[0]) && ($engine->url[0] == '_auth') ) {

@@ -20,10 +20,15 @@ if (mb_substr($_POST['content_id'], 0, 4) == 'temp') {
     $getparam = array(
         'id' => $_POST['content_id'],
         'user_id' => $engine->auth->user['id']
-    )
+    );
     $article = $engine->article->get($getparam);
     if ($article === false) {
         $error[] = 'ERROR_PHOTODEL_NOTOWNER';
+        echo json_encode(array('error' => $error));
+        die();
+    }
+    if ( !isset($_POST['photoId']) || (intval($_POST['photoId']) == 0) ) {
+        $error[] = 'ERROR_PHOTODEL_NOID';
         echo json_encode(array('error' => $error));
         die();
     }
