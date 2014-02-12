@@ -4,7 +4,7 @@ $(window).on('click', function(ev){
         var article = el.closest('[data-article_id]');
         $.ajax({
             type     : 'POST',
-            url      : '/_ajax/articlefav/',
+            url      : '/_ajax/article/fav/',
             data     : 'article_id=' + article.attr('data-article_id'),
             dataType : 'json',
             success  : function(json){

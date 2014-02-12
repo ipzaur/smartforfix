@@ -2,13 +2,8 @@
 .articleEdit_field {margin: 10px 0;}
 [class|="articleEdit_element"] {padding: 4px 8px;}
 .articleEdit_element-select {}
-.articleEdit_element-ta {
-    resize: vertical;
-    min-height: 300px;
-}
-.articleEdit_element-input {
-    
-}
+.articleEdit_element-ta {min-height: 300px;}
+.articleEdit_element-input {}
 
 .articleEdit_element-input[name="name"] {
     font-size: 20px;    

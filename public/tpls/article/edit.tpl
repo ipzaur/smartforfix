@@ -22,7 +22,7 @@
 
     <p class="articleEdit_field"><textarea class="articleEdit_element-ta" name="content">{article_edit.content_source:}</textarea></p>
 
-    <p class="articleEdit_field"><span class="articleEdit_upload fake_link">Загрузить фотографии<input class="articleEdit_uploader" name="upload[]" type="file" multiple></span></p>
+    <p class="articleEdit_field"><span class="articleEdit_upload fake_link">Загрузить фотографии<input class="articleEdit_uploader" name="upload[]" data-photo_action="upload" type="file" multiple></span></p>
     <div class="articleEdit_photos" data-article_elem="photos">
         {photos:}<div class="articleEdit_photo" data-photo_num="{_key:}"{if:(id:)} data-photo_id="{id:}"{:fi}><img class="articleEdit_photo_img" src="{^siteurl:}{path:}" data-photo_action="insert" title="Вставить фотографию в статью"><span class="fake_link-red" data-photo_action="delete">Удалить</span></div>{:photos}
     </div>

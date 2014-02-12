@@ -20,9 +20,9 @@ class iface_tpl
     public function loadTpl($tpl_name, $for_render = true, $var_keyname = false, $var_container = false)
     {
         $tpl_cachepath = $this->engine->config['sitepath'] . 'cache/tpls/' . str_replace('/', '=', $tpl_name) . '.php';
-        //if (!file_exists($tpl_cachepath)) {
+        if ( !file_exists($tpl_cachepath) || $this->engine->config['debug'] ) {
             $this->parseTpl($tpl_name, $tpl_cachepath, $var_keyname, $var_container);
-        //}
+        }
         if ( ($for_render === true) && (!isset($this->tplfile[$tpl_name])) ) {
             $this->tplfile[$tpl_name] = $tpl_cachepath;
         }

@@ -54,6 +54,7 @@ class iface_article extends iface_base_entity
     {
         if ( isset($saveparam['content_source']) && (mb_strlen($saveparam['content_source']) > 0) ) {
             $content = $saveparam['content_source'];
+            $content = preg_replace('~<script>(.*?)</script>~', '', $content);
             if ( isset($whereparam['id']) && ($whereparam['id'] > 0) ) {
                 $this->engine->loadIface('media');
                 $getparam = array(

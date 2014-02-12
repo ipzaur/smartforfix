@@ -1,26 +1,7 @@
-[class|="authLogin_link"] {
-    padding-left: 44px;
+.authLogin_link {
     margin-bottom: 6px;
-    border-radius: 3px;
-    font-size: 16px;
-    color: white !important;
-    background-repeat: no-repeat;
-    background-position: 10px center;
     display: block;
-    text-decoration: none;
-    height: 40px;
-    line-height: 40px;
 }
-.authLogin_link-vk {
-    background-color: #597DA3;
-    background-image: url('/pics/svg/social/vk.svg');
-}
-.authLogin_link-vk:hover {background-color: #4F6E8F;}
-.authLogin_link-fb {
-    background-color: #3B5998;
-    background-image: url('/pics/svg/social/fb.svg');
-}
-.authLogin_link-fb:hover {background-color: #324A80;}
 .authLogin_hint {
     text-align: center;
     margin-top: 15px;

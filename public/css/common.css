@@ -45,8 +45,30 @@ button {
     padding: 1px 7px 2px;
     color: #2A2F35;
     border-color: #585C65;
+    font-family: Roboto;
 }
-textarea {width: 100%;}
+input:not([type="checkbox"]):not([type="file"]), textarea {
+    margin: 10px 0;
+    border: 1px solid #D9D9D9;
+    width: 100%;
+    box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.2) inset;
+}
+input:not([type="checkbox"]):not([type="file"]) {
+    height: 45px;
+    font-size: 16px;
+    padding: 0 13px;
+}
+input[type="checkbox"] {
+    margin-right: 4px;
+    position: relative;
+    top: 1px;
+    vertical-align: baseline;
+}
+textarea {
+    padding: 9px 4px 4px 13px;
+    resize: vertical;
+    min-height: 136px;
+}
 
 /* фейкоссылки */
 .fake_link {

@@ -74,9 +74,10 @@ class iface_auth
                 );
                 $info = json_decode(file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($query))), true);
                 $info = $info['response'][0];
+                $auth_name = $info['first_name'] . ' ' . $info['last_name'];
 
                 $saveparam = array(
-                    'name'        => $info['first_name'] . ' ' . $info['last_name'],
+                    'name'        => $auth_name,
                     'login_date'  => date('Y-m-d H:i:s'),
                     'grants'      => 1
                 );
@@ -91,7 +92,7 @@ class iface_auth
                 
                 file_put_contents($this->engine->config['sitepath'] . $filepath, $avatar);
 
-                $query = 'INSERT INTO user_auth SET auth_type="vk", auth_id="' . $token['user_id'] . '", user_id='. intval($user_id);
+                $query = 'INSERT INTO user_auth SET auth_type="vk", auth_id="' . $token['user_id'] . '", auth_name="' . mysql_escape_string($auth_name) . '", user_id='. intval($user_id);
                 $this->engine->db->query($query);
             }
 
@@ -223,5 +224,25 @@ class iface_auth
             $saveparam = array('login_date' => date('Y-m-d H:i:s'));
             $this->engine->user->save($saveparam, $getparam);
         }
+    }
+
+    public function socialShow($social_type = null, $show = true)
+    {
+        if (!$this->user) {
+            return false;
+        }
+        $allow_types = array('vk', 'fb');
+        if (!$social_type || !in_array($social_type, $allow_types)) {
+            return false;
+        }
+        $query = 'SELECT * FROM user_auth WHERE user_id=' . $this->user['id'] . ' AND auth_type="' . $social_type . '"';
+        $has_auth = $this->engine->db->query($query);
+        if (!$has_auth) {
+            return false;
+        }
+        $query = 'UPDATE user_auth ua SET ua.show=' . intval($show) . ' WHERE ua.user_id=' . $this->user['id'] . ' AND ua.auth_type="' . $social_type . '"';
+        $this->engine->db->query($query);
+
+        return true;
     }
 }

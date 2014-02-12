@@ -56,12 +56,13 @@ $engine->loadIface('section');
 $sections = $engine->section->get(array('hidden' => 0));
 $engine->tpl->addvar('section', $sections);
 
-$engine->tpl->addvar('user', $engine->auth->user);
-
 if ( isset($engine->url[0]) && ($engine->url[0] == 'article') ) {
     include 'pages/page_article.php';
+} else if ( isset($engine->url[0]) && ($engine->url[0] == 'profile') ) {
+    include 'pages/page_profile.php';
 } else {
     include 'pages/page_articleList.php';
 }
+$engine->tpl->addvar('user', $engine->auth->user);
 
 $engine->tpl->render();

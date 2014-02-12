@@ -1,5 +1,10 @@
 <?php
 $error = array();
+if ( !$engine->auth->user || !($engine->auth->user['grants'] & 1) ) {
+    $error[] = 'ERROR_UPLOAD_PERMISSION';
+    echo json_encode(array('error' => $error));
+    die();
+}
 if ( empty($_POST['content_id']) || empty($_FILES) ) {
     $error[] = 'ERROR_UPLOAD_NODATA';
     echo json_encode(array('error' => $error));
@@ -12,11 +17,7 @@ if (mb_substr($article_id, 0, 4) == 'temp') {
     $upload_type = 'upload';
 } else {
     $engine->loadIface('article');
-    if ( !$engine->auth->user || !($engine->auth->user['grants'] & 1) ) {
-        $error[] = 'ERROR_UPLOAD_PERMISSION';
-        echo json_encode(array('error' => $error));
-        die();
-    }
+
     $getparam = array(
         'id' => $article_id,
         'user_id' => $engine->auth->user['id']
@@ -63,4 +64,4 @@ foreach ($_FILES as $file) {
     $files[$id] = $engine->config['siteurl'] . $file_path . $file_name;
 }
 
-echo json_encode(array('error' => $error, 'files' => $files));
+echo json_encode(array('error' => $error, 'result' => $files));

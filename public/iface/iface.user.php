@@ -18,6 +18,9 @@ class iface_user extends iface_base_entity
         'name' => array('type' => 'string', 'pattern' => '^[А-Яа-яA-Za-z0-9\s]+$', 'notnull' => 1),
         'email' => array('type' => 'string'),
         'avatar' => array('type' => 'string'),
+        'about'  => array('type' => 'string'),
+        'link_d2'  => array('type' => 'string'),
+        'link_own'  => array('type' => 'string'),
         'grants' => array('type' => 'integer'),
         'info450' => array('type' => 'integer'),
         'info451' => array('type' => 'integer'),
@@ -30,6 +33,14 @@ class iface_user extends iface_base_entity
 
     public function __construct()
     {
+    }
+
+    protected function beforeSave(&$saveparam = array(), &$whereparam = array())
+    {
+        if ( isset($saveparam['about']) && (mb_strlen($saveparam['about']) > 0) ) {
+            $saveparam['about'] = preg_replace('~<script>(.*?)</script>~', '', $saveparam['about']);
+        }
+        return true;
     }
 
    /**
@@ -55,14 +66,49 @@ class iface_user extends iface_base_entity
 
         $this->engine->loadIface('file');
 
-        $dest = 'include/avatar/' . md5($id . $source . date('H:i:s')) . '.png';
-        $errors = $this->engine->file->saveImage($source, $this->engine->sitepath . $dest, 200, 200, true);
+        $dest = $this->engine->config['avatar_dir'] . $id . '_' . md5($source . date('H:i:s'));
+        $filename = $this->engine->file->saveImage($source, $this->engine->config['sitepath'] . $dest, 200, 200, true);
 
         if ($user['avatar'] != NULL) {
-            unlink($this->engine->sitepath . $user['avatar']);
+            unlink($this->engine->config['sitepath'] . $user['avatar']);
         }
 
-        $saveparam = array('avatar' => $dest);
+        $path = $this->engine->config['avatar_dir'] . $filename;
+        $saveparam = array('avatar' => $path);
         $this->save($saveparam, $getparam);
+
+        return $path;
+    }
+
+    /**
+     * Дополнительная функция по выборке юзеров
+     * @param array users - результат выборки. в процессе вернётся изменённый массив с ссылками на соц.профили
+     */
+    protected function getAfter(&$users = array())
+    {
+        $single = isset($users['id']);
+        if ($single) {
+            $users = array($users);
+        }
+
+        foreach ($users as &$user) {
+            $query = 'SELECT * FROM user_auth WHERE user_id=' . $user['id'];
+            $socials = $this->engine->db->query($query);
+            if ($socials === false) {
+                continue;
+            }
+            $user['social'] = array();
+            foreach ($socials as $social) {
+                $user['social'][$social['auth_type']] = array(
+                    'id'   => $social['auth_id'],
+                    'name' => $social['auth_name'],
+                    'show' => $social['show']
+                );
+            }
+        }
+
+        if ($single) {
+            $users = $users[0];
+        }
     }
 }

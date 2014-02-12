@@ -46,7 +46,7 @@
 
         $.ajax({
             type     : 'POST',
-            url      : '/_ajax/articlesave/',
+            url      : '/_ajax/article/save/',
             data     : postData,
             dataType : 'json',
             success  : function(json){
@@ -71,31 +71,10 @@
     },
 
     'upload' : function(ev) {
-        ev.stopPropagation(); // Stop stuff happening
-        ev.preventDefault(); // Totally stop stuff happening
-
-        // START A LOADING SPINNER HERE
-
-        // Create a formdata object and add the files
-        var data = new FormData();
-        data.append('content_id', articleEdit.content_id);
-        $.each(ev.target.files, function(key, value) {
-            data.append(key, value);
-        });
-
-        $.ajax({
-            url: SITEURL + '_ajax/upload/',
-            type: 'POST',
-            data: data,
-            cache: false,
-            dataType: 'json',
-            processData: false, // Don't process the files
-            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-            success: function(json, textStatus, jqXHR) {
-                if (json.error.length > 0) {
-                    return false;
-                }
-                var files = json.files;
+        uploader.do(ev, {
+            'url' : SITEURL + '_ajax/article/upload/',
+            'otherData' : {'content_id':articleEdit.content_id},
+            'done' : function(files) {
                 var last_num = articleEdit.tag.photos.find('.articleEdit_photo').length;
                 for (var i in files) if (files.hasOwnProperty(i)){
                     last_num++;
@@ -113,11 +92,6 @@
                     $('<span />').addClass('fake_link-red').text('Удалить').attr('data-photo_action', 'delete').appendTo(photo);
                     photo.appendTo(articleEdit.tag.photos);
                 }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Handle errors here
-                console.log('ERRORS: ' + textStatus);
-                // STOP LOADING SPINNER
             }
         });
     },
@@ -141,7 +115,7 @@
 
         $.ajax({
             type     : 'POST',
-            url      : SITEURL + '_ajax/photodel/',
+            url      : SITEURL + '_ajax/article/photodel/',
             data     : postData,
             dataType : 'json',
             success  : function(json){
@@ -205,7 +179,7 @@
             },
             'change' : function(ev){
                 var el = $(ev.target);
-                if (el.is('[type="file"]')) {
+                if (el.is('[data-photo_action="upload"]')) {
                     articleEdit.upload(ev);
                 } else if (el.is('[name]')) {
                     switch (el.attr('name')) {
