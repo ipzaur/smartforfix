@@ -11,8 +11,12 @@
         </div>
 
         <div class="profile_block" data-label="Авторизация">
-            <div class="profile_social" data-label="Через Вконтакте"><span class="profile_social_name">Сильвестр Селиванов</span> <label class="profile_social_show"><input name="social[vk]" type="checkbox" value="1"> Отображать в профиле</label></div>
-            <div class="profile_social" data-label="Через Фейсбук"><a class="socialButton-fb profile_auth" href="">Связать с Фейсбуком</a></div>
+            {profile.social:}
+                <div class="profile_social" data-label="{text:}">
+                    {if:(url)}<a class="socialButton-{_key:} profile_auth" href="{url:}">{link_text:}</a>
+                    {else:}<span class="profile_social_name">{name:}</span> <label class="profile_social_show"><input name="social[{_key:}]" type="checkbox" value="1"{if:(show:=1)} checked{:fi}> Отображать в профиле</label>{:fi}
+                </div>
+            {:profile.social}
         </div>
 
         <div class="profile_block" data-label="Дополнительные ссылки">

@@ -191,9 +191,12 @@ class iface_tpl
                     $array_content = mb_substr($content, 0, $pos_array);
                     $pos_end = $pos_array + mb_strlen('{:' . $var_name . '}');
                     $content = mb_substr($content, $pos_end);
-                    $result .= "if ( isset(\$" . $var_container . "['" . $var_name . "']) && is_array(\$" . $var_container . "['" . $var_name . "']) ) {\n";
-                    $result .= "foreach (\$" . $var_container . "['" . $var_name . "'] AS \$" . $var_name . "_key=>\$" . $var_name . "_value) {\n";
-                    $result .= $this->parseContent($array_content, $var_name . '_key', $var_name . '_value');
+                    $key_name = str_replace('.', '_', $var_name) . '_key';
+                    $value_name = str_replace('.', '_', $var_name) . '_value';
+                    $var_name = $this->generateVar($var_name, $var_keyname, $var_container);
+                    $result .= "if ( isset(" . $var_name . ") && is_array(" . $var_name . ") ) {\n";
+                    $result .= "foreach (" . $var_name . " AS \$" . $key_name . "=>\$" . $value_name . ") {\n";
+                    $result .= $this->parseContent($array_content, $key_name, $value_name);
                     $result .= "}\n";
                     $result .= "}\n";
 

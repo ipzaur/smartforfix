@@ -15,4 +15,17 @@ if (!empty($_POST)) {
     $engine->auth->refresh();
 }
 
-$engine->tpl->addvar('profile', true);
+$profile = array(
+    'social' => array('vk' => array('title'=>'Вконтакте'))
+);
+foreach ($profile['social'] as $social_name=>&$social) {
+    $social['text'] = 'Через ' . $social['title'];
+    if (!isset($engine->auth->user['social'][$social_name])) {
+        $social['url'] = $engine->auth->getAuthLink($social_name);
+        $social['link_text'] = 'Связать с ' . $social['title'];
+    } else {
+        $social = $social + $engine->auth->user['social'][$social_name];
+    }
+}
+
+$engine->tpl->addvar('profile', $profile);
