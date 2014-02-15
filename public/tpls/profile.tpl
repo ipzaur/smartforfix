@@ -27,7 +27,7 @@
 
     <div class="profile_footer">
         <div class="content profile_block">
-            <button class="profile_save">Сохранить изменения</button> <span class="profile_errors">Пожалуйста, <span class="profile_error">укажите имя</span>
+            <button class="profile_save">Сохранить изменения</button><!-- span class="profile_errors h">Пожалуйста, <span class="profile_error">укажите имя</span -->
         </div>
     </div>
 </form>
