@@ -5,7 +5,7 @@ var lightbox = {
         'back'    : false,
         'content' : false
     },
-    'show' : function(content) {
+    'show' : function(content, callback) {
         var maxHeight = $(document).height();
         lightbox.tag.area = $('<div />').addClass('lightbox_area').attr('data-lb_action','close').appendTo($('body'));
         lightbox.tag.back = $('<div />').addClass('lightbox_back').attr('data-lb_action','close').appendTo($(lightbox.tag.area));
@@ -29,6 +29,9 @@ var lightbox = {
         lightbox.tag.area.on('click', function(ev){
             var el = $(ev.target);
             if (el.is('[data-lb_action="close"]')) {
+                if (callback) {
+                    callback();
+                }
                 lightbox.close();
             }
         });

@@ -5,7 +5,7 @@
 
     <div class="article_author">
         <img class="article_author_ava" src="{siteurl:}{article.user.avatar:}">
-        <p class="article_author_name"><a>{article.user.name:}</a></p>
+        <p class="article_author_name"><a data-user_action="show" data-user_id="{article.user.id:}">{article.user.name:}</a></p>
         <p class="artictle_type">перевод</p>
     </div>
 
@@ -16,3 +16,6 @@
     <div class="article_actions">{+fav:}<!--button class="toprint">Распечатать</button--></div>
     <!-- div class="article_tags">Тэги: <a class="tag" href="">самара</a> <a class="tag" href="">Струковский</a> <a class="tag" href="">история</a></div -->
 </div>
+<script type="text/javascript">
+    var userList = {JS_userList:};
+</script>

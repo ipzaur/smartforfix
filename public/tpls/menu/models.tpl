@@ -6,6 +6,6 @@
     <div class="menu_items">
         {menu_model:}<input class="menu_model_cb" id="model{_key:}" type="checkbox" data-model_id="{_key:}" data-models_action="show"{if:(show:=1)} checked{:fi}><label for="model{_key:}" class="menu_model-{_key:}" title="{name:}"></label>{:menu_model}
 
-        <a class="menu_test" href="/model_test/">Как узнать модель?</a>
+        <!-- a class="menu_test" href="/model_test/">Как узнать модель?</a -->
     </div>
 </div>

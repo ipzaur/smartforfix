@@ -2,7 +2,7 @@
     {article_list:}
         <div class="articleList_item clearable-after" data-article_id="{id:}" data-is_fav="{isfav:}">
             <div class="articleList_stat">
-                <a class="articleList_author">{user.name:}</a>
+                <a class="articleList_author" data-user_action="show" data-user_id="{user.id:}">{user.name:}</a>
                 <!-- p class="articleList_comments">36</p -->
             </div>
             {if:(thumb)}<a class="articleList_photo" href="{^siteurl:}article/{url:}/"><img src="{^siteurl:}_r/180x130/{thumb.path:}"></a>{:fi}
@@ -13,4 +13,8 @@
         </div>
     {:article_list}
 </div>
+
+<script type="text/javascript">
+    var userList = {JS_userList:};
+</script>
 {if:(pages)}{+paginator:}{:fi}

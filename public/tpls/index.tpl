@@ -40,8 +40,8 @@
 
         <footer class="foot">
             <div class="content">
-                <p class="foot_copy">SmartForFix, 2013</p>
-                <p class="foot_links"><a href="">О проекте</a></p>
+                <p class="foot_copy">SmartForFix, 2014</p>
+                <!-- p class="foot_links"><a href="">О проекте</a></p -->
             </div>
         </footer>
     {:fi}

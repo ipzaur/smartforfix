@@ -15,13 +15,19 @@ if ($allmodels == true) {
 }
 
 $cur_section = false;
+$pages_section = false;
 if ( isset($engine->url[0]) && is_string($engine->url[0]) ) {
     if ($engine->url[0] == 'fav') {
         $getparam['favuser'] = $engine->auth->user['id'];
+        $pages_section = 'fav';
+    } else if (mb_substr($engine->url[0], 0, 2) == 'by') {
+        $getparam['user_id'] = str_replace('by', '', $engine->url[0]);
+        $pages_section = $engine->url[0];
     } else {
         foreach ($sections as $section) {
             if ($section['url'] == $engine->url[0]) {
                 $cur_section = $section;
+                $pages_section = $cur_section['url'];
                 break;
             }
         }
@@ -47,7 +53,7 @@ if ($articles_count > $articles_per_page) {
     $max_page = ceil($articles_count / $articles_per_page);
     $engine->tpl->addvar('max_page', $max_page);
     for ($page=1; $page<=$max_page; $page++) {
-        $url = ($cur_section !== false) ? $cur_section['url'] . '/' : '';
+        $url = ($pages_section !== false) ? $pages_section . '/' : '';
         $pages[$page] = $url . ($page > 1 ? $page . '/' : '');
     }
     if ($cur_page > 1) {
@@ -62,3 +68,13 @@ $engine->tpl->addvar('cur_page', $cur_page);
 
 $article_list = $engine->article->get($getparam, array('create_date' => 'desc'), false, $articles_per_page, $cur_page);
 $engine->tpl->addvar('article_list', $article_list);
+
+// список юзеров-авторов для клика по ним
+$userList = array();
+foreach ($article_list as $article) {
+    if (isset($userList[$article['user']['id']])) {
+        continue;
+    }
+    $userList[$article['user']['id']] = $engine->user->shortInfo($article['user']);
+}
+$engine->tpl->addvar('JS_userList', json_encode($userList));

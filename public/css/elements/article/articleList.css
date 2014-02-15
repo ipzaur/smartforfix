@@ -15,6 +15,7 @@
 }
 .articleList_author {
     font-size: 13px;
+    cursor: pointer;
 }
 .articleList_comments {
     font-size: 13px;

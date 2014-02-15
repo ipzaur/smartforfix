@@ -35,6 +35,20 @@ class iface_user extends iface_base_entity
     {
     }
 
+    public function shortInfo($user)
+    {
+        $result = array(
+            'id'       => $user['id'],
+            'name'     => $user['name'],
+            'avatar'   => $this->engine->config['siteurl'] . $user['avatar'],
+            'about'    => $user['about'],
+            'link_d2'  => $user['link_d2'],
+            'link_own' => $user['link_own'],
+            'link_vk'  => ( isset($user['social']['vk']) && $user['social']['vk']['show'] ) ? 'https://vk.com/id' . $user['social']['vk']['id'] . '/' : false
+        );
+        return $result;
+    }
+
     protected function beforeSave(&$saveparam = array(), &$whereparam = array())
     {
         if ( isset($saveparam['about']) && (mb_strlen($saveparam['about']) > 0) ) {
