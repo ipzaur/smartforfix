@@ -29,9 +29,8 @@ a {
 a:hover {color: #0096CE;}
 h1 {
     font-weight: 500;
-    font-size: 45px;
-    line-height: 54px;
-    margin: 9px 0 0;
+    font-size: 35px;
+    margin: 0;
 }
 h2 {font-size: 28px;}
 .h {display: none;}
@@ -56,22 +55,33 @@ button {
     border-color: #585C65;
     font-family: Roboto;
 }
-input:not([type="checkbox"]):not([type="file"]), textarea {
-    margin: 10px 0;
+input, textarea, select {
     border: 1px solid #D9D9D9;
-    width: 100%;
     box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.2) inset;
 }
-input:not([type="checkbox"]):not([type="file"]) {
+input, textarea {
+    margin: 10px 0;
+    width: 100%;
+}
+input {
     height: 45px;
     font-size: 16px;
     padding: 0 13px;
 }
 input[type="checkbox"] {
-    margin-right: 4px;
+    width: auto;
+    height: auto;
+    margin: 0 4px 0 0;
     position: relative;
     top: 1px;
     vertical-align: baseline;
+}
+input[type="file"] {
+    height: auto;
+    padding: auto;
+    box-shadow: none;
+    width: auto;
+    margin: 0;
 }
 textarea {
     padding: 9px 4px 4px 13px;

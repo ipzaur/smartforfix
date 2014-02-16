@@ -151,6 +151,9 @@
 
         return !disabled;
     },
+    'changeType' : function(typeId) {
+        articleEdit.tag.elem.ext_link.prop( 'disabled', (typeId <= 0) );
+    },
     'init' : function() {
         var elems = articleEdit.tag.elem;
         for (var elemName in elems) if (elems.hasOwnProperty(elemName)) {
@@ -183,10 +186,7 @@
                     articleEdit.upload(ev);
                 } else if (el.is('[name]')) {
                     switch (el.attr('name')) {
-                        case 'type' :
-                            elems.ext_link.toggleClass( 'h', (el.val() == 0) );
-                            elems.ext_link.prop( 'disabled', (el.val() == 0) );
-                            break;
+                        case 'type' : articleEdit.changeType(el.val()); break;
                     }
                     articleEdit.check();
                 }

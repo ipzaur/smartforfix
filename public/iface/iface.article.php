@@ -36,7 +36,7 @@ class iface_article extends iface_base_entity
         'name' => array('type' => 'string', 'notnull' => 1),
         'url' => array('type' => 'string', 'notnull' => 1),
         'type' => array('type' => 'integer',),
-        'section_id' => array('type' => 'integer',),
+        'section_id' => array('type' => 'integer', 'notnull' => 0),
         'content_source' => array('type' => 'string', 'notnull' => 1),
         'content' => array('type' => 'string', 'notnull' => 1),
         'ext_link' => array('type' => 'string', 'notnull' => 0),

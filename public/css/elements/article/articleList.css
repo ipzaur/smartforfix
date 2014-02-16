@@ -1,16 +1,20 @@
 /*
  * Список статей
  */
-.articleList {
-    padding: 10px 0;
-}
+.articleList_h1 {margin: 28px 20px 0;}
+.articleList {padding: 10px 0;}
 .articleList_item {
     border-bottom: 1px solid #eeeeef;
     padding: 16px 10px 16px 20px;
 }
+.articleList_section {
+    font-size: 14px;
+    margin-top: 5px;
+}
+.articleList_sectionLink {color: #8B919F;}
+.articleList_sectionLink:hover {color: #6BBBD5;}
 .articleList_stat {
     float: right;
-    margin-top: 24px;
     width: 110px;
 }
 .articleList_author {
@@ -30,19 +34,14 @@
     width: 180px;
     font-size: 0;
 }
-.articleList_photo + .articleList_info {margin-left: 208px;}
+.articleList_photo ~ .articleList_info, .articleList_photo ~ .articleList_section {margin-left: 208px;}
 .articleList_info {
     margin-right: 140px;
+    margin-top: 2px;
 }
-.articleList_section {
-    font-size: 14px;
-    color: #8B919F;
-    margin-top: 5px;
-    display: inline-block;
-}
-.articleList_section:hover {color: #6BBBD5;}
 .articleList_name {
     line-height: 34px;
+    font-weight: 300;
 }
 
 .articleList_item[data-is_fav="0"]:not(:hover) .fav {display: none;}

@@ -15,6 +15,11 @@ var editor = {
                     'a'   : false
                 }
             },
+            'butName' : {
+                'b' : 'Жирный',
+                'i' : 'Курсив',
+                'a' : 'Ссылка'
+            },
             'insertImg' : function(src, title) {
                 if (!src) {
                     return false;
@@ -74,22 +79,21 @@ var editor = {
             'init' : function(textarea) {
                 instance.tag.area = textarea;
                 var buttons = $('<div />').addClass('editor_buttons');
-                for (var butName in instance.tag.button) if (instance.tag.button.hasOwnProperty(butName)) {
-                    instance.tag.button[butName] = $('<button />')
-                        .addClass('editor_button')
-                        .attr({'editor-action':butName, 'type':'button'})
-                        .text(butName)
+                for (var butLabel in instance.tag.button) if (instance.tag.button.hasOwnProperty(butLabel)) {
+                    instance.tag.button[butLabel] = $('<button />')
+                        .addClass('editor_button-' + butLabel)
+                        .attr({'editor-action':butLabel, 'type':'button'})
+                        .text(instance.butName[butLabel])
                         .appendTo(buttons);
                 }
                 buttons.appendTo(instance.tag.main);
 
                 instance.tag.main.appendTo(instance.tag.area.parent());
-                instance.tag.area.appendTo(instance.tag.main);
+                instance.tag.area.addClass('editor_ta').appendTo(instance.tag.main);
 
                 instance.tag.main.on('click', function(ev){
                     var el = $(ev.target);
                     if (el.is('[editor-action]')) {
-
                         switch (el.attr('editor-action')) {
                             case 'b' :
                             case 'i' : instance.insertPair(el.attr('editor-action')); break;

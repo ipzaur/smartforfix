@@ -1,7 +1,7 @@
 <div class="article" data-is_fav="{article.isfav:}" data-article_id="{article.id:}">
-    <p class="breads"><a class="bread" href="{siteurl:}">Главная</a><a class="bread" href="{siteurl:}{article.section.url:}/">{article.section.name:}</a></p>
+    <p class="breads"><a class="bread" href="{siteurl:}">Главная</a>{if:(article.section_id:>0)}<a class="bread" href="{siteurl:}{article.section.url:}/">{article.section.name:}</a>{:fi}</p>
 
-    <h1>{article.name:}</h1>
+    <h1 class="article_name">{article.name:}</h1>
 
     <div class="article_author">
         <img class="article_author_ava" src="{siteurl:}{article.user.avatar:}">

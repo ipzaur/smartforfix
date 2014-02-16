@@ -1,0 +1,26 @@
+.form_footer {
+    background-color: #F5F5F5;
+    height: 120px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: 120px;
+}
+.form_save {
+    height: 50px;
+    padding: 0 62px;
+    border-color: #00AEEF;
+    color: #00AEEF;
+    font-size: 18px;
+    vertical-align: middle;
+}
+.form_save:hover {
+    color: white;
+    background-color: #00AEEF;
+}
+.form_save:disabled {
+    color: #CDCDCD;
+    border-color: #CDCDCD;
+    background-color: transparent;
+}

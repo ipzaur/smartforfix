@@ -24,26 +24,25 @@
     {if:(profile)}
         {+profile:}
     {else:}
-        <article class="content">
-            {if:(article_list)}
-                {+article/list:}
-            {else:}
-                {if:(article)}
-                    {+article/show:}
+        {if:(article_edit)}
+            {+article/edit:}
+        {else:}
+            <article class="content">
+                {if:(article_list)}
+                    {+article/list:}
                 {else:}
-                    {if:(article_edit)}
-                        {+article/edit:}
+                    {if:(article)}
+                        {+article/show:}
                     {:fi}
                 {:fi}
-            {:fi}
-        </article>
-
-        <footer class="foot">
-            <div class="content">
-                <p class="foot_copy">SmartForFix, 2014</p>
-                <!-- p class="foot_links"><a href="">О проекте</a></p -->
-            </div>
-        </footer>
+            </article>
+            <footer class="foot">
+                <div class="content">
+                    <p class="foot_copy">SmartForFix, 2014</p>
+                    <!-- p class="foot_links"><a href="">О проекте</a></p -->
+                </div>
+            </footer>
+        {:fi}
     {:fi}
     <script type="text/javascript" src="{siteurl:}js/s4fx.js" defer="defer"></script>
 </body>
