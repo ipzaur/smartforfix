@@ -2,7 +2,7 @@
 $engine->loadIface('article');
 if (isset($engine->url[1])) {
     if ($engine->url[1] == '_edit') {
-        if ( !$engine->auth->user || !($engine->auth->user['grants'] & 1) ) {
+        if ( !$engine->auth->user || !($engine->auth->user['grants'] & 2) ) {
             die();
         }
 

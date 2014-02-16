@@ -45,7 +45,7 @@ class iface_menu_model
 
     public function saveMenu($modelsStatus = false)
     {
-        $result = $this->getMenu($this->engine->auth->user);
+        $result = $this->getMenu();
 
         $saveparam = array();
         foreach ($result AS $model=>&$menu) {

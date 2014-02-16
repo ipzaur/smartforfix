@@ -1,6 +1,4 @@
 <?php
-$debug = true;
-
 mb_language("ru");
 mb_internal_encoding("UTF-8");
 header("Content-type: text/css; charset=utf-8");
@@ -8,7 +6,7 @@ require_once '../config.php';
 require_once 'iface/iface.core.php';
 $engine = new iface_core();
 
-if ( ($debug == true) || !file_exists('css/s4fx.css') ) {
+if ( !file_exists('css/s4fx.css') || $engine->config['debug'] ) {
     $before = array('common.css');
 
     function grabDir($path)

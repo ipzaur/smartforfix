@@ -219,8 +219,10 @@ class iface_article extends iface_base_entity
     {
         $this->engine->loadIface('section');
         $sections = $this->engine->section->get(array('hidden' => 0));
-        foreach ($sections as $section) {
-            $this->sectionCache[$section['id']] = $section;
+        if ($sections !== false) {
+            foreach ($sections as $section) {
+                $this->sectionCache[$section['id']] = $section;
+            }
         }
     }
 }

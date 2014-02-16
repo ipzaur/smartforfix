@@ -40,41 +40,42 @@ if ( isset($engine->url[0]) && is_string($engine->url[0]) ) {
 $getparam['hidden'] = 0;
 
 $articles_count = $engine->article->getCount($getparam);
+if ($articles_count > 0) {
+    $articles_per_page = 10;
 
-$articles_per_page = 10;
+    $cur_page = 1;
+    if ($articles_count > $articles_per_page) {
+        if ( isset($engine->url[0]) && ctype_digit($engine->url[0]) ) {
+            $cur_page = $engine->url[0];
+        } else if ( isset($engine->url[1]) && ctype_digit($engine->url[1]) ) {
+            $cur_page = $engine->url[1];
+        }
+        $max_page = ceil($articles_count / $articles_per_page);
+        $engine->tpl->addvar('max_page', $max_page);
+        for ($page=1; $page<=$max_page; $page++) {
+            $url = ($pages_section !== false) ? $pages_section . '/' : '';
+            $pages[$page] = $url . ($page > 1 ? $page . '/' : '');
+        }
+        if ($cur_page > 1) {
+            $engine->tpl->addvar('prev_page', $pages[$cur_page - 1]);
+        }
+        if ($cur_page < $max_page) {
+            $engine->tpl->addvar('next_page', $pages[$cur_page + 1]);
+        }
+        $engine->tpl->addvar('pages', $pages);
+    }
+    $engine->tpl->addvar('cur_page', $cur_page);
 
-$cur_page = 1;
-if ($articles_count > $articles_per_page) {
-    if ( isset($engine->url[0]) && ctype_digit($engine->url[0]) ) {
-        $cur_page = $engine->url[0];
-    } else if ( isset($engine->url[1]) && ctype_digit($engine->url[1]) ) {
-        $cur_page = $engine->url[1];
+    $article_list = $engine->article->get($getparam, array('create_date' => 'desc'), false, $articles_per_page, $cur_page);
+    $engine->tpl->addvar('article_list', $article_list);
+
+    // список юзеров-авторов для клика по ним
+    $userList = array();
+    foreach ($article_list as $article) {
+        if (isset($userList[$article['user']['id']])) {
+            continue;
+        }
+        $userList[$article['user']['id']] = $engine->user->shortInfo($article['user']);
     }
-    $max_page = ceil($articles_count / $articles_per_page);
-    $engine->tpl->addvar('max_page', $max_page);
-    for ($page=1; $page<=$max_page; $page++) {
-        $url = ($pages_section !== false) ? $pages_section . '/' : '';
-        $pages[$page] = $url . ($page > 1 ? $page . '/' : '');
-    }
-    if ($cur_page > 1) {
-        $engine->tpl->addvar('prev_page', $pages[$cur_page - 1]);
-    }
-    if ($cur_page < $max_page) {
-        $engine->tpl->addvar('next_page', $pages[$cur_page + 1]);
-    }
-    $engine->tpl->addvar('pages', $pages);
+    $engine->tpl->addvar('JS_userList', json_encode($userList));
 }
-$engine->tpl->addvar('cur_page', $cur_page);
-
-$article_list = $engine->article->get($getparam, array('create_date' => 'desc'), false, $articles_per_page, $cur_page);
-$engine->tpl->addvar('article_list', $article_list);
-
-// список юзеров-авторов для клика по ним
-$userList = array();
-foreach ($article_list as $article) {
-    if (isset($userList[$article['user']['id']])) {
-        continue;
-    }
-    $userList[$article['user']['id']] = $engine->user->shortInfo($article['user']);
-}
-$engine->tpl->addvar('JS_userList', json_encode($userList));

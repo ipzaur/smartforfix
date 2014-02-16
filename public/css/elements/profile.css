@@ -96,7 +96,10 @@
 .profile_footer {
     background-color: #F5F5F5;
     height: 120px;
-    margin-top: 46px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 .profile_footer .profile_block {
     padding-top: 32px;
@@ -109,6 +112,15 @@
     color: #00AEEF;
     font-size: 18px;
     vertical-align: middle;
+}
+.profile_save:hover {
+    color: white;
+    background-color: #00AEEF;
+}
+.profile_save:disabled {
+    color: #CDCDCD;
+    border-color: #CDCDCD;
+    background-color: transparent;
 }
 .profile_errors {
     vertical-align: middle;

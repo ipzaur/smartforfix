@@ -1,13 +1,11 @@
 <?php
-$debug = true;
-
 mb_language("ru");
 mb_internal_encoding("UTF-8");
 require_once '../config.php';
 require_once 'iface/iface.core.php';
 $engine = new iface_core();
 
-if ( ($debug == true) || !file_exists('js/s4fx.js') ) {
+if ( !file_exists('js/s4fx.js') || $engine->config['debug'] ) {
     $before = array('jquery203.js', 'lightbox.js', 'editor.js');
 
     function grabDir($path)
