@@ -38,12 +38,10 @@ class iface_tpl
      */
     public function addVar($var_name, $var_value)
     {
-        if (!isset($this->tplvar[$var_name])) {
-            if (is_array($var_value)) {
-                $this->tplvar[$var_name] = &$var_value;
-            } else {
-                $this->tplvar[$var_name] = $var_value;
-            }
+        if (is_array($var_value)) {
+            $this->tplvar[$var_name] = &$var_value;
+        } else {
+            $this->tplvar[$var_name] = $var_value;
         }
     }
 

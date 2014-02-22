@@ -45,16 +45,16 @@ if ($engine->auth->user['id'] == 0) {
             'text' => 'через Вконтакте'
         )
     );
-    $engine->tpl->addvar('auth_link', $auth_link);
+    $engine->tpl->addVar('auth_link', $auth_link);
 }
 
 $engine->loadIface('menu_model');
 $menu_models = $engine->menu_model->getMenu();
-$engine->tpl->addvar('menu_model', $menu_models);
+$engine->tpl->addVar('menu_model', $menu_models);
 
 $engine->loadIface('section');
 $sections = $engine->section->get(array('hidden' => 0));
-$engine->tpl->addvar('section', $sections);
+$engine->tpl->addVar('section', $sections);
 
 if ( isset($engine->url[0]) && ($engine->url[0] == 'article') ) {
     include 'pages/page_article.php';
@@ -63,6 +63,6 @@ if ( isset($engine->url[0]) && ($engine->url[0] == 'article') ) {
 } else {
     include 'pages/page_articleList.php';
 }
-$engine->tpl->addvar('user', $engine->auth->user);
+$engine->tpl->addVar('user', $engine->auth->user);
 
 $engine->tpl->render();
