@@ -1,6 +1,6 @@
-/public/js/s4fx.js
-/public/css/s4fx.css
-/public/cache/
-/public/include/
-/public/_r/
+/www/js/s4fx.js
+/www/css/s4fx.css
+/www/cache/tpls/*
+/www/include/articles/*
+/www/_r/
 config.php

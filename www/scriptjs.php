@@ -6,7 +6,7 @@ require_once 'iface/iface.core.php';
 $engine = new iface_core();
 
 if ( !file_exists('js/s4fx.js') || $engine->config['debug'] ) {
-    $before = array('jquery203.js', 'lightbox.js', 'editor.js');
+    $before = array('js/jquery203.js', 'js/lightbox.js', 'js/editor.js');
 
     function grabDir($path)
     {
@@ -41,8 +41,8 @@ if ( !file_exists('js/s4fx.js') || $engine->config['debug'] ) {
     fwrite($result, "window.setTimeout(function(){");
     fwrite($result, "var SITEURL = '" . $engine->config['siteurl'] . "';");
     foreach ($before as $file) {
-        if (file_exists('js/' . $file)) {
-            fwrite($result, file_get_contents('js/' . $file));
+        if (file_exists($file)) {
+            fwrite($result, file_get_contents($file));
         }
     }
     fwrite($result,  grabDir('js') . "\n");

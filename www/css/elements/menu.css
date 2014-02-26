@@ -60,11 +60,10 @@
 .menu_select {
     position: absolute;
     cursor: pointer;
-    left: 0;
-    width: 100%;
     top: 0;
     bottom: 0;
     opacity: 0;
+    z-index: 2;
 }
 
 /* выпадашка для немобилок */
@@ -174,12 +173,12 @@
 .menu_model-450:hover:before {background-position: 0 -44px;}
 /* 451 */
 .menu_model-451:before {
-    background-position: -262px -88px;
+    background-position: -264px -88px;
     width: 66px;
     height: 44px;
 }
-.menu_model_cb:checked + .menu_model-451:not(:hover):before {background-position: -262px 0;}
-.menu_model-451:hover:before {background-position: -262px -44px;}
+.menu_model_cb:checked + .menu_model-451:not(:hover):before {background-position: -264px 0;}
+.menu_model-451:hover:before {background-position: -264px -44px;}
 /* 454 */
 .menu_model-454:before {
     background-position: -65px -88px;

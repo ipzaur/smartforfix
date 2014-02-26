@@ -7,7 +7,7 @@ require_once 'iface/iface.core.php';
 $engine = new iface_core();
 
 if ( !file_exists('css/s4fx.css') || $engine->config['debug'] ) {
-    $before = array('common.css');
+    $before = array('css/common.css');
 
     function grabDir($path)
     {
@@ -40,8 +40,8 @@ if ( !file_exists('css/s4fx.css') || $engine->config['debug'] ) {
 
     $result = fopen('css/s4fx.css', 'w');
     foreach ($before as $file) {
-        if (file_exists('css/' . $file)) {
-            fwrite($result, file_get_contents('css/' . $file));
+        if (file_exists($file)) {
+            fwrite($result, file_get_contents($file));
         }
     }
     fwrite($result,  grabDir('css') . "\n");
