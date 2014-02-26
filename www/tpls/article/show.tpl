@@ -16,6 +16,8 @@
     <div class="article_actions">{+fav:}<!--button class="toprint">Распечатать</button--></div>
     <!-- div class="article_tags">Тэги: <a class="tag" href="">самара</a> <a class="tag" href="">Струковский</a> <a class="tag" href="">история</a></div -->
 </div>
-<script type="text/javascript">
-    var userList = {JS_userList:};
-</script>
+{if:(JS_userList:)}
+    <script type="text/javascript">
+        var userList = {JS_userList:};
+    </script>
+{:fi}
