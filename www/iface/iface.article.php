@@ -63,6 +63,7 @@ class iface_article extends iface_base_entity
                 );
                 $photos = $this->engine->media->get($getparam);
                 if (count($photos) > 0) {
+                    $content = preg_replace('~(\s*)?(<img[^>]*>)(\s*)~su', '$2', $content);
                     if (preg_match_all('~<img.*?src="(\d+)".*?(title=".*?".*?|)>~su', $content, $articleImages, PREG_SET_ORDER) !== false) {
                         foreach ($articleImages as &$image) {
                             if (isset($photos[$image[1]-1])) {
@@ -87,7 +88,7 @@ class iface_article extends iface_base_entity
             } else {
                 $content = preg_replace('~<img[^>]*>~su', '', $content);
             }
-            $content = '<div class="article_p">' . str_replace(array("\r\n", "\n"), '</div><div class="article_p">', $content) . '</div>';
+            $content = '<p class="article_p">' . str_replace(array("\r\n", "\n"), '</p><p class="article_p">', $content) . '</p>';
             $saveparam['content'] = $content;
         }
         if (isset($saveparam['name'])) {
