@@ -88,7 +88,8 @@ class iface_article extends iface_base_entity
             } else {
                 $content = preg_replace('~<img[^>]*>~su', '', $content);
             }
-            $content = '<p class="article_p">' . str_replace(array("\r\n", "\n"), '</p><p class="article_p">', $content) . '</p>';
+            $content = str_replace(array("\r\n\r\n", "\n\n"), '</p><p class="article_p">', $content);
+            $content = '<p class="article_p">' . str_replace(array("\r\n", "\n"), '<br />', $content) . '</p>';
             $content = str_replace('<p class="article_p"></p>', '', $content);
             $saveparam['content'] = $content;
         }
