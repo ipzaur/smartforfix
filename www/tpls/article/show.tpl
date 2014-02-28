@@ -6,7 +6,7 @@
     <div class="article_author">
         <img class="article_author_ava" src="{siteurl:}{article.user.avatar:}">
         <p class="article_author_name"><a data-user_action="show" data-user_id="{article.user.id:}">{article.user.name:}</a></p>
-        <p class="artictle_type">перевод</p>
+        <p class="artictle_type">{if:(article.type:=0)}автор{else:}{if:(article.type:=1)}перевод{else:}перепечатка{:fi}{:fi}</p>
     </div>
 
     <div class="article_content">{article.content:}
