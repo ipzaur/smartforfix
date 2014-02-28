@@ -61,7 +61,7 @@ class iface_file
                 if ($crop == true) {
                     $orig['height'] = $orig['width'] / $image['ratio'];
                 } else {
-                    $image['width'] = $image['height'] / $orig['ratio'];
+                    $image['width'] = $image['height'] * $orig['ratio'];
                 }
             } else if ($image['ratio'] < $orig['ratio']) {
                 if ($crop == true) {
