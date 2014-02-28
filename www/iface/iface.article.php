@@ -68,7 +68,7 @@ class iface_article extends iface_base_entity
                         foreach ($articleImages as &$image) {
                             if (isset($photos[$image[1]-1])) {
                                 $imgsrc = $this->engine->config['siteurl'] . $photos[$image[1]-1]['path'];
-                                $tag = '</p><div class="article_photo"><a href="' . $imgsrc . '" target="_blank"><img class="article_img" src="' . $imgsrc . '"></a><p class="article_p">';
+                                $tag = '<div class="article_photo"><a href="' . $imgsrc . '" target="_blank"><img class="article_img" src="' . $imgsrc . '"></a>';
                                 if (!empty($image[2])) {
                                     $title = preg_replace('~title="(.*?)"~su', '$1', $image[2]);
                                     if ($title != '') {
@@ -76,7 +76,7 @@ class iface_article extends iface_base_entity
                                     }
                                 }
                                 $tag .= '</div>';
-                                $content = str_replace($image[0], $tag, $content);
+                                $content = str_replace($image[0], '</p>' . $tag . '<p class="article_p">', $content);
                             } else {
                                 $content = str_replace($image[0], '', $content);
                             }
