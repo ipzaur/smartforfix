@@ -2,5 +2,7 @@
 /www/css/s4fx.css
 /www/cache/tpls/*
 /www/include/articles/*
+/www/include/avatar/*
+/www/include/upload/*
 /www/_r/
 config.php

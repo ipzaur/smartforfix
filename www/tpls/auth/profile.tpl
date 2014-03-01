@@ -3,7 +3,7 @@
     <span class="auth_name">{user.name:}</span>
     <div class="bubble-grey" data-auth="menu">
         <a class="authProfile_link" href="/profile/">Профиль</a>
-        {if:(user.grants>1)}
+        {if:(user.grants:>1)}
             <a class="authProfile_link" href="/article/_edit/">Добавить статью</a>
             <a class="authProfile_link" href="/by{user.id:}/">Мои статьи</a>
         {:fi}
