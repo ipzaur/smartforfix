@@ -1,5 +1,5 @@
 <div class="article" data-is_fav="{article.isfav:}" data-article_id="{article.id:}">
-    <p class="breads"><a class="bread" href="{siteurl:}">Главная</a>{if:(article.section_id:>0)}<a class="bread" href="{siteurl:}{article.section.url:}/">{article.section.name:}</a>{:fi}</p>
+    <p class="breads"><a class="bread" href="{siteurl:}">Главная</a>{if:(article.section_id:>0)}<a class="bread" href="{siteurl:}{article.section.url:}/">{article.section.name:}</a>{:fi}{if:(user.grants:>1)}<a class="bread">#{article.id:}</a>{:fi}</p>
 
     <h1 class="article_name">{article.name:}</h1>
 
