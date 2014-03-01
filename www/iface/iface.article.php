@@ -144,26 +144,10 @@ class iface_article extends iface_base_entity
                     $saveparam['url'] .= '-' . ($count + 1);
                 }
 
-                if ( ($article !== false) && ($article['url'] != $saveparam['url']) ) {
+                if ( ($article !== false) && ($article['url'] == $saveparam['url']) ) {
                     unset($saveparam['url']);
                 }
             }
-
-            if ( isset($saveparam['url']) && ($article !== false) ) {
-                $this->engine->loadIface('article_link');
-                $links = $this->engine->article_link->get(array('link_id' => $article['id']));
-                if ($links !== false) {
-                    $articleparam = array('id' => array());
-                    foreach ($links as $link) {
-                        $articleparam['id'][] = $link['article_id'];
-                    }
-                    $articles = $this->get($articleparam);
-                    foreach ($articles as $linked) {
-                        $this->save(array('content_source' => $linked['content_source']), array('id' => $linked['id']));
-                    }
-                }
-            }
-
         }
 
         if ( isset($saveparam['type']) && ($saveparam['type'] == 0) ) {
@@ -175,6 +159,22 @@ class iface_article extends iface_base_entity
 
     protected function afterSave($id, &$saveparam, &$whereparam)
     {
+        if ( isset($saveparam['url']) && !empty($whereparam['id']) ) {
+            $this->engine->loadIface('article_link');
+            $links = $this->engine->article_link->get(array('link_id' => $id));
+            if ($links !== false) {
+                $articleparam = array('id' => array());
+                foreach ($links as $link) {
+                    $articleparam['id'][] = $link['article_id'];
+                }
+                $articles = $this->get($articleparam);
+                foreach ($articles as $linked) {
+                    $this->save(array('content_source' => $linked['content_source']), array('id' => $linked['id']));
+                }
+            }
+        }
+
+        // дальнейшая часть нам нужна для загрузки фоточек для новой статьи
         if ( !empty($whereparam['id']) || !isset($_COOKIE['temp_article'])) {
             return true;
         }
