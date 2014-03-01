@@ -22,7 +22,6 @@ foreach ($profile['social'] as $social_name=>&$social) {
         $social['social_url'] = $engine->auth->getAuthLink($social_name);
     } else {
         $social = $social + $engine->auth->user['social'][$social_name];
-        $social['url'] = 'https://vk.com/id' . $social['id'] . '/';
     }
 }
 

@@ -69,7 +69,7 @@ class iface_auth
                 }
                 $query = array(
                     'uids'         => $token['user_id'],
-                    'fields'       => 'uid,first_name,last_name,photo_max',
+                    'fields'       => 'uid,first_name,last_name,photo_max,domain',
                     'access_token' => $token['access_token']
                 );
                 $info = json_decode(file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($query))), true);
@@ -92,7 +92,7 @@ class iface_auth
                 
                 file_put_contents($this->engine->config['sitepath'] . $filepath, $avatar);
 
-                $query = 'INSERT INTO user_auth SET auth_type="vk", auth_id="' . $token['user_id'] . '", auth_name="' . mysql_escape_string($auth_name) . '", user_id='. intval($user_id);
+                $query = 'INSERT INTO user_auth SET auth_type="vk", auth_id="' . $token['user_id'] . '", auth_name="' . mysql_escape_string($auth_name) . '", auth_url="https://vk.com/' . $info['domain'] . '", user_id='. intval($user_id);
                 $this->engine->db->query($query);
             }
 

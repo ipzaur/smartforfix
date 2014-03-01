@@ -44,7 +44,7 @@ class iface_user extends iface_base_entity
             'about'    => $user['about'],
             'link_d2'  => $user['link_d2'],
             'link_own' => $user['link_own'],
-            'link_vk'  => ( isset($user['social']['vk']) && $user['social']['vk']['show'] ) ? 'https://vk.com/id' . $user['social']['vk']['id'] . '/' : false
+            'link_vk'  => ( isset($user['social']['vk']) && $user['social']['vk']['show'] ) ? $user['social']['vk']['url'] : false
         );
         return $result;
     }
@@ -116,6 +116,7 @@ class iface_user extends iface_base_entity
                 $user['social'][$social['auth_type']] = array(
                     'id'   => $social['auth_id'],
                     'name' => $social['auth_name'],
+                    'url'  => $social['auth_url'],
                     'show' => $social['show']
                 );
             }
