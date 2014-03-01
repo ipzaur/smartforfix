@@ -52,10 +52,32 @@ class iface_article extends iface_base_entity
 
     protected function beforeSave(&$saveparam = array(), &$whereparam = array())
     {
+
         if ( isset($saveparam['content_source']) && (mb_strlen($saveparam['content_source']) > 0) ) {
+            $this->engine->loadIface('string');
+            $saveparam['content_source'] = $this->engine->string->removeTags($saveparam['content_source'], array('a','b','i','img'));
             $content = $saveparam['content_source'];
-            $content = preg_replace('~<script>(.*?)</script>~', '', $content);
+
+
             if ( isset($whereparam['id']) && ($whereparam['id'] > 0) ) {
+                // посмотрим ссылки-связи
+                $this->engine->loadIface('article_link');
+                $this->engine->article_link->delete(array('article_id' => $whereparam['id']));
+                if (preg_match_all('~<a\s+href="(\d+)">~su', $content, $links, PREG_SET_ORDER) !== false) {
+                    foreach ($links as $link) {
+                        $linked = $this->get(array('id' => $link[1]));
+                        if ($linked !== false) {
+                            $linkparam = array(
+                                'article_id' => $whereparam['id'],
+                                'link_id'    => $linked['id']
+                            );
+                            $this->engine->article_link->save($linkparam);
+                            $content = str_replace($link[0], '<a href="' . $this->engine->config['siteurl'] . 'article/' . $linked['url'] . '/">', $content);
+                        }
+                    }
+                }
+
+                // теперь картиночки
                 $this->engine->loadIface('media');
                 $getparam = array(
                     'article_id' => $whereparam['id'],
@@ -93,28 +115,57 @@ class iface_article extends iface_base_entity
             $content = str_replace('<p class="article_p"></p>', '', $content);
             $saveparam['content'] = $content;
         }
+
         if (isset($saveparam['name'])) {
-            $this->engine->loadIface('translit');
-
-            $saveparam['url'] = $this->engine->translit->convert(mb_strtolower($saveparam['name']));
-            $saveparam['url'] = str_replace(array('-', ' '), '_', $saveparam['url']);
-            $saveparam['url'] = preg_replace('~[^a-zA-Zа-яА-Я0-9_]~su', '', $saveparam['url']);
-
-            $getparam = array('url' => $saveparam['url']);
-            if (!empty($whereparam['id'])) {
-                $getparam['id'] = array(
-                    '_operator' => '!=',
-                    '_value' => $whereparam['id']
-                );
+            $article = false;
+            if ( isset($whereparam['id']) && ($whereparam['id'] > 0) ) {
+                $article = $this->get(array('id' => $whereparam['id']));
             }
-            $exists = $this->get($getparam);
-            if ($exists !== false) {
-                $getparam['url'] = $saveparam['url'] . '-%';
+
+            if ( ($article === false) || ($article['name'] != $saveparam['name']) ) {
+                $this->engine->loadIface('translit');
+
+                $saveparam['url'] = $this->engine->translit->convert(mb_strtolower($saveparam['name']));
+                $saveparam['url'] = str_replace(array('-', ' '), '_', $saveparam['url']);
+                $saveparam['url'] = preg_replace('~[^a-zA-Zа-яА-Я0-9_]~su', '', $saveparam['url']);
+
+                $getparam = array('url' => $saveparam['url']);
+                if (!empty($whereparam['id'])) {
+                    $getparam['id'] = array(
+                        '_operator' => '!=',
+                        '_value' => $whereparam['id']
+                    );
+                }
                 $exists = $this->get($getparam);
-                $count = count($exists);
-                $saveparam['url'] .= '-' . ($count + 1);
+                if ($exists !== false) {
+                    $getparam['url'] = $saveparam['url'] . '-%';
+                    $exists = $this->get($getparam);
+                    $count = count($exists);
+                    $saveparam['url'] .= '-' . ($count + 1);
+                }
+
+                if ( ($article !== false) && ($article['url'] != $saveparam['url']) ) {
+                    unset($saveparam['url']);
+                }
             }
+
+            if ( isset($saveparam['url']) && ($article !== false) ) {
+                $this->engine->loadIface('article_link');
+                $links = $this->engine->article_link->get(array('link_id' => $article['id']));
+                if ($links !== false) {
+                    $articleparam = array('id' => array());
+                    foreach ($links as $link) {
+                        $articleparam['id'][] = $link['article_id'];
+                    }
+                    $articles = $this->get($articleparam);
+                    foreach ($articles as $linked) {
+                        $this->save(array('content_source' => $linked['content_source']), array('id' => $linked['id']));
+                    }
+                }
+            }
+
         }
+
         if ( isset($saveparam['type']) && ($saveparam['type'] == 0) ) {
             $saveparam['ext_link'] = '';
         }

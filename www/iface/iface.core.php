@@ -68,9 +68,12 @@ class iface_core
      * var_dump, обёрнутый в тэг pre
      * @param mixed variable - переменная для var_dump'а
      */
-    public function vardump($variable)
+    public function vardump($variable, $varname = '')
     {
         echo '<xmp style="background:white;padding:10px 0;font-size:12px;color:black;">';
+        if ($varname != '') {
+            echo '=[ ' . $varname . " ]=\n";
+        }
         var_dump($variable);
         echo '</xmp>';
     }
