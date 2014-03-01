@@ -10,7 +10,7 @@
     </div>
 
     <div class="article_content">{article.content:}
-        {if:(article.type:>0)}<p class="article_source">Источник: <a class="article_source_link" href="{article.ext_link:}">{article.ext_link:}</a></p>{:fi}
+        {if:(article.type:>0)}<p class="article_source">Источник: <a class="article_source_link" href="{article.ext_link:}" target="_blank">{article.ext_link:}</a></p>{:fi}
     </div>
 
     <div class="article_actions">{+fav:}<!--button class="toprint">Распечатать</button--></div>
