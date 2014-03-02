@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $engine->loadIface('article');
 if (isset($engine->url[1])) {
     if ($engine->url[1] == '_edit') {
