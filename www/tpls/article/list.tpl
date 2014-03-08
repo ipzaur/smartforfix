@@ -11,7 +11,7 @@
                 <div class="content">
                     {if:(media:)}
                         <a href="{^siteurl:}article/{url:}/" class="articleList_photos">
-                            {media:}<img class="articleList_photo" src="{^siteurl:}_r/0x70/{path:}">{:media}
+                            {media:}<img class="articleList_photo" src="{^siteurl:}_r/116x70x1/{path:}">{:media}
                             <span class="articleList_countPhotos">{count_media:}</span>
                         </a>
                     {:fi}
