@@ -37,10 +37,10 @@
 .article_content {
     margin-top: 20px;
     padding-left: 2px;
-    padding-bottom: 38px;
+    padding-bottom: 6px;
 }
 .article_p {margin: 22px 0;}
-.article_video {margin: 20px 0 34px;}
+.article_video, .article_table {margin: 20px 0 34px;}
 .article_photo {
     font-size: 0;
     margin: 38px 0 34px;
@@ -57,25 +57,41 @@
     display: block;
 }
 .article_source {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
-    margin-top: -8px;
+}
+.article_source:before {
+    content: attr(data-text) ':';
+    vertical-align: middle;
+    display: inline-block;
 }
 .article_source_link {
     color: #8B919F;
     font-weight: 300;
     margin-left: 3px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 440px;
+    display: inline-block;
 }
 
 .article_actions {
     float: right;
-    width: 300px;
     text-align: right;
+}
+.article_actions [class|="button"], .article_actions .button {margin-left: 10px;}
+
+.article_bottom {
+    padding: 14px 0 16px;
+    border-top: 1px solid #D9D9D9;
+    border-bottom: 1px solid #D9D9D9;
 }
 
 .article_tags {
     font-size: 13px;
     font-weight: 500;
-    margin: 4px 310px 0 3px;
+    margin: 20px 310px 0 3px;
 }
 .article_tags .tag:first-child {margin-left: 10px;}

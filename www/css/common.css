@@ -7,7 +7,7 @@ body {
     margin: 0;
 }
 
-input, select, textarea, p, h2 {
+input, select, textarea, table, p, h2 {
     margin: 0;
     padding: 0;
     font-family: Roboto;
@@ -17,7 +17,7 @@ body, input, textarea, select {
     font-size: 16px;
     font-weight: 300;
 }
-body, div, a, p, input, select, textarea {
+body, div, a, p, button, input, select, textarea, table {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
@@ -43,19 +43,6 @@ h2 {font-size: 28px;}
 img {border: 0 none;}
 
 /* основные элементы */
-button {
-    background-color: white;
-    font-size: 13px;
-    cursor: pointer;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 2px;
-    vertical-align: middle;
-    padding: 1px 7px 2px;
-    color: #2A2F35;
-    border-color: #585C65;
-    font-family: Roboto;
-}
 input, textarea, select {
     border: 1px solid #D9D9D9;
     box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.2) inset;

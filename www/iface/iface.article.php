@@ -61,11 +61,11 @@ class iface_article extends iface_base_entity
         // откомпилируем статью, если она изменилась
         if ( isset($saveparam['content_source']) && (mb_strlen($saveparam['content_source']) > 0) ) {
             $this->engine->loadIface('string');
-            $saveparam['content_source'] = $this->engine->string->removeTags($saveparam['content_source'], array('a','b','i','img','video'));
+            $saveparam['content_source'] = $this->engine->string->removeTags($saveparam['content_source'], array('a','b','i','img','video','table'));
             $content = $saveparam['content_source'];
 
             // видюшечки
-            $content = preg_replace('~(\s*)?(<video>[^<]*</video>)(\s*)~su', '$2', $content);
+            $content = preg_replace('~(\s*)?(<video>[^<]*</video>)(\s*)~isu', '$2', $content);
             if (preg_match_all('~<video>(.*?)</video>~su', $content, $article_videos, PREG_SET_ORDER) !== false) {
                 foreach ($article_videos as &$video) {
                     $tag = false;
@@ -82,6 +82,21 @@ class iface_article extends iface_base_entity
                         continue;
                     }
                     $content = str_replace($video[0], '</p>' . $tag . '<p class="article_p">', $content);
+                }
+            }
+
+            // таблички
+            $content = preg_replace('~(\s*)?(<table>.*?</table>)(\s*)~isu', '$2', $content);
+            if (preg_match_all('~<table>(.*?)</table>~su', $content, $article_tables, PREG_SET_ORDER) !== false) {
+                foreach ($article_tables as &$table) {
+                    $tag = trim($table[1]);
+                    $tag = preg_replace('~(<tr>|<\/td>|<\/th>).*?(<td>|<th>|<\/tr>)~isu', "$1$2", $tag);
+                    $tag = preg_replace('~(<thead>|<tbody>).*?(<tr>)~isu', "$1$2", $tag);
+                    $tag = preg_replace('~(</thead>).*?(<tbody>)~isu', "$1$2", $tag);
+                    $tag = preg_replace('~(<\/tr>).*?(<\/thead>|<\/tbody>|<tr>)~isu', "$1$2", $tag);
+                    $tag = '<table class="article_table">' . $tag . '</table>';
+
+                    $content = str_replace($table[0], '</p>' . $tag . '<p class="article_p">', $content);
                 }
             }
 

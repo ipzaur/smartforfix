@@ -9,11 +9,12 @@
         <p class="artictle_type">{if:(article.type:=0)}автор{else:}{if:(article.type:=1)}перевод{else:}перепечатка{:fi}{:fi}</p>
     </div>
 
-    <div class="article_content">{article.content:}
-        {if:(article.type:>0)}<p class="article_source">Источник: <a class="article_source_link" href="{article.ext_link:}" target="_blank">{article.ext_link:}</a></p>{:fi}
-    </div>
+    <div class="article_content">{article.content:}</div>
+    <div class="article_bottom">
+        <div class="article_actions">{+fav:}<!--button class="toprint">Распечатать</button-->{if:(user.id:=article.user_id:)}<a class="button-blue" href="{siteurl:}article/_edit/{article.id:}/">Редактировать</a>{:fi}</div>
 
-    <div class="article_actions">{+fav:}<!--button class="toprint">Распечатать</button--></div>
+        {if:(article.type:>0)}<p class="article_source" data-text="Источник"><a class="article_source_link" href="{article.ext_link:}" target="_blank">{article.ext_link:}</a></p>{:fi}
+    </div>
     {if:(article.tag)}
     <div class="article_tags">Тэги:{article.tag:} <a class="tag" href="/tag/{name:}/">{name:}</a>{:article.tag}</div>
     {:fi}

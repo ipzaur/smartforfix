@@ -13,14 +13,16 @@ var editor = {
                     'b'     : false,
                     'i'     : false,
                     'a'     : false,
-                    'video' : false
+                    'video' : false,
+                    'table' : false
                 }
             },
             'butName' : {
                 'b'     : 'Жирный',
                 'i'     : 'Курсив',
                 'a'     : 'Ссылка',
-                'video' : 'Видео'
+                'video' : 'Видео',
+                'table' : 'Таблица'
             },
 
             'insertImg' : function(src, title) {
@@ -96,6 +98,38 @@ var editor = {
                 instance.tag.area.val(parsedText);
             },
 
+            'insertTable' : function() {
+                var posStart = instance.tag.area[0].selectionStart || 0,
+                    posEnd = instance.tag.area[0].selectionEnd || 0,
+                    cols=3, rows = 3;
+
+                var selectedLength = posEnd - posStart;
+                cols = prompt('Количество столбцов');
+                if (cols == null) return false;
+                cols = parseInt(cols) || 3;
+                rows = prompt('Количество строчек');
+                if (rows == null) return false;
+                rows = parseInt(rows) || 3;
+                var insertedText = "<table>\n  <thead>\n    <tr>";
+                for (var col=0; col<cols; col++) {
+                    insertedText += "<th>Заголовок" + (col+1) + "</th>";
+                }
+                insertedText += "</tr>\n  </thead>\n  <tbody>\n";
+                for (var row=0; row<rows; row++) {
+                    insertedText += "    <tr>";
+                    for (var col=0; col<cols; col++) {
+                        insertedText += " <td></td> ";
+                    }
+                    insertedText += "</tr>\n";
+                }
+                insertedText += "  </tbody>\n</table>";
+
+                var parsedText = instance.tag.area.val().split('');
+                parsedText.splice(posStart, selectedLength, insertedText);
+                parsedText = parsedText.join('');
+                instance.tag.area.val(parsedText);
+            },
+
             'insertPair' : function(tag) {
                 var posStart = instance.tag.area[0].selectionStart || 0,
                     posEnd = instance.tag.area[0].selectionEnd || 0;
@@ -130,6 +164,7 @@ var editor = {
                             case 'i'     : instance.insertPair(el.attr('editor-action')); break;
                             case 'a'     : instance.insertLink(); break;
                             case 'video' : instance.insertVideo(); break;
+                            case 'table' : instance.insertTable(); break;
                         }
                     }
                 });

@@ -1,0 +1,21 @@
+table {
+    table-layout: fixed;
+    max-width: 100%;
+    border: 0 none;
+    border-top: 1px solid #C5C8CF;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 15px;
+}
+th {
+    font-weight: 500;
+    vertical-align: middle;
+    padding: 14px 10px 12px 20px;
+    border-bottom: 2px solid #8B919F;
+}
+td {
+    padding: 12px 10px 12px 20px;
+    vertical-align: top;
+}
+tr:nth-child(even) {background-color: #F7F7F7;}
+tbody tr:hover {background-color: #eaeaea;}

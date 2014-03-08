@@ -62,3 +62,9 @@
     width: 15px;
     height: 15px;
 }
+.editor_button-video {padding-left: 26px;}
+.editor_button-video:before {
+    background-position: -38px 0;
+    width: 20px;
+    height: 15px;
+}
