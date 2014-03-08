@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>{if:(title)}{title:} - {:fi}SmartForFix. Ремонт Smart'ов своими руками.</title>
+    <title>{if:(title:)}{title:} - {:fi}SmartForFix. Ремонт Smart'ов своими руками.</title>
     <meta charset="utf-8">
     <meta content="IE=9" http-equiv="X-UA-Compatible">
     <meta content="Персональное хранилище ссылок" name="description">
@@ -21,7 +21,7 @@
 
     {+menu:}
 
-    {if:(profile)}
+    {if:(profile:)}
         {+profile:}
     {else:}
         {if:(article_edit)}
@@ -40,5 +40,6 @@
             </footer>
         {:fi}
     {:fi}
+
     <script type="text/javascript" src="{siteurl:}js/s4fx.js" defer="defer"></script>
 </body>

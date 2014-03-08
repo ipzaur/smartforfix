@@ -1,4 +1,5 @@
 {if:(cur_section.name:)}<h1 class="articleList_h1 content">{cur_section.name:}</h1>{:fi}
+
 {if:(noarticles:)}
     <div class="content">
         <div class="info">
@@ -27,6 +28,4 @@
     </div>
 {:fi}
 
-{if:(pages:)}
-    <div class="content">{+paginator:}</div>
-{:fi}
+{if:(pages:)}<div class="content">{+paginator:}</div>{:fi}

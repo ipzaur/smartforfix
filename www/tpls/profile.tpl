@@ -13,7 +13,7 @@
         <div class="profile_block" data-label="Авторизация">
             {profile.social:}
                 <div class="profile_social" data-label="Через {title:}">
-                    {if:(social_url)}<a class="socialButton-{_key:} profile_auth" href="{social_url:}">Связать с {title:}</a>
+                    {if:(social_url:)}<a class="socialButton-{_key:} profile_auth" href="{social_url:}">Связать с {title:}</a>
                     {else:}<span class="profile_social_name">{name:}</span> <label class="profile_social_show"><input data-social_href="{url:}" data-profile_elem="social_{_key:}" name="social[{_key:}]" type="checkbox" value="1"{if:(show:=1)} checked{:fi}> Отображать в профиле</label>{:fi}
                 </div>
             {:profile.social}

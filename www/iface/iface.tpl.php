@@ -97,13 +97,13 @@ class iface_tpl
                 '|)' . // но переменной может и не быть, если это не if
                 '}';
 
-        while (preg_match('~' . $reg .'~us', $content, $action)) {
+        while (preg_match('~' . $reg .'~isu', $content, $action)) {
             $var_name = $action[1];
             $pos_end = mb_strpos($content, $action[0]);
-            $result .= "echo '" . mb_substr($content, 0, $pos_end) . "';\n";
-
-            $pos_end += mb_strlen($action[0]);
-            $content = mb_substr($content, $pos_end);
+            list($before, $content) = explode($action[0], $content, 2);
+            if ($before != '') {
+                $result .= "echo '" . $before . "';\n";
+            }
 
             // вывод ключа
             if ($var_name == '_key') {
@@ -116,29 +116,23 @@ class iface_tpl
             // обработка условия
             } else if ($var_name == 'if') {
                 // сначала узнаем, где находится закрывающий :fi нашего условия
-                if (!preg_match_all('~({if:[^}]*})|({:fi})~su', $content, $if_match, PREG_OFFSET_CAPTURE)) {
-                    continue;
-                }
                 $if_count = 1;
-                foreach ($if_match[2] AS $if_info) {
-                    if ($if_info != '') {
+
+                while ( ($if_count > 0) && preg_match('~{((if:[^}]*)|(:fi))}~isu', $content, $if_match) ) {
+                    if ($if_match[1] == ':fi') {
                         $if_count--;
+                        if ($if_count == 0) {
+                            continue;
+                        }
                     } else {
                         $if_count++;
                     }
-                    if ($if_count == 0) {
-                        $pos_fi = $if_info[1] + $this->fi_len; // поправка на случай,контента с русскими буквами
-                        break;
-                    }
+                    $replace = str_replace(array('(', ')', '!', '^'), array('\(', '\)', '\!', '\^'), $if_match[0]);
+                    $content = preg_replace('~' . $replace . '~isu', '[==' . $if_match[1] . '==]', $content, 1);
                 }
                 // теперь вырежем контент условия
-                $if_content = mb_substr($content, 0, $pos_fi);
-                $pos_end =  mb_strrpos($if_content, '{:fi}');
-                $if_content = mb_substr( $if_content, 0, $pos_end);
-
-                // продвинем курсор дальше
-                $pos_end = $pos_end + $this->fi_len;
-                $content = mb_substr($content, $pos_end);
+                list($if_content, $content) = explode('{:fi}', $content, 2);
+                $if_content = str_replace(array('[==', '==]'), array('{', '}'), $if_content);
 
                 // если просто проверка на существование переменной
                 if ($action[6] === '') {
@@ -173,6 +167,7 @@ class iface_tpl
                 }
                 $result .= $this->parseContent($if_content, $var_keyname, $var_container);
                 $result .= "}";
+
             } else if ($var_name == 'else') {
                 $result .= "} else {\n";
 
@@ -186,9 +181,7 @@ class iface_tpl
                 // сначала проверим не массив ли это
                 $pos_array = mb_strpos($content, '{:' . $var_name . '}');
                 if ($pos_array > 0) {
-                    $array_content = mb_substr($content, 0, $pos_array);
-                    $pos_end = $pos_array + mb_strlen('{:' . $var_name . '}');
-                    $content = mb_substr($content, $pos_end);
+                    list($array_content, $content) = explode('{:' . $var_name . '}', $content, 2);
                     $key_name = str_replace('.', '_', $var_name) . '_key';
                     $value_name = str_replace('.', '_', $var_name) . '_value';
                     $var_name = $this->generateVar($var_name, $var_keyname, $var_container);
@@ -197,7 +190,6 @@ class iface_tpl
                     $result .= $this->parseContent($array_content, $key_name, $value_name);
                     $result .= "}\n";
                     $result .= "}\n";
-
                 // если не массив, то просто выведем значение переменной
                 } else {
                     $var_name = $this->generateVar($var_name, false, $var_container);
