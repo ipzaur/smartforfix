@@ -90,7 +90,7 @@ class iface_article extends iface_base_entity
             if (preg_match_all('~<table>(.*?)</table>~su', $content, $article_tables, PREG_SET_ORDER) !== false) {
                 foreach ($article_tables as &$table) {
                     $tag = trim($table[1]);
-                    $tag = preg_replace('~(<tr>|<\/td>|<\/th>).*?(<td>|<th>|<\/tr>)~isu', "$1$2", $tag);
+                    $tag = preg_replace('~(<tr>|<\/td>|<\/th>).*?(<td|<th|<\/tr>)~isu', "$1$2", $tag);
                     $tag = preg_replace('~(<thead>|<tbody>).*?(<tr>)~isu', "$1$2", $tag);
                     $tag = preg_replace('~(</thead>).*?(<tbody>)~isu', "$1$2", $tag);
                     $tag = preg_replace('~(<\/tr>).*?(<\/thead>|<\/tbody>|<tr>)~isu', "$1$2", $tag);

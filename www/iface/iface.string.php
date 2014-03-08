@@ -39,7 +39,7 @@ class iface_string
                     $inner = '';
                 } else {
                     if ($tag_name == 'table') {
-                        $inner = preg_replace('~<(\/|)(thead|tbody|tr|th|td)>~isu', "[==$1$2==]", $inner);
+                        $inner = preg_replace('~<(\/|)(thead|tbody|tr|th|td)([^>]*|)>~isu', "[==$1$2$3==]", $inner);
                     }
                 }
                 $content = $before . $replaced['start'] . $inner . $replaced['end'] . $after;
