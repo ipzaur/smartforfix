@@ -58,12 +58,32 @@ class iface_article extends iface_base_entity
 
     protected function beforeSave(&$saveparam = array(), &$whereparam = array())
     {
-
+        // откомпилируем статью, если она изменилась
         if ( isset($saveparam['content_source']) && (mb_strlen($saveparam['content_source']) > 0) ) {
             $this->engine->loadIface('string');
-            $saveparam['content_source'] = $this->engine->string->removeTags($saveparam['content_source'], array('a','b','i','img'));
+            $saveparam['content_source'] = $this->engine->string->removeTags($saveparam['content_source'], array('a','b','i','img','video'));
             $content = $saveparam['content_source'];
 
+            // видюшечки
+            $content = preg_replace('~(\s*)?(<video>[^<]*</video>)(\s*)~su', '$2', $content);
+            if (preg_match_all('~<video>(.*?)</video>~su', $content, $article_videos, PREG_SET_ORDER) !== false) {
+                foreach ($article_videos as &$video) {
+                    $tag = false;
+                    if (mb_strpos($video[1], 'youtube') !== false) {
+                        if (preg_match('~v=(.*?)(\&|$)~isu', $video[1], $video_id) !== false) {
+                            $tag =
+                                '<div class="article_video">' .
+                                    '<iframe width="480" height="360" src="//www.youtube.com/embed/' . $video_id[1] . '" frameborder="0" allowfullscreen></iframe>' .
+                                '</div>';
+                        }
+                    }
+                    if ($tag === false) {
+                        $content = str_replace($video[0], '', $content);
+                        continue;
+                    }
+                    $content = str_replace($video[0], '</p>' . $tag . '<p class="article_p">', $content);
+                }
+            }
 
             if ( isset($whereparam['id']) && ($whereparam['id'] > 0) ) {
                 // посмотрим ссылки-связи
@@ -92,8 +112,8 @@ class iface_article extends iface_base_entity
                 $photos = $this->engine->media->get($getparam);
                 if (count($photos) > 0) {
                     $content = preg_replace('~(\s*)?(<img[^>]*>)(\s*)~su', '$2', $content);
-                    if (preg_match_all('~<img.*?src="(\d+)".*?(title=".*?".*?|)>~su', $content, $articleImages, PREG_SET_ORDER) !== false) {
-                        foreach ($articleImages as &$image) {
+                    if (preg_match_all('~<img.*?src="(\d+)".*?(title=".*?".*?|)>~su', $content, $article_images, PREG_SET_ORDER) !== false) {
+                        foreach ($article_images as &$image) {
                             if (isset($photos[$image[1]-1])) {
                                 $imgsrc = $this->engine->config['siteurl'] . $photos[$image[1]-1]['path'];
                                 $tag = '<div class="article_photo"><a href="' . $imgsrc . '" target="_blank"><img class="article_img" src="' . $imgsrc . '"></a>';
