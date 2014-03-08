@@ -64,16 +64,17 @@
     content: attr(data-text) ':';
     vertical-align: middle;
     display: inline-block;
+    margin-right: 4px;
 }
 .article_source_link {
-    color: #8B919F;
+    color: #6bbbd5;
     font-weight: 300;
     margin-left: 3px;
     vertical-align: middle;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 440px;
+    max-width: 360px;
     display: inline-block;
 }
 

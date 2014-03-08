@@ -1,0 +1,10 @@
+@media print {
+    h1 {font-size: 25px;}
+    h2 {font-size: 20px;}
+    .head, .menus, .foot,
+    .breads, .article_author, .article_bottom, .article_tags {display: none;}
+    .article {
+        margin-top: 0;
+        padding-left: 0;
+    }
+}

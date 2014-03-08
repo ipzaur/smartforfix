@@ -1,4 +1,4 @@
-<article class="article content" data-is_fav="{article.isfav:}" data-article_id="{article.id:}">
+<article id="article" class="article content" data-is_fav="{article.isfav:}" data-article_id="{article.id:}">
     <p class="breads"><a class="bread" href="{siteurl:}">Главная</a>{if:(article.section_id:>0)}<a class="bread" href="{siteurl:}{article.section.url:}/">{article.section.name:}</a>{:fi}{if:(user.grants:>1)}<a class="bread">#{article.id:}</a>{:fi}</p>
 
     <h1 class="article_name">{article.name:}</h1>
@@ -11,7 +11,7 @@
 
     <div class="article_content">{article.content:}</div>
     <div class="article_bottom">
-        <div class="article_actions">{+fav:}<!--button class="toprint">Распечатать</button-->{if:(user.id:=article.user_id:)}<a class="button-blue" href="{siteurl:}article/_edit/{article.id:}/">Редактировать</a>{:fi}</div>
+        <div class="article_actions">{+fav:}<button class="button-blue" article-action="print">Распечатать</button>{if:(user.id:=article.user_id:)}<button class="button-blue" article-action="edit">Редактировать</button>{:fi}</div>
 
         {if:(article.type:>0)}<p class="article_source" data-text="Источник"><a class="article_source_link" href="{article.ext_link:}" target="_blank">{article.ext_link:}</a></p>{:fi}
     </div>
