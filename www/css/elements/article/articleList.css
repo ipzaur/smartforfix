@@ -34,6 +34,8 @@
     height: 70px;
     margin-right: 4px;
     vertical-align: top;
+    max-width: 108px;
+    overflow: hidden;
 }
 .articleList_countPhotos {
     width: 60px;
