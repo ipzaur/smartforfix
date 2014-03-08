@@ -1,5 +1,6 @@
 .content {
     position: relative;
     width: 980px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 }

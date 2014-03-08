@@ -309,10 +309,7 @@ class iface_article extends iface_base_entity
                 'article_id' => $article['id'],
                 'hidden'     => 0
             );
-            $media = $this->engine->media->get($getparam);
-            if ($media !== false) {
-                $article['thumb'] = $media[0];
-            }
+            $article['media'] = $this->engine->media->get($getparam);
         }
 
         if ($single) {

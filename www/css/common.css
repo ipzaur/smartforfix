@@ -17,7 +17,7 @@ body, input, textarea, select {
     font-size: 16px;
     font-weight: 300;
 }
-body, div, a, p, button, input, select, textarea, table {
+article, body, div, a, p, button, input, select, textarea, table, span {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
@@ -32,7 +32,7 @@ h1 {
     font-size: 35px;
     margin: 0;
 }
-h2 {font-size: 28px;}
+h2 {font-size: 25px;}
 .h {display: none;}
 .clearable-after:after, .clearable-before:before {
     content: "";

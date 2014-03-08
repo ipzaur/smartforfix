@@ -20,11 +20,10 @@ if ( isset($engine->url[2]) && ($engine->url[2] > 0) ) {
         'user_id'    => $getparam['user_id'],
         'hidden'     => 0
     );
-    $files = $engine->media->get($getparam);
-    if ($files !== false) {
+    if ($article['media'] !== false) {
         $photos = array();
         $photo_num = 1;
-        foreach ($files as $file) {
+        foreach ($article['media'] as $file) {
             $photos[$photo_num] = array(
                 'id' => $file['id'],
                 'path' => $file['path']

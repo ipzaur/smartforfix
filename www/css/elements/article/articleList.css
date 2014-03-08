@@ -5,43 +5,55 @@
 .articleList {padding: 10px 0;}
 .articleList_item {
     border-bottom: 1px solid #eeeeef;
-    padding: 16px 10px 16px 20px;
+    padding: 13px 10px 20px 20px;
+    min-height: 90px;
 }
+.articleList_item:hover {background-color: #F7F7F7;}
 .articleList_section {
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: 16px;
+    display: inline-block;
 }
-.articleList_sectionLink {color: #8B919F;}
-.articleList_sectionLink:hover {color: #6BBBD5;}
-.articleList_stat {
-    float: right;
-    width: 110px;
-}
-.articleList_author {
-    font-size: 13px;
-    cursor: pointer;
-}
-.articleList_comments {
-    font-size: 13px;
-    color: #8B919F;
-    padding-left: 30px;
-    padding-bottom: 2px;
-    background: url('/pics/svg/comments.svg') 0 3px no-repeat;
-    margin-top: 5px;
+.articleList_section {color: #8B919F;}
+.articleList_section:hover {color: #6BBBD5;}
+
+/* фоточки */
+.articleList_photos {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    font-size: 0;
+    max-width: 400px;
+    overflow: hidden;
+    height: 70px;
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
 }
 .articleList_photo {
-    float: left;
-    width: 180px;
-    font-size: 0;
+    display: inline-block;
+    height: 70px;
+    margin-right: 4px;
+    vertical-align: top;
 }
-.articleList_photo ~ .articleList_info, .articleList_photo ~ .articleList_section {margin-left: 208px;}
-.articleList_info {
-    margin-right: 140px;
-    margin-top: 2px;
+.articleList_countPhotos {
+    width: 60px;
+    height: 70px;
+    display: inline-block;
+    color: white;
+    font-size: 16px;
+    vertical-align: top;
+    text-align: center;
+    padding-top: 13px;
+    background: url('/pics/svg/photo.svg') center 38px no-repeat #25A874;
 }
+.articleList_countPhotos:hover {color: white;}
+
+.articleList_info {margin-top: 2px;}
+.articleList_photos ~ .articleList_info {margin-right: 400px;}
 .articleList_name {
-    line-height: 34px;
+    line-height: 30px;
     font-weight: 300;
+    margin-top: 2px;
 }
 
 .articleList_item[data-is_fav="0"]:not(:hover) .fav {display: none;}

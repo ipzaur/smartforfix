@@ -1,7 +1,7 @@
 <?php
 $params = explode('/', $_GET['q']);
 $allowSizes = array(
-    '180x130'
+    '0x70'
 );
 if (!in_array($params[1], $allowSizes)) {
     echo 'wrong size';

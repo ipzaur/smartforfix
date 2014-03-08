@@ -17,7 +17,7 @@ if ($allmodels == true) {
 
 $cur_section = false;
 $page_index = 0;
-if ( isset($engine->url[0]) && is_string($engine->url[0]) ) {
+if ( isset($engine->url[0]) && !ctype_digit($engine->url[0]) ) {
     $page_index = 1;
 
     // сначала посмотрим, открыли мы страницу с избранным или нет
@@ -88,18 +88,19 @@ if ($articles_count > 0) {
         $engine->tpl->addvar('pages', $pages);
     }
     $engine->tpl->addvar('cur_page', $cur_page);
-
     $article_list = $engine->article->get($getparam, array('create_date' => 'desc'), false, $articles_per_page, $cur_page);
 
-    // список юзеров-авторов для клика по ним
-    $userList = array();
-    foreach ($article_list as $article) {
-        if (isset($userList[$article['user']['id']])) {
+    foreach ($article_list as &$article) {
+        if ($article['media'] === false) {
             continue;
         }
-        $userList[$article['user']['id']] = $engine->user->shortInfo($article['user']);
+        $article['count_media'] = count($article['media']);
+        if ($article['count_media'] <= 3) {
+            continue;
+        }
+        array_splice($article['media'], 3);
     }
-    $engine->tpl->addvar('JS_userList', json_encode($userList));
+
 } else {
     $article_list = true;
     $engine->tpl->addvar('noarticles', true);

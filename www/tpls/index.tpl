@@ -27,15 +27,11 @@
         {if:(article_edit)}
             {+article/edit:}
         {else:}
-            <article class="content">
-                {if:(article_list)}
-                    {+article/list:}
-                {else:}
-                    {if:(article)}
-                        {+article/show:}
-                    {:fi}
+            {if:(article_list)}{+article/list:}
+            {else:}
+                {if:(article)}{+article/show:}
                 {:fi}
-            </article>
+            {:fi}
             <footer class="foot">
                 <div class="content">
                     <p class="foot_copy">SmartForFix, 2014</p>
