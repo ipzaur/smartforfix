@@ -143,7 +143,7 @@
         var fields = articleEdit.tag.field;
         for (var fieldName in fields) if (fields.hasOwnProperty(fieldName)) {
             if ( (fields[fieldName].val() == '') ) {
-                if (fieldName == 'tag')) {
+                if (fieldName == 'tag') {
                     continue;
                 }
                 if ( (fieldName == 'ext_link') && (fields.type.val() == 0) ) {
