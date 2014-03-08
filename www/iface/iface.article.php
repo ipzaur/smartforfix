@@ -73,7 +73,7 @@ class iface_article extends iface_base_entity
                         if (preg_match('~v=(.*?)(\&|$)~isu', $video[1], $video_id) !== false) {
                             $tag =
                                 '<div class="article_video">' .
-                                    '<iframe width="480" height="360" src="//www.youtube.com/embed/' . $video_id[1] . '" frameborder="0" allowfullscreen></iframe>' .
+                                    '<iframe width="560" height="420" src="//www.youtube.com/embed/' . $video_id[1] . '" frameborder="0" allowfullscreen></iframe>' .
                                 '</div>';
                         }
                     }
