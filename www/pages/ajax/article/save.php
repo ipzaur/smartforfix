@@ -28,6 +28,9 @@ if ($saveparam['id'] == 0) {
     $saveparam['user_id'] = $engine->auth->user['id'];
     $getparam = false;
 }
+if (isset($saveparam['tag'])) {
+    $saveparam['tag'] = explode(',', $saveparam['tag']);
+}
 $article_id = $engine->article->save($saveparam, $getparam);
 
 $json = array(

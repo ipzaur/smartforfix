@@ -4,12 +4,13 @@
     'editor' : false,
     'tag' : {
         'main'   : $('#articleEdit'),
-        'elem' : {
+        'field'  : {
             'name'     : false,
             'section'  : false,
             'type'     : false,
             'ext_link' : false,
-            'content'  : false
+            'content'  : false,
+            'tag'      : false
         },
         'photos' : false,
         'submit' : false
@@ -33,12 +34,13 @@
 
         var postData =
             'id=' + articleId +
-            '&name=' + encodeURIComponent(articleEdit.tag.elem.name.val()) +
-            '&section_id=' + articleEdit.tag.elem.section.val() +
-            '&type=' + articleEdit.tag.elem.type.val() +
-            '&content_source=' + encodeURIComponent(articleEdit.tag.elem.content.val());
-        if (articleEdit.tag.elem.type.val() > 0) {
-            postData += '&ext_link=' + encodeURIComponent(articleEdit.tag.elem.ext_link.val());
+            '&name=' + encodeURIComponent(articleEdit.tag.field.name.val()) +
+            '&section_id=' + articleEdit.tag.field.section.val() +
+            '&type=' + articleEdit.tag.field.type.val() +
+            '&content_source=' + encodeURIComponent(articleEdit.tag.field.content.val()) +
+            '&tag=' + encodeURIComponent(articleEdit.tag.field.tag.val());
+        if (articleEdit.tag.field.type.val() > 0) {
+            postData += '&ext_link=' + encodeURIComponent(articleEdit.tag.field.ext_link.val());
         }
         articleEdit.tag.main.find('[name="info[]"]:checked').each(function(i, info){
             postData += '&info[]=' + $(info).val();
@@ -138,10 +140,10 @@
 
     'check' : function() {
         var disabled = false;
-        var elems = articleEdit.tag.elem;
-        for (var elemName in elems) if (elems.hasOwnProperty(elemName)) {
-            if ( (elems[elemName].val() == '') ) {
-                if ( (elemName == 'ext_link') && (elems.type.val() == 0) ) {
+        var fields = articleEdit.tag.field;
+        for (var fieldName in fields) if (fields.hasOwnProperty(fieldName)) {
+            if ( (fields[fieldName].val() == '') ) {
+                if ( (fieldName == 'ext_link') && (fields.type.val() == 0) ) {
                     continue;
                 }
                 disabled = true;
@@ -152,18 +154,18 @@
         return !disabled;
     },
     'changeType' : function(typeId) {
-        articleEdit.tag.elem.ext_link.prop( 'disabled', (typeId <= 0) );
+        articleEdit.tag.field.ext_link.prop( 'disabled', (typeId <= 0) );
     },
     'init' : function() {
-        var elems = articleEdit.tag.elem;
-        for (var elemName in elems) if (elems.hasOwnProperty(elemName)) {
-            elems[elemName] = articleEdit.tag.main.find('[name="' + elemName + '"]');
+        var fields = articleEdit.tag.field;
+        for (var fieldName in fields) if (fields.hasOwnProperty(fieldName)) {
+            fields[fieldName] = articleEdit.tag.main.find('[name="' + fieldName + '"]');
         }
         articleEdit.tag.photos = articleEdit.tag.main.find('[data-article_elem="photos"]');
         articleEdit.tag.submit = articleEdit.tag.main.find('[name="submit"]');
         articleEdit.content_id = articleEdit.tag.main.find('#content_id').val();
 
-        articleEdit.editor = editor.init(articleEdit.tag.elem.content);
+        articleEdit.editor = editor.init(articleEdit.tag.field.content);
 
         articleEdit.tag.main.on({
             'click' : function(ev){

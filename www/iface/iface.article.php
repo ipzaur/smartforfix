@@ -30,6 +30,12 @@ class iface_article extends iface_base_entity
             'key_join' => 'article_id',
             'field'    => 'user_id'
         )),
+        'tag'     => array('type' => 'string',  'join' => array(
+            'table'    => 'tag',
+            'key_main' => 'id',
+            'key_join' => 'article_id',
+            'field'    => 'name'
+        )),
         'hidden' => array('type' => 'integer')
     );
     protected $save_fields = array(
@@ -159,6 +165,7 @@ class iface_article extends iface_base_entity
 
     protected function afterSave($id, &$saveparam, &$whereparam)
     {
+        // если у нас статья поменяля УРЛ, то надо поменять сылки на статью у статей, которые ссылаются на эту
         if ( isset($saveparam['url']) && !empty($whereparam['id']) ) {
             $this->engine->loadIface('article_link');
             $links = $this->engine->article_link->get(array('link_id' => $id));
@@ -171,6 +178,20 @@ class iface_article extends iface_base_entity
                 foreach ($articles as $linked) {
                     $this->save(array('content_source' => $linked['content_source']), array('id' => $linked['id']));
                 }
+            }
+        }
+
+        // сохраним тэги
+        if (isset($saveparam['tag'])) {
+            $this->engine->loadIface('tag');
+            $this->engine->tag->delete(array('article_id' => $id));
+            foreach ($saveparam['tag'] as $tag) {
+                $tag = trim($tag);
+                $tagparam = array(
+                    'article_id' => $id,
+                    'name' => $tag
+                );
+                $this->engine->tag->save($tagparam);
             }
         }
 
@@ -261,6 +282,10 @@ class iface_article extends iface_base_entity
 
         if ($single) {
             $articles = $articles[0];
+
+            $this->engine->loadIface('tag');
+            $getparam = array('article_id' => $articles['id']);
+            $articles['tag'] = $this->engine->tag->get($getparam);
         }
     }
 

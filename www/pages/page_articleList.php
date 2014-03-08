@@ -16,21 +16,38 @@ if ($allmodels == true) {
 }
 
 $cur_section = false;
+$page_index = 0;
 if ( isset($engine->url[0]) && is_string($engine->url[0]) ) {
+    $page_index = 1;
+
+    // сначала посмотрим, открыли мы страницу с избранным или нет
     if ($engine->url[0] == 'fav') {
         $getparam['favuser'] = $engine->auth->user['id'];
         $cur_section = array(
             'url'  => 'fav',
             'name' => 'Избранные статьи'
         );
-    } else if (mb_substr($engine->url[0], 0, 2) == 'by') {
-        $getparam['user_id'] = str_replace('by', '', $engine->url[0]);
-        $getuser = array('id' => $getparam['user_id']);
-        $author = $engine->user->get($getuser);
+
+    // если не избранное, то может смотрим статьи конкретного юзера
+    } else if ($engine->url[0] == 'by') {
+        $getparam['user_id'] = $engine->url[1];
+        $author = $engine->user->get(array('id' => $getparam['user_id']));
         $cur_section = array(
-            'url'  => $engine->url[0],
+            'url'  => $engine->url[0] . '/' . $author['id'],
             'name' => 'Статьи от ' . $author['name']
         );
+        $page_index = 2;
+
+    // или может делаем поиск по тэгу
+    } else if ($engine->url[0] == 'tag') {
+        $getparam['tag'] = urldecode($engine->url[1]);
+        $cur_section = array(
+            'url'  => $engine->url[0] . '/' . $engine->url[1],
+            'name' => 'Статьи по тэгу ' . $getparam['tag']
+        );
+        $page_index = 2;
+
+    // значит наверное просто список смотрим в каком-то разделе или на главной
     } else {
         foreach ($sections as $section) {
             if ($section['url'] == $engine->url[0]) {
@@ -47,15 +64,14 @@ $engine->tpl->addvar('cur_section', $cur_section);
 $getparam['hidden'] = 0;
 
 $articles_count = $engine->article->getCount($getparam);
+// если есть статьи по нашим критериям, то соберём пагинатор и выведем статьи
 if ($articles_count > 0) {
     $articles_per_page = 10;
 
     $cur_page = 1;
     if ($articles_count > $articles_per_page) {
-        if ( isset($engine->url[0]) && ctype_digit($engine->url[0]) ) {
-            $cur_page = $engine->url[0];
-        } else if ( isset($engine->url[1]) && ctype_digit($engine->url[1]) ) {
-            $cur_page = $engine->url[1];
+        if ( isset($engine->url[$page_index]) && ctype_digit($engine->url[$page_index]) ) {
+            $cur_page = $engine->url[$page_index];
         }
         $max_page = ceil($articles_count / $articles_per_page);
         $engine->tpl->addvar('max_page', $max_page);

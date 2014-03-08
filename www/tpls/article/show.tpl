@@ -14,7 +14,9 @@
     </div>
 
     <div class="article_actions">{+fav:}<!--button class="toprint">Распечатать</button--></div>
-    <!-- div class="article_tags">Тэги: <a class="tag" href="">самара</a> <a class="tag" href="">Струковский</a> <a class="tag" href="">история</a></div -->
+    {if:(article.tag)}
+    <div class="article_tags">Тэги:{article.tag:} <a class="tag" href="/tag/{name:}/">{name:}</a>{:article.tag}</div>
+    {:fi}
 </div>
 {if:(JS_userList:)}
     <script type="text/javascript">

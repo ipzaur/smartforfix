@@ -50,7 +50,7 @@ var user = {
             }
         }
 
-        user.tag['articles'].attr('href', SITEURL + 'by' + info.id + '/');
+        user.tag['articles'].attr('href', SITEURL + 'by/' + info.id + '/');
 
         lightbox.show(content, user.destroy);
     }

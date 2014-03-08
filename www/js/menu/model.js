@@ -30,6 +30,8 @@ var menuModel = {
                 data     : postData.join('&'),
                 dataType : 'json',
                 success  : function(json){
+                    location.reload(); // потом переделать на ХТМЛ5
+
                     if (isMobile) {
                         return true;
                     }
@@ -44,7 +46,7 @@ var menuModel = {
                     }
                 }
             });
-        }, 500);
+        }, 800);
     },
     'modelStatus' : function(model, show) {
         menuModel.tag.select.find('[value="' + model + '"]').prop('selected', show);

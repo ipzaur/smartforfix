@@ -40,6 +40,11 @@
     width: 690px !important;
     margin-left: 16px;
 }
+.articleEdit_element-input[name="tag"] {
+    font-size: 15px;
+    height: 30px;
+    margin-bottom: 3px;
+}
 
 /* выбор моделей */
 .articleEdit_model {display: none;}
@@ -66,9 +71,7 @@
     opacity: 0;
     cursor: pointer;
 }
-.articleEdit_photos {
-    font-size: 0;
-}
+.articleEdit_photos {font-size: 0;}
 .articleEdit_photo {
     position: relative;
     display: inline-block;
@@ -87,12 +90,26 @@
     padding: 2px 5px;
     background-color: rgba(28, 125, 110, 0.7);
 }
-.articleEdit_photo:hover {
-    background-color: #B8CDCB;
-}
+.articleEdit_photo:hover {background-color: #B8CDCB;}
 .articleEdit_photo_img {
     max-width: 100px;
     max-height: 80px;
     cursor: pointer;
     display: block;
+}
+
+/* тэги */
+.articleEdit_tags {margin-left: 66px;}
+.articleEdit_tags_title {
+    font-size: 15px;
+    font-weight: bold;
+    float: left;
+    width: 54px;
+    text-align: right;
+    margin-top: 14px;
+}
+.articleEdit_tags_notice {
+    font-size: 12px;
+    color: #8B919F;
+    margin-left: 15px;
 }

@@ -35,6 +35,14 @@
         <div class="articleEdit_photos" data-article_elem="photos">
             {photos:}<div class="articleEdit_photo" data-photo_num="{_key:}"{if:(id:)} data-photo_id="{id:}"{:fi}><img class="articleEdit_photo_img" src="{^siteurl:}{path:}" data-photo_action="insert" title="Вставить фотографию в статью"><span class="fake_link-red" data-photo_action="delete">Удалить</span></div>{:photos}
         </div>
+
+        <div class="articleEdit_field">
+            <p class="articleEdit_tags_title">Тэги:</p>
+            <div class="articleEdit_tags">
+                <input class="articleEdit_element-input" name="tag" type="text" placeholder="Название статьи" value="{article_edit.tag:}{name:}, {:article_edit.tag}">
+                <p class="articleEdit_tags_notice">тэги необходимо разделять запятой</p>
+            </div>
+        </div>
     </div>
 
     <div class="form_footer">
