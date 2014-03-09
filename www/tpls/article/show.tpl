@@ -11,7 +11,7 @@
 
     <div class="article_content">{article.content:}</div>
     <div class="article_bottom">
-        <div class="article_actions">{+fav:}{if:(!isMobile:)}<button class="button-blue" article-action="print">Распечатать</button>{:fi}{if:(user.id:=article.user_id:)}<button class="button-blue" article-action="edit">Редактировать</button>{:fi}</div>
+        <div class="article_actions">{+fav:}{if:(isMobile:=false)}<button class="button-blue" article-action="print">Распечатать</button>{:fi}{if:(user.id:=article.user_id:)}<button class="button-blue" article-action="edit">Редактировать</button>{:fi}</div>
 
         {if:(article.type:>0)}<p class="article_source" data-text="Источник"><a class="article_source_link" href="{article.ext_link:}" target="_blank">{article.ext_link:}</a></p>{:fi}
     </div>
