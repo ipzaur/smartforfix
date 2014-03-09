@@ -4,7 +4,7 @@
     <title>{if:(title:)}{title:} - {:fi}SmartForFix. Ремонт Smart'ов своими руками.</title>
     <meta charset="utf-8">
     <meta content="IE=9" http-equiv="X-UA-Compatible">
-    <meta content="Персональное хранилище ссылок" name="description">
+    <meta content="Ремонт и обслуживание автомобилей Smart ForTwo, ForFour, Roadster" name="description">
     <meta content="Smart, Смарт, ForTwo, ForFour, Roadster, ремонт, Smartcar, smartfortwo, smartforfour, smartroadster" name="keywords">
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italic&amp;subset=all">
     <link href="{siteurl:}css/s4fx.css" rel="stylesheet" type="text/css" />
