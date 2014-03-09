@@ -22,8 +22,9 @@
     font-size: 15px;
     max-width: 160px;
     line-height: 17px;
+    color: #6BBBD5;
 }
-[class|="auth"]:hover .auth_name {color: #6BBBD5;}
+[class|="auth"]:hover .auth_name {color: #00AEEF;}
 [class|="auth"]._active .auth_name {color: white;}
 
 [class|="auth"] [class|="bubble"] {display: none;}
