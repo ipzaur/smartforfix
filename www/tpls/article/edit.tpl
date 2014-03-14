@@ -39,7 +39,7 @@
         <div class="articleEdit_field">
             <p class="articleEdit_tags_title">Тэги:</p>
             <div class="articleEdit_tags">
-                <input class="articleEdit_element-input" name="tag" type="text" placeholder="Название статьи" value="{article_edit.tag:}{name:}, {:article_edit.tag}">
+                <input class="articleEdit_element-input" name="tag" type="text" placeholder="тэги" value="{article_edit.tag:}{name:}, {:article_edit.tag}">
                 <p class="articleEdit_tags_notice">тэги необходимо разделять запятой</p>
             </div>
         </div>
