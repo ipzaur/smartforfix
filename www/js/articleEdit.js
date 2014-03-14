@@ -68,6 +68,7 @@
                     }
                 }
                 articleEdit.saving = false;
+                alert.show('Статья успешно сохранена')
             }
         });
     },

@@ -1,0 +1,32 @@
+.alerts {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    z-index: 10;
+}
+[class|="alert"] {
+    box-shadow: 0 0 0 2px #FFFFFF inset;
+    color: white;
+    cursor: pointer;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #959595;
+    background-color: #959595;
+    opacity: 1;
+    margin-bottom: 10px;
+    -webkit-transition: opacity 2s linear;
+        -ms-transition: opacity 2s linear;
+            transition: opacity 2s linear;
+}
+[class|="alert"]._faded {opacity: 0;}
+.alert-message {
+    background-color: #76a775;
+    border-color: #76a775;
+}
+.alert-error {
+    background-color: #C25656;
+    border-color: #C25656;
+}
