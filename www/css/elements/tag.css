@@ -5,5 +5,8 @@
     margin-left: 1px;
     font-weight: 300;
 }
-.tag {background-color: #296468;}
+.tag {
+    white-space: nowrap;
+    background-color: #296468;
+}
 .tag:hover {background-color: #008995;}
