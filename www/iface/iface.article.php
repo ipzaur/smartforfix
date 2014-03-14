@@ -70,7 +70,7 @@ class iface_article extends iface_base_entity
                 foreach ($article_videos as &$video) {
                     $tag = false;
                     if (mb_strpos($video[1], 'youtube') !== false) {
-                        if (preg_match('~v=(.*?)(\&|$)~isu', $video[1], $video_id) !== false) {
+                        if (preg_match('~v=(.*?)(\&|$)~isu', $video[1], $video_id) != false) {
                             $tag =
                                 '<div class="article_video">' .
                                     '<iframe width="560" height="420" src="//www.youtube.com/embed/' . $video_id[1] . '" frameborder="0" allowfullscreen></iframe>' .
@@ -86,15 +86,26 @@ class iface_article extends iface_base_entity
             }
 
             // таблички
-            $content = preg_replace('~(\s*)?(<table>.*?</table>)(\s*)~isu', '$2', $content);
-            if (preg_match_all('~<table>(.*?)</table>~su', $content, $article_tables, PREG_SET_ORDER) !== false) {
+            $content = preg_replace('~(\s*)?(<table[^>]*>.*?</table>)(\s*)~isu', '$2', $content);
+            if (preg_match_all('~<table([^>]*)>(.*?)</table>~su', $content, $article_tables, PREG_SET_ORDER) !== false) {
                 foreach ($article_tables as &$table) {
-                    $tag = trim($table[1]);
+                    $tag = trim($table[2]);
                     $tag = preg_replace('~(<tr>|<\/td>|<\/th>).*?(<td|<th|<\/tr>)~isu', "$1$2", $tag);
                     $tag = preg_replace('~(<thead>|<tbody>).*?(<tr>)~isu', "$1$2", $tag);
                     $tag = preg_replace('~(</thead>).*?(<tbody>)~isu', "$1$2", $tag);
                     $tag = preg_replace('~(<\/tr>).*?(<\/thead>|<\/tbody>|<tr>)~isu', "$1$2", $tag);
-                    $tag = '<table class="article_table">' . $tag . '</table>';
+
+                    $tag_class = 'article_table';
+                    
+                    if ($table[1] !== '') {
+                        if (preg_match('~center="(\d+)"~', $table[1], $center)) {
+                            $tag_class .= ' table-center';
+                            if ($center[1] > 1) {
+                                $tag_class .= $center[1];
+                            }
+                        }
+                    }
+                    $tag = '<table class="' . $tag_class . '">' . $tag . '</table>';
 
                     $content = str_replace($table[0], '</p>' . $tag . '<p class="article_p">', $content);
                 }

@@ -19,3 +19,7 @@ td {
 }
 tr:nth-child(even) {background-color: #F7F7F7;}
 tbody tr:hover {background-color: #eaeaea;}
+
+.table-center,
+.table-center2 th:nth-child(n+2), .table-center2 td:nth-child(n+2),
+.table-center3 th:nth-child(n+3), .table-center3 td:nth-child(n+3) {text-align: center;}
