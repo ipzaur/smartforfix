@@ -1,0 +1,9 @@
+.debug {
+    cursor: pointer;
+    height: 30px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 30px;
+}
+.debug._on {background-color:red;}

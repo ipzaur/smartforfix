@@ -11,6 +11,8 @@
     <script type="text/javascript">var isMobile = {isMobile:};</script>
 </head>
 <body>
+    <div id="debug" class="debug{if:(debug:)} _on{:fi}"></div>
+
     <header class="head">
         <div class="content">
             <a class="head_logo" href="{siteurl:}"><img src="{siteurl:}/pics/svg/logo.svg"></a>

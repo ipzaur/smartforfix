@@ -37,6 +37,9 @@ $engine->tpl->addVar('siteurl', $engine->config['siteurl']);
 $isMobile = $engine->ismobile->isMobile() ? 'true' : 'false';
 $engine->tpl->addVar('isMobile', $isMobile);
 $engine->tpl->addVar('noava', $engine->config['noava']);
+if (isset($_COOKIE['debug'])) {
+    $engine->tpl->addVar('debug', 1);
+}
 
 if ($engine->auth->user['id'] == 0) {
     $auth_link = array(
