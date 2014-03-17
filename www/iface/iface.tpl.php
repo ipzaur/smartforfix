@@ -214,7 +214,7 @@ class iface_tpl
     private function parseTpl($tpl_name, $tpl_fullpath, $var_keyname = false, $var_container = false)
     {
         $tpl_content = file_get_contents($this->engine->config['sitepath'] . 'tpls/' . $tpl_name . '.tpl');
-        $tpl_content = str_replace("'", '&apos;', $tpl_content);
+        $tpl_content = str_replace("'", "\'", $tpl_content);
         $save_content = "<?php\n";
         $save_content .= $this->parseContent($tpl_content, $var_keyname, $var_container);
         file_put_contents($tpl_fullpath, $save_content);

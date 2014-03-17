@@ -11,13 +11,14 @@
 }
 .head_search {
     position: absolute;
-    top: 37px;
+    top: 30px;
     right: 0;
     width: 220px;
-    height: 35px;
-    background: url('/pics/svg/search.svg') 190px center no-repeat #464A52;
+    height: 30px;
+    font-size: 14px;
+    background: url('/pics/svg/search.svg') 194px center/16px no-repeat #464A52;
     color: #8d8f93;
     border: 0 none;
     border-radius: 4px;
-    padding: 0 36px 0 14px;    
+    padding: 0 30px 0 14px;
 }
