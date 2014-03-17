@@ -15,7 +15,7 @@ class iface_user extends iface_base_entity
         'id' => array('type' => 'integer', 'many' => 1, 'check_single' => 1, 'notnull' => 1)
     );
     protected $save_fields = array (
-        'name' => array('type' => 'string', 'pattern' => '^[А-Яа-яA-Za-z0-9\s]+$', 'notnull' => 1),
+        'name' => array('type' => 'string', 'notnull' => 1),
         'email' => array('type' => 'string'),
         'avatar' => array('type' => 'string'),
         'about'  => array('type' => 'string'),
@@ -53,6 +53,9 @@ class iface_user extends iface_base_entity
     {
         if ( isset($saveparam['about']) && (mb_strlen($saveparam['about']) > 0) ) {
             $saveparam['about'] = preg_replace('~<script>(.*?)</script>~', '', $saveparam['about']);
+        }
+        if (isset($saveparam['name'])) {
+            $saveparam['name'] = preg_replace('~[^А-Яа-яЁёA-Za-z0-9\s]~usi', '', $saveparam['name']);
         }
         return true;
     }
