@@ -6,7 +6,7 @@ if (debug.size() > 0) {
             url      : '/_ajax/debug/',
             dataType : 'json',
             success  : function(json) {
-                debug.addClass('_on');
+                debug.toggleClass('_on', json.status);
             }
         });
     });
