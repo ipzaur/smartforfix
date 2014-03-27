@@ -1,0 +1,22 @@
+.search {
+    position: relative;
+    background-color: #EFEFEF;
+    padding: 15px 20px 15px 118px;
+    margin: 18px 0 20px;
+    border-radius: 3px;
+}
+.search_label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    font-weight: 500;
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+}
+.search_field {margin: 0;}
+.search_noResult {
+    font-size: 16px;
+    color: #585C65;
+    margin: 36px 20px 0;
+}

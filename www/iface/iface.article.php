@@ -24,6 +24,10 @@ class iface_article extends iface_base_entity
             'info452' => array('type' => 'integer'),
             'info454' => array('type' => 'integer')
         )),
+        'search' => array('type' => 'or_group', 'fields' => array(
+            'name'           => array('type' => 'string'),
+            'content_source' => array('type' => 'string')
+        )),
         'favuser' => array('type' => 'integer', 'notnull' => 1, 'join' => array(
             'table'    => 'fav',
             'key_main' => 'id',

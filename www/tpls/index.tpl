@@ -17,7 +17,7 @@
         <div class="content">
             <a class="head_logo" href="{siteurl:}"><img src="{siteurl:}/pics/svg/logo.svg"></a>
             {if:(user:)}{+auth/profile:}{else:}{+auth/login:}{:fi}
-            <!--input class="head_search" type="text" value="" name="search" placeholder="Поиск"-->
+            <form method="post" action="{siteurl:}"><input class="head_search" type="text" value="" name="search" placeholder="Поиск"></form>
         </div>
     </header>
 

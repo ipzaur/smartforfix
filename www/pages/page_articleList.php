@@ -20,8 +20,22 @@ $page_index = 0;
 if ( isset($engine->url[0]) && !ctype_digit($engine->url[0]) ) {
     $page_index = 1;
 
-    // сначала посмотрим, открыли мы страницу с избранным или нет
-    if ($engine->url[0] == 'fav') {
+    // сначала посмотрим, вдруг мы юзаем поиск
+    if ($engine->url[0] == 'search') {
+        $search = urldecode($engine->url[1]);
+        $getparam['search'] = array(
+            'name' => '%' . $search . '%',
+            'content_source' => '%' . $search . '%'
+        );
+        $cur_section = array(
+            'url'  => 'search',
+            'name' => 'Результаты поиска'
+        );
+        $page_index = 2;
+        $engine->tpl->addvar('search', $search);
+
+    // если не ищем, то проверим, открыли мы страницу с избранным или нет
+    } else if ($engine->url[0] == 'fav') {
         $getparam['favuser'] = $engine->auth->user['id'];
         $cur_section = array(
             'url'  => 'fav',

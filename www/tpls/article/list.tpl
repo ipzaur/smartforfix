@@ -1,11 +1,22 @@
-{if:(cur_section.name:)}<h1 class="articleList_h1 content">{cur_section.name:}</h1>{:fi}
-
+{if:(cur_section.name:)}
+    <div class="content">
+        <h1 class="articleList_h1">{cur_section.name:}</h1>
+        {if:(cur_section.url:=search)}
+            <form class="search" method="post" action="{siteurl:}">
+                <label for="search" class="search_label">Мы ищем:</label><input id="search" class="search_field" name="search" value="{search:}" placeholder='Например, "замена масла"'></form>
+        {:fi}
+    </div>
+{:fi}
 {if:(noarticles:)}
     <div class="content">
-        <div class="info">
-            <h2 class="info_title">Здесь пока пусто</h2>
-            <div class="info_text">В этом разделе сохраняются статьи, помеченные Вами, как "избранное".</div>
-        </div>
+        {if:(cur_section.url:=search)}
+            <p class="search_noResult">Ничего не найдено.</p>
+        {else:}
+            <div class="info">
+                <h2 class="info_title">Здесь пока пусто</h2>
+                <div class="info_text">В этом разделе сохраняются статьи, помеченные Вами, как "избранное".</div>
+            </div>
+        {:fi}
     </div>
 {else:}
     <div class="articleList">

@@ -9,6 +9,10 @@ if ( isset($engine->url[0]) && ($engine->url[0] == '_r') ) {
     include 'resizer.php';
     die();
 }
+if (isset($_POST['search'])) {
+    header('Location:' . $engine->siteurl . '/search/' . $_POST['search'] . '/');
+    die();
+}
 
 
 $engine->loadIface('auth');
@@ -40,7 +44,6 @@ $engine->tpl->addVar('noava', $engine->config['noava']);
 if (isset($_COOKIE['debug'])) {
     $engine->tpl->addVar('debug', 1);
 }
-
 if ($engine->auth->user['id'] == 0) {
     $auth_link = array(
         'vk' => array(
@@ -56,7 +59,7 @@ $menu_models = $engine->menu_model->getMenu();
 $engine->tpl->addVar('menu_model', $menu_models);
 
 $engine->loadIface('section');
-$sections = $engine->section->get(array('hidden' => 0));
+$sections = $engine->section->get(array('hidden' => 0), array('name'=>'desc'));
 $engine->tpl->addVar('section', $sections);
 
 if ( isset($engine->url[0]) && ($engine->url[0] == 'article') ) {
