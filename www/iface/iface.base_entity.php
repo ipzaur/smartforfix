@@ -140,11 +140,11 @@ class iface_base_entity
      * @param string result_type - тип выборки (list = список, row = один элемент)
      * @result array - список параметров выборки вида 'поле=значение' или false
      */
-    private function &makeWhere($param = array(), &$result_type = 'list', &$join_list = array(), $or_fields = array())
+    private function &makeWhere($params = array(), &$result_type = 'list', &$join_list = array())
     {
         $result = false;
 
-        if (count($param) == 0) {
+        if (count($params) == 0) {
             return $result;
         }
 
@@ -154,12 +154,30 @@ class iface_base_entity
 
         $result = array();
         $join_cache = array();
-        $search_fields = (!empty($or_fields)) ? $or_fields : $this->get_fields;
 
-        foreach ($search_fields AS $field_name=>$field) {
-            if (!isset($param[$field_name])) {
+        foreach ($params AS $field_name=>$param) {
+            if (is_array($param)) {
+                if ( isset($param['_operator']) xor isset($param['_value']) ) {
+                    continue;
+                }
+                if ( isset($param['_operator']) && isset($param['_value']) ) {
+                    $query_operator = $param['_operator'];
+                    $param = $param['_value'];
+                }
+            } else {
+                $query_operator = '=';
+            }
+
+            if (mb_strtolower($query_operator) == 'or') {
+                $result[] = '(' . implode(' OR ', $this->makeWhere($param, $result_type, $join_list)) . ')';
                 continue;
             }
+
+            if (!isset($this->get_fields[$field_name])) {
+                continue;
+            }
+            $field = $this->get_fields[$field_name];
+
             if (isset($field['join'])) {
                 if (!in_array($field['join']['table'], $join_cache)) {
                     $join_list[] = ' LEFT JOIN ' . $field['join']['table'] . ' ON ' . $field['join']['table'] . '.' . $field['join']['key_join'] . '=' . $this->table_name . '.' . $field['join']['key_main'];
@@ -170,24 +188,12 @@ class iface_base_entity
                 $full_field_name = $this->table_name . '.' . $field_name;
             }
 
-            $find_value = $param[$field_name];
-            if (is_array($find_value)) {
-                if ( isset($find_value['_operator']) xor isset($find_value['_value']) ) {
-                    continue;
-                }
-                if ( isset($find_value['_operator']) && isset($find_value['_value']) ) {
-                    $query_operator = $find_value['_operator'];
-                    $find_value = $find_value['_value'];
-                }
-            } else {
-                $query_operator = '=';
-            }
 
             switch ($field['type']) {
                 case 'integer' :
-                    if ( is_array($find_value) && (count($find_value) > 0) && (isset($field['many'])) ) {
+                    if ( is_array($param) && (count($param) > 0) && (isset($field['many'])) ) {
                         $valid_values = array();
-                        foreach ($find_value AS $value) {
+                        foreach ($param AS $value) {
                             if (isset($field['notnull'])) {
                                 if (intval($value) > 0) {
                                     $valid_values[] = intval($value);
@@ -200,12 +206,12 @@ class iface_base_entity
                             $query_operator = ($query_operator == '!=') ? 'NOT IN' : 'IN';
                             $query_value = '(' . implode(',', $valid_values) . ')';
                         }
-                    } else if ( ctype_digit($find_value) || is_int($find_value) ) {
-                        $find_value = intval($find_value);
-                        if ( isset($field['notnull']) && ($find_value == 0) ) {
+                    } else if ( ctype_digit($param) || is_int($param) ) {
+                        $param = intval($param);
+                        if ( isset($field['notnull']) && ($param == 0) ) {
                             continue(2);
                         }
-                        $query_value = $find_value;
+                        $query_value = $param;
                         if (isset($field['check_single'])) {
                             $result_type = 'row';
                         }
@@ -214,14 +220,14 @@ class iface_base_entity
 
                 case 'string' :
                     if (isset($field['notnull'])) {
-                        if (mb_strlen($find_value) > 0) {
-                            $query_value = '"' . mysql_escape_string($find_value) . '"';
+                        if (mb_strlen($param) > 0) {
+                            $query_value = '"' . mysql_escape_string($param) . '"';
                         }
                     } else {
-                        $query_value = '"' . mysql_escape_string($find_value) . '"';
+                        $query_value = '"' . mysql_escape_string($param) . '"';
                     }
 
-                    if (preg_match('~(^\%|\%$)~su', $find_value, $match) != false) {
+                    if (preg_match('~(^\%|\%$)~su', $param, $match) != false) {
                         $query_operator = ($query_operator == '!=') ? 'NOT LIKE' : 'LIKE';
                     } else if (isset($field['check_single'])) {
                         $result_type = 'row';
@@ -229,28 +235,21 @@ class iface_base_entity
                     break;
 
                 case 'date' :
-                    if (!preg_match('~^\d{4}-\d{2}-\d{2}$~su', $find_value)) {
+                    if (!preg_match('~^\d{4}-\d{2}-\d{2}$~su', $param)) {
                         continue(2);
                     }
-                    $query_value = '"' . mysql_escape_string($find_value) . '"';
+                    $query_value = '"' . mysql_escape_string($param) . '"';
                     break;
 
                 case 'datetime' :
-                    if (!preg_match('~^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$~su', $find_value)) {
+                    if (!preg_match('~^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$~su', $param)) {
                         continue(2);
                     }
-                    $query_value = '"' . mysql_escape_string($find_value) . '"';
+                    $query_value = '"' . mysql_escape_string($param) . '"';
                     break;
-
-                case 'or_group' :
-                    if (empty($find_value)) {
-                        continue(2);
-                    }
-                    $result[] = '(' . implode(' OR ', $this->makeWhere($find_value, $result_type, $join_list, $field['fields'])) . ')';
-                    continue(2);
             }
 
-            $result[] = $full_field_name . ' ' . $query_operator . ' ' . $query_value; 
+            $result[] = $full_field_name . ' ' . $query_operator . ' ' . $query_value;
         }
 
         if (count($result) == 0) {

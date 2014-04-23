@@ -18,16 +18,12 @@ class iface_article extends iface_base_entity
         'url'     => array('type' => 'string', 'check_single' => 1, 'notnull' => 1),
         'user_id' => array('type' => 'integer', 'notnull' => 1),
         'section_id' => array('type' => 'integer', 'notnull' => 0),
-        'info' => array('type' => 'or_group', 'fields' => array(
-            'info450' => array('type' => 'integer'),
-            'info451' => array('type' => 'integer'),
-            'info452' => array('type' => 'integer'),
-            'info454' => array('type' => 'integer')
-        )),
-        'search' => array('type' => 'or_group', 'fields' => array(
-            'name'           => array('type' => 'string'),
-            'content_source' => array('type' => 'string')
-        )),
+        'info450' => array('type' => 'integer'),
+        'info451' => array('type' => 'integer'),
+        'info452' => array('type' => 'integer'),
+        'info454' => array('type' => 'integer'),
+        'name'           => array('type' => 'string'),
+        'content_source' => array('type' => 'string'),
         'favuser' => array('type' => 'integer', 'notnull' => 1, 'join' => array(
             'table'    => 'fav',
             'key_main' => 'id',

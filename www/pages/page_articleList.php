@@ -2,11 +2,14 @@
 $engine->loadIface('article');
 $engine->loadIface('user');
 
-$getparam = array('info' => array());
+$getparam = array('info' => array(
+    '_operator' => 'or',
+    '_value' => array()
+));
 $allmodels = true;
 foreach ($menu_models as $model=>$menu) {
     if ($menu['show'] == 1) {
-        $getparam['info']['info' . $model] = 1;
+        $getparam['info']['_value']['info' . $model] = 1;
     } else {
         $allmodels = false;
     }
@@ -24,8 +27,11 @@ if ( isset($engine->url[0]) && !ctype_digit($engine->url[0]) ) {
     if ($engine->url[0] == 'search') {
         $search = urldecode($engine->url[1]);
         $getparam['search'] = array(
-            'name' => '%' . $search . '%',
-            'content_source' => '%' . $search . '%'
+            '_operator' => 'or',
+            '_value' => array(
+                'name' => '%' . $search . '%',
+                'content_source' => '%' . $search . '%'
+            )
         );
         $cur_section = array(
             'url'  => 'search',
