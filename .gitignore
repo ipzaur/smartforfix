@@ -1,8 +1,5 @@
 /js/s4fx.js
 /css/s4fx.css
-/cache/tpls/*
-/include/articles/*
-/include/avatar/*
-/include/upload/*
-/_r/
-config.php
+/cache
+/include
+/_r
