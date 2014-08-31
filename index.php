@@ -44,6 +44,38 @@ $engine->tpl->addVar('noava', $engine->config['noava']);
 if (isset($_COOKIE['debug'])) {
     $engine->tpl->addVar('debug', 1);
 }
+/*
+$query = 'curl -XPUT \'http://localhost:9200/smartforfix/articles/_mapping\' -d \'{
+            "properties" : {
+                "text" : { "type" : "string", "analyzer" : "russian_morphology" }
+            }
+}\' ';
+exec($query, $result);
+$engine->vardump($result);
+/*$query = 'curl -XPUT \'http://localhost:9200/smartforfix/articles/1\' -d \'
+     { 
+       "id"   : "1",
+       "name" : "HelloWorld",
+       "text" : "Лягушки квакушки Hello My World"
+     }\' ';
+exec($query, $result);
+$query = 'curl -XPUT \'http://localhost:9200/smartforfix/articles/3\' -d \'
+     { 
+       "id"   : "3",
+       "name" : "HelloWorld3",
+       "text" : "I can show you лягушку"
+     }\' ';
+exec($query, $result);*/
+/*
+$query = 'curl -XGET \'http://localhost:9200/smartforfix/articles/_count?q=*&pretty\'';
+exec($query, $result);
+$engine->vardump($result);
+$query = 'curl -XGET \'http://localhost:9200/smartforfix/articles/_search?q=text:(let+show)*&pretty\'';
+exec($query, $result);
+$result = '[' . implode($result) . ']';
+$result = str_replace('}{', '},{', $result);
+$engine->vardump( json_decode($result, true) );
+*/
 if ($engine->auth->user['id'] == 0) {
     $auth_link = array(
         'vk' => array(
