@@ -10,7 +10,6 @@ $allmodels = true;
 foreach ($menu_models as $model=>$menu) {
     if ($menu['show'] == 1) {
         $getparam['info']['_value']['info' . $model] = 1;
-    } else {
         $allmodels = false;
     }
 }

@@ -39,6 +39,53 @@
     padding-left: 2px;
     padding-bottom: 6px;
 }
+.article_cut {
+    border: 1px solid #d9d9d9;
+    overflow: hidden;
+    height: 30px;
+}
+.article_cut._expanded {
+    padding: 0 0 10px 10px;
+    height: auto;
+}
+.article_cutText {
+    position: relative;
+    font-weight: 400;
+    background-color: #efefef;
+    font-size: 14px;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 26px;
+    cursor: pointer;
+}
+.article_cut._expanded .article_cutText {
+    margin-left: -10px;
+}
+.article_cutText:before {
+    position: absolute;
+    content: "+";
+    font-weight: 300;
+    left: 6px;
+    top: 7px;
+    height: 13px;
+    width: 13px;
+    line-height: 10px;
+    border: 1px solid #d9d9d9;
+    background-color: white;
+    text-align: center;
+}
+.article_cut._expanded .article_cutText:before {
+    content: "-";
+}
+.article_cutText:after {
+    content: ' (Нажмите, чтобы показать текст)';
+    font-style: italic;
+    font-size: 13px;
+    font-weight: 300;
+}
+.article_cut._expanded .article_cutText:after {
+    content: ' (Нажмите, чтобы свернуть текст)';
+}
 .article_p {margin: 22px 0;}
 .article_video, .article_table {margin: 20px 0 34px;}
 .article_photo {

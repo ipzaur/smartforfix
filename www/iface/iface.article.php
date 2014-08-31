@@ -61,8 +61,20 @@ class iface_article extends iface_base_entity
         // откомпилируем статью, если она изменилась
         if ( isset($saveparam['content_source']) && (mb_strlen($saveparam['content_source']) > 0) ) {
             $this->engine->loadIface('string');
-            $saveparam['content_source'] = $this->engine->string->removeTags($saveparam['content_source'], array('a','b','i','img','video','table'));
+            $saveparam['content_source'] = $this->engine->string->removeTags($saveparam['content_source'], array('a','b','i','img','video','table','cut'));
             $content = $saveparam['content_source'];
+
+            // подкаты
+            $content = preg_replace('~(\s*)?(<cut>[^<]*</cut>)(\s*)~isu', '$2', $content);
+            if (preg_match_all('~<cut(| text=(.*?))>~su', $content, $cuts, PREG_SET_ORDER) !== false) {
+                foreach ($cuts as $cut) {
+                    $tag = '<div class="article_cut">';
+                    $cutText = isset($cut[2]) ? $cut[2] : '';
+                    $tag .= '<p class="article_cutText" article-action="cut">' . $cut[2] . '</p>';
+                    $content = str_replace($cut[0], $tag, $content);
+                }
+            }
+            $content = str_replace('</cut>', '</div>', $content);
 
             // видюшечки
             $content = preg_replace('~(\s*)?(<video>[^<]*</video>)(\s*)~isu', '$2', $content);
