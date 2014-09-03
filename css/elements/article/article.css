@@ -41,25 +41,25 @@
 }
 .article_cut {
     border: 1px solid #d9d9d9;
-    overflow: hidden;
-    height: 30px;
+}
+.article_cut:not(._expanded) .article_cutContent {
+    display: none;
 }
 .article_cut._expanded {
-    padding: 0 0 10px 10px;
-    height: auto;
+    padding: 0 10px 10px;
 }
 .article_cutText {
     position: relative;
     font-weight: 400;
     background-color: #efefef;
     font-size: 14px;
-    height: 28px;
     line-height: 28px;
     padding-left: 26px;
     cursor: pointer;
 }
 .article_cut._expanded .article_cutText {
     margin-left: -10px;
+    margin-right: -10px;
 }
 .article_cutText:before {
     position: absolute;

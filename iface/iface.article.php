@@ -69,12 +69,12 @@ class iface_article extends iface_base_entity
             if (preg_match_all('~<cut(| text=(.*?))>~su', $content, $cuts, PREG_SET_ORDER) !== false) {
                 foreach ($cuts as $cut) {
                     $tag = '<div class="article_cut">';
-                    $cutText = isset($cut[2]) ? $cut[2] : '';
-                    $tag .= '<p class="article_cutText" article-action="cut">' . $cut[2] . '</p>';
+                    $tag .= '<p class="article_cutText" article-action="cut">' . (isset($cut[2]) ? $cut[2] : '') . '</p>';
+                    $tag .= '<div class="article_cutContent">';
                     $content = str_replace($cut[0], $tag, $content);
                 }
             }
-            $content = str_replace('</cut>', '</div>', $content);
+            $content = str_replace('</cut>', '</div></div>', $content);
 
             // видюшечки
             $content = preg_replace('~(\s*)?(<video>[^<]*</video>)(\s*)~isu', '$2', $content);
