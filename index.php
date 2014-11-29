@@ -6,9 +6,9 @@ require_once './libs/rollbar.php';
 require_once 'iface/iface.core.php';
 $engine = new iface_core();
 
-if (isset($config['rollbar'])) {
-  Rollbar::init(array('access_token' => $config['rollbar_token']));
-  $engine->tpl->addVar('rollbar_token', $config['rollbar_token']);
+if (isset($config['rollbar_token'])) {
+  Rollbar::init(array('access_token' => $config['rollbar_token']['backend']));
+  $engine->tpl->addVar('rollbar_token', $config['rollbar_token']['frontend']);
 }
 
 if ( isset($engine->url[0]) && ($engine->url[0] == '_r') ) {
