@@ -9,6 +9,10 @@
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italic&amp;subset=all">
     <link href="{siteurl:}css/s4fx.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">var isMobile = {isMobile:};</script>
+    {if:(rollbar_token:)}
+      <script type="text/javascript">var _rollbarConfig={accessToken:"{rollbar_token:}",captureUncaught:true,payload:{environment: "production"}};</script>
+      <script type="text/javascript" src="{siteurl:}js/libs/rollbar.js" defer="defer"></script>
+    {:fi}
 </head>
 <body>
     <div id="debug" class="debug{if:(debug:)} _on{:fi}"></div>
