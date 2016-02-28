@@ -6,9 +6,9 @@
 
         <div class="articleEdit_field">
             <div class="articleEdit_block-section">
-                <select class="articleEdit_element-select" name="section">
+                <select class="articleEdit_element-select" name="section" multiple multiselect>
                     <option value="0">Выберите раздел</option>
-                    {section:}<option value="{id:}"{if:(id:=^article_edit.section_id:)} selected{:fi}>{name:}</option>{:section}
+                    {section:}<option value="{id:}"{if:(selected:)} selected{:fi}>{name:}</option>{:section}
                 </select>
             </div>
             <div class="articleEdit_block-model">Подходит для:

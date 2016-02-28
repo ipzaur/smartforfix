@@ -43,7 +43,7 @@ h2 {font-size: 25px;}
 img {border: 0 none;}
 
 /* основные элементы */
-input, textarea, select {
+input, textarea, select, .multiselect {
     border: 1px solid #D9D9D9;
     box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.2) inset;
 }
@@ -87,4 +87,33 @@ textarea {
     color: #C60909;
     border-bottom: 1px dashed #C60909;
     cursor: pointer;
+}
+
+/* мультиселект */
+.multiselect {
+    background-color: white;
+    line-height: 22px;
+    overflow: hidden;
+    max-height: 32px;
+    padding: 4px 10px 10px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+.multiselect:hover {
+    max-height: 500px;
+}
+.multiselect::before {
+    content: attr(placeholder);
+}
+.multiselect[data-count]::before {
+    content: attr(placeholder) ' (' attr(data-count) ')';
+}
+.multiselect_option {
+    display: block;
+    margin: 4px 0;
+    cursor: pointer;
+}
+.multiselect_option:first-child {
+    margin-top: 10px;
 }
