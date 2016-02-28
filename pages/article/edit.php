@@ -14,6 +14,17 @@ if ( isset($engine->url[2]) && ($engine->url[2] > 0) ) {
     }
     $content_id = $article['id'];
 
+    foreach ($article['section'] as $articleSection) {
+        foreach ($sections as &$section) {
+
+            if ($articleSection['id'] == $section['id']) {
+                $section['selected'] = true;
+                break;
+            }
+        }
+    }
+    $engine->tpl->addVar('section', $sections);
+
     $engine->loadIface('media');
     $getparam = array(
         'article_id' => $getparam['id'],

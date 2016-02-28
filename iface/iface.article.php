@@ -17,7 +17,6 @@ class iface_article extends iface_base_entity
         'id'      => array('type' => 'integer', 'many' => 1, 'check_single' => 1, 'notnull' => 1),
         'url'     => array('type' => 'string', 'check_single' => 1, 'notnull' => 1),
         'user_id' => array('type' => 'integer', 'notnull' => 1),
-        'section_id' => array('type' => 'integer', 'notnull' => 0),
         'info450' => array('type' => 'integer'),
         'info451' => array('type' => 'integer'),
         'info452' => array('type' => 'integer'),
@@ -29,6 +28,12 @@ class iface_article extends iface_base_entity
             'key_main' => 'id',
             'key_join' => 'article_id',
             'field'    => 'user_id'
+        )),
+        'section_id' => array('type' => 'integer', 'notnull' => 1, 'join' => array(
+            'table'    => 'article_section',
+            'key_main' => 'id',
+            'key_join' => 'article_id',
+            'field'    => 'section_id'
         )),
         'tag'     => array('type' => 'string',  'join' => array(
             'table'    => 'tag',
@@ -42,7 +47,6 @@ class iface_article extends iface_base_entity
         'name' => array('type' => 'string', 'notnull' => 1),
         'url' => array('type' => 'string', 'notnull' => 1),
         'type' => array('type' => 'integer',),
-        'section_id' => array('type' => 'integer', 'notnull' => 0),
         'content_source' => array('type' => 'string', 'notnull' => 1),
         'content' => array('type' => 'string', 'notnull' => 1),
         'ext_link' => array('type' => 'string', 'notnull' => 0),
@@ -253,6 +257,19 @@ class iface_article extends iface_base_entity
             }
         }
 
+        // свяжем статью с разделами
+        if (isset($saveparam['section_id'])) {
+            $this->engine->loadIface('article_section');
+            $this->engine->article_section->delete(['article_id' => $id]);
+            foreach ($saveparam['section_id'] as $section_id) {
+                $sectionparam = array(
+                    'article_id' => $id,
+                    'section_id' => $section_id
+                );
+                $this->engine->article_section->save($sectionparam);
+            }
+        }
+
         // дальнейшая часть нам нужна для загрузки фоточек для новой статьи
         if ( !empty($whereparam['id']) || !isset($_COOKIE['temp_article'])) {
             return true;
@@ -318,13 +335,18 @@ class iface_article extends iface_base_entity
         }
 
         $this->engine->loadIface('media');
+        $this->engine->loadIface('article_section');
         foreach ($articles as &$article) {
             if (!isset($this->userCache[$article['user_id']])) {
-                $getparam = array('id' => $article['user_id']);
-                $this->userCache[$article['user_id']] = $this->engine->user->get($getparam);
+                $this->userCache[$article['user_id']] = $this->engine->user->get(['id' => $article['user_id']]);
             }
             $article['user'] = $this->userCache[$article['user_id']];
-            $article['section'] = $article['section_id'] ? $this->sectionCache[$article['section_id']] : null;
+
+            $article['section'] = [];
+            $section_links = $this->engine->article_section->get(['article_id' => $article['id']]);
+            foreach ($section_links as $section_link) {
+                $article['section'][] = $this->sectionCache[$section_link['section_id']];
+            }
 
             $article['isfav'] = intval( isset($favarticle) && in_array($article['id'], $favarticle) );
 

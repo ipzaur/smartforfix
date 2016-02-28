@@ -46,6 +46,11 @@
     margin-bottom: 3px;
 }
 
+/* разделы */
+.articleEdit_block-section .multiselect {
+    margin-top: 9px;
+}
+
 /* выбор моделей */
 .articleEdit_model {display: none;}
 .articleEdit_modelName {

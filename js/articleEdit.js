@@ -30,21 +30,27 @@
         }
         articleEdit.saving = true;
 
-        var articleId = articleEdit.tag.main.attr('data-article_id');
+        var articleId = articleEdit.tag.main.attr('data-article_id'),
+            $infos    = articleEdit.tag.main.find('[name="info[]"]:checked'),
+            postData  = {
+                id             : articleId,
+                name           : articleEdit.tag.field.name.val(),
+                section_id     : articleEdit.tag.field.section.val(),
+                type           : articleEdit.tag.field.type.val(),
+                content_source : articleEdit.tag.field.content.val(),
+                tag            : articleEdit.tag.field.tag.val()
+            };
 
-        var postData =
-            'id=' + articleId +
-            '&name=' + encodeURIComponent(articleEdit.tag.field.name.val()) +
-            '&section_id=' + articleEdit.tag.field.section.val() +
-            '&type=' + articleEdit.tag.field.type.val() +
-            '&content_source=' + encodeURIComponent(articleEdit.tag.field.content.val()) +
-            '&tag=' + encodeURIComponent(articleEdit.tag.field.tag.val());
         if (articleEdit.tag.field.type.val() > 0) {
-            postData += '&ext_link=' + encodeURIComponent(articleEdit.tag.field.ext_link.val());
+            postData['ext_link'] = articleEdit.tag.field.ext_link.val();
         }
-        articleEdit.tag.main.find('[name="info[]"]:checked').each(function(i, info){
-            postData += '&info[]=' + $(info).val();
-        });
+
+        if ($infos.length) {
+            postData['info'] = [];
+            for (var i=0; $infos[i]; i++) {
+                postData['info'].push($infos[i].value);
+            }
+        }
 
         $.ajax({
             type     : 'POST',
@@ -140,18 +146,21 @@
     },
 
     'check' : function() {
-        var disabled = false;
-        var fields = articleEdit.tag.field;
+        var disabled = false,
+            fields = articleEdit.tag.field,
+            sectionValue = fields.section.val();
+
         for (var fieldName in fields) if (fields.hasOwnProperty(fieldName)) {
+            if (fieldName == 'section') continue;
             if ( (fields[fieldName].val() == '') ) {
-                if (fieldName == 'tag') {
-                    continue;
-                }
-                if ( (fieldName == 'ext_link') && (fields.type.val() == 0) ) {
-                    continue;
-                }
+                if (fieldName == 'tag') continue;
+                if ( (fieldName == 'ext_link') && (fields.type.val() == 0) ) continue;
                 disabled = true;
             }
+        }
+
+        if (!sectionValue || (sectionValue.pop() == 0) ) {
+            disabled = true;
         }
         articleEdit.tag.submit.prop('disabled', disabled);
 

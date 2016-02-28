@@ -30,7 +30,7 @@
                         </a>
                     {:fi}
                     <div class="articleList_info">
-                        {if:(section:)}<a class="articleList_section" href="{^siteurl:}{section.url:}/">{section.name:}</a>{:fi}
+                        {section:}<a class="articleList_section" href="{^siteurl:}{url:}/">{name:}</a>{:section}
                         <h2 class="articleList_name"><a href="{^siteurl:}article/{url:}/">{name:}</a></h2>
                     </div>
                 </div>

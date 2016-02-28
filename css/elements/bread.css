@@ -1,14 +1,16 @@
 .breads {
     
 }
-.bread {
+[class|="bread"] {
     position: relative;
     font-size: 13px;
     color: #8B919F;
-    padding-right: 13px;
-    margin-right: 12px;
 }
-.bread:after {
+.bread {
+    margin-right: 12px;
+    padding-right: 13px;
+}
+.bread:not(:last-child)::after {
     content: "";
     display: block;
     position: absolute;
@@ -22,4 +24,17 @@
     -webkit-transform: scale(1.4,1) rotate(45deg);
         -ms-transform: scale(1.4,1) rotate(45deg);
             transform: scale(1.4,1) rotate(45deg);
+}
+.bread-item + .bread-item {
+    margin-left: 10px;
+}
+.bread-item + .bread-item::before {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    background-color: #cacaca;
+    width: 1px;
+    left: -6px;
+    top: 3px;
+    bottom: 2px;
 }

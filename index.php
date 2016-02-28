@@ -47,9 +47,7 @@ $engine->tpl->addVar('siteurl', $engine->config['siteurl']);
 $isMobile = $engine->ismobile->isMobile() ? 'true' : 'false';
 $engine->tpl->addVar('isMobile', $isMobile);
 $engine->tpl->addVar('noava', $engine->config['noava']);
-if (isset($_COOKIE['debug'])) {
-    $engine->tpl->addVar('debug', 1);
-}
+
 /*
 $query = 'curl -XPUT \'http://localhost:9200/smartforfix/articles/_mapping\' -d \'{
             "properties" : {
