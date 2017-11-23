@@ -42,7 +42,7 @@ var multiselect = {
                     name : name,
                     text : $option.text(),
                     value : value,
-                    selected : (selectedVals.indexOf(value) >= 0)
+                    selected : selectedVals ? (selectedVals.indexOf(value) >= 0) : false,
                 });
             }
 
@@ -50,7 +50,7 @@ var multiselect = {
                 name        : name,
                 options     : options,
                 placeholder : placeholder,
-                count       : selectedVals.length
+                count       : selectedVals ? selectedVals.length : false,
             }, true);
             $multiselect.insertBefore($select);
             $select.removeAttr('multiselect').appendTo($multiselect).addClass('h');
