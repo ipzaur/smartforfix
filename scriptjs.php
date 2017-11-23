@@ -6,7 +6,7 @@ require_once 'iface/iface.core.php';
 $engine = new iface_core();
 
 if ( !file_exists('js/s4fx.js') || $engine->config['debug'] ) {
-    $before = array('js/jquery203.js', 'js/simpleTpl.js', 'js/lightbox.js', 'js/editor.js', 'js/alert');
+    $before = array('js/jquery321.js', 'js/simpleTpl.js', 'js/lightbox.js', 'js/editor.js', 'js/alert');
 
     function grabDir($path)
     {

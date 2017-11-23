@@ -63,7 +63,7 @@ var profile = {
     }
 }
 
-var profileBlock = $('#profile');
-if (profileBlock.size() > 0) {
-    profile.init(profileBlock);
+var $profileBlock = $('#profile');
+if ($profileBlock.length) {
+    profile.init($profileBlock);
 }

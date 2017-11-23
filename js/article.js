@@ -5,7 +5,7 @@
     init : function() {
         with (article) {
             $main = $('#article');
-            if ($main.size() == 0) {
+            if (!$main.length) {
                 return false;
             }
             id = $main.attr('data-article_id');

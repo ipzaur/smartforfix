@@ -22,10 +22,10 @@ var menuSection = {
             menuSection.tag.main.find('.menu_select').remove();
 
             $(window).on('click', function(ev){
-                var el = $(ev.target)
-                if ( (el.closest('#menuSection').size() == 0) && menuSection.tag.main.hasClass('_active') ) {
+                var $el = $(ev.target)
+                if ( !$el.closest('#menuSection').length && menuSection.tag.main.hasClass('_active') ) {
                     menuSection.state.toggle(false);
-                } else if (el.is('[data-sections_action="toggle"]')) {
+                } else if ($el.is('[data-sections_action="toggle"]')) {
                     menuSection.state.toggle();
                 }
             });
