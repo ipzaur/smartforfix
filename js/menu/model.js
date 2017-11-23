@@ -65,22 +65,22 @@ var menuModel = {
             menuModel.tag.select.addClass('h');
 
             $(window).on({
-                'click' : function(ev){
-                    var el = $(ev.target);
-                    if ( (el.closest('#menuModel').size() == 0) && menuModel.tag.main.hasClass('_active') ) {
+                click : function(ev){
+                    var $el = $(ev.target);
+                    if ( !$el.closest('#menuModel').length && menuModel.tag.main.hasClass('_active') ) {
                         menuModel.state.toggle(false);
-                    } else if (el.attr('data-models_action')) {
-                        switch (el.attr('data-models_action')) {
-                            case 'remove' : menuModel.modelStatus(el.attr('data-model_id'), false); break;
+                    } else if ($el.attr('data-models_action')) {
+                        switch ($el.attr('data-models_action')) {
+                            case 'remove' : menuModel.modelStatus($el.attr('data-model_id'), false); break;
                             case 'toggle' : menuModel.state.toggle(); break;
                         }
                     }
                 },
-                'change' : function(ev) {
-                    var el = $(ev.target);
-                    if (el.is('[data-models_action="show"]')) {
-                        menuModel.modelStatus(el.attr('data-model_id'), el.prop('checked'));
-                    } else if (el.is('[data-models="select"]')) {
+                change : function(ev) {
+                    var $el = $(ev.target);
+                    if ($el.is('[data-models_action="show"]')) {
+                        menuModel.modelStatus($el.attr('data-model_id'), $el.prop('checked'));
+                    } else if ($el.is('[data-models="select"]')) {
                         menuModel.save();
                     }
                 }

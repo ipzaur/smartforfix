@@ -13,7 +13,7 @@ function html5Hit(url)
             if (json.block) {
                 for (var blockId in json.block) if (json.block.hasOwnProperty(blockId)) {
                     var block = $('#' + blockId);
-                    if (block.size() > 0) {
+                    if (block.length) {
                         block.html(json.block[blockId]);
                     }
                 }
